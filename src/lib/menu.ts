@@ -1,6 +1,6 @@
 // Menu utama aplikasi: dipakai sidebar (nav.tsx) dan tile akses cepat di halaman Ringkasan.
 // 20x20 outline icons (path data), shown alone when the sidebar is collapsed
-import { PENILAIAN_DIRI_AKTIF } from "@/lib/fitur";
+import { JALUR_KARIER_AKTIF, PENILAIAN_DIRI_AKTIF } from "@/lib/fitur";
 
 const SEMUA = [
   { href: "/", label: "Ringkasan", icon: "M3.5 3.5h5v5h-5zM11.5 3.5h5v5h-5zM3.5 11.5h5v5h-5zM11.5 11.5h5v5h-5z" },
@@ -15,4 +15,4 @@ const SEMUA = [
   { href: "/panduan", label: "Panduan Pengguna", icon: "M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM8 8a2 2 0 1 1 2.5 1.9c-.3.1-.5.4-.5.8V11M10 13.5v.5" },
 ] as const;
 
-export const MENU = SEMUA.filter((m) => PENILAIAN_DIRI_AKTIF || m.href !== "/penilaian-diri");
+export const MENU = SEMUA.filter((m) => (PENILAIAN_DIRI_AKTIF || m.href !== "/penilaian-diri") && (JALUR_KARIER_AKTIF || m.href !== "/karier"));

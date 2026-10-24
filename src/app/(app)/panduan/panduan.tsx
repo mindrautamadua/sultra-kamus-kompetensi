@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { isValidElement, useDeferredValue, useEffect, useState } from "react";
+import { JALUR_KARIER_AKTIF } from "@/lib/fitur";
 import { LEVEL_NAMA } from "@/lib/labels";
 import { MENU } from "@/lib/menu";
 import { PERAN, PERAN_LABEL, PERAN_PENJELASAN, bolehEdit, bolehKelolaAkun, type Peran } from "@/lib/peran";
@@ -32,7 +33,7 @@ const IKON = {
   manfaat: "M10 2.5l2.3 4.7 5.2.8-3.8 3.6.9 5.1L10 14.3l-4.6 2.4.9-5.1L2.5 8l5.2-.8z",
 };
 
-const BAGIAN: Bagian[] = [
+const SEMUA_BAGIAN: Bagian[] = [
   {
     id: "manfaat",
     judul: "Manfaat aplikasi",
@@ -65,10 +66,12 @@ const BAGIAN: Bagian[] = [
             Kamus, uraian tugas, profil kompetensi jabatan, dan matriks kompetensi bisa diunduh sebagai PDF atau CSV tanpa perlu menyusun ulang.
           </Kotak>
         </div>
-        <Tip>
-          Ingin tahu apa yang perlu diasah untuk jabatan berikutnya? Buka <b>Jalur Karier</b>, pilih jabatan Anda sekarang dan jabatan yang dituju,
-          lalu lihat peta kesenjangan levelnya.
-        </Tip>
+        {JALUR_KARIER_AKTIF && (
+          <Tip>
+            Ingin tahu apa yang perlu diasah untuk jabatan berikutnya? Buka <b>Jalur Karier</b>, pilih jabatan Anda sekarang dan jabatan yang dituju,
+            lalu lihat peta kesenjangan levelnya.
+          </Tip>
+        )}
       </>
     ),
   },
@@ -321,6 +324,7 @@ const BAGIAN: Bagian[] = [
     ),
   },
 ];
+const BAGIAN = SEMUA_BAGIAN.filter((b) => JALUR_KARIER_AKTIF || b.id !== "karier");
 
 const TANYA: { t: string; j: React.ReactNode }[] = [
   {

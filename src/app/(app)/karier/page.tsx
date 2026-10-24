@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Form from "next/form";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Hitung } from "@/components/hitung";
 import { DashboardSkeleton } from "@/components/skeleton";
 import { SubmitButton } from "@/components/submit-button";
 import { Card, PageHeader, PdfLink, Stat, Tag } from "@/components/ui";
+import { JALUR_KARIER_AKTIF } from "@/lib/fitur";
 import { kemiripan, kesenjangan, loadProfil, saranJalur, type Profil, type Saran } from "@/lib/kedekatan";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA } from "@/lib/labels";
 
@@ -32,6 +34,7 @@ const des = (n: number) =>
 const tautan = (asal: string, tujuan?: string) => `/karier?${new URLSearchParams(tujuan ? { asal, tujuan } : { asal })}`;
 
 export default function Page(props: PageProps<"/karier">) {
+  if (!JALUR_KARIER_AKTIF) notFound();
   return (
     <>
       <PageHeader

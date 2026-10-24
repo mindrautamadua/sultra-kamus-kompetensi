@@ -1,12 +1,14 @@
 import type { NextRequest } from "next/server";
 import { renderKarierPdf } from "@/lib/dokumen/karier-pdf";
 import { responPdf } from "@/lib/dokumen/respon";
+import { JALUR_KARIER_AKTIF } from "@/lib/fitur";
 import { loadProfil } from "@/lib/kedekatan";
 import { bacaPengaturan } from "@/lib/pengaturan";
 
 // Peta jalur karier & kesenjangan, A3 landscape: ?asal=<kode jabatan>[&tujuan=<kode jabatan>],
 // atau ?unit=<nama unit induk> untuk peta jalur seluruh jabatan satu divisi/kantor.
 export async function GET(request: NextRequest) {
+  if (!JALUR_KARIER_AKTIF) return new Response("Jalur karier sedang dinonaktifkan", { status: 404 });
   const sp = request.nextUrl.searchParams;
   const [semua, p] = await Promise.all([loadProfil(), bacaPengaturan()]);
   const byKode = new Map([...semua.values()].map((x) => [x.kode, x]));

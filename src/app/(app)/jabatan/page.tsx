@@ -9,6 +9,7 @@ import { bolehEdit } from "@/lib/peran";
 import { JENJANG_LABEL, KATEGORI_LABEL, REVIEW_BAR, REVIEW_LABEL, REVIEW_STATUS, fmt } from "@/lib/labels";
 import { JabatanSkeleton } from "@/components/skeleton";
 import { SubmitButton } from "@/components/submit-button";
+import { JALUR_KARIER_AKTIF } from "@/lib/fitur";
 import { must, supabase, type Views } from "@/lib/supabase";
 
 export const metadata: Metadata = { title: "Daftar Jabatan" };
@@ -656,15 +657,17 @@ function KartuUnit({
             >
               Matriks ↗
             </a>
-            <a
-              href={`/dokumen/karier?unit=${encodeURIComponent(unit)}`}
-              target="_blank"
-              rel="noopener"
-              className="rounded-md px-1.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-50"
-              title="Peta jalur karier & kesenjangan seluruh jabatan unit ini, A3 landscape (PDF)"
-            >
-              Karier ↗
-            </a>
+            {JALUR_KARIER_AKTIF && (
+              <a
+                href={`/dokumen/karier?unit=${encodeURIComponent(unit)}`}
+                target="_blank"
+                rel="noopener"
+                className="rounded-md px-1.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-50"
+                title="Peta jalur karier & kesenjangan seluruh jabatan unit ini, A3 landscape (PDF)"
+              >
+                Karier ↗
+              </a>
+            )}
           </span>
         </div>
         <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">

@@ -8,6 +8,7 @@ import { KHAS, loadProfil, pembanding, type Profil } from "@/lib/kedekatan";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA } from "@/lib/labels";
 import { bolehEdit } from "@/lib/peran";
 import { must, supabase } from "@/lib/supabase";
+import { JALUR_KARIER_AKTIF } from "@/lib/fitur";
 import { JalurCard } from "./jalur-card";
 import { ReviewPanel } from "./review-panel";
 
@@ -291,7 +292,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
         )}
       </Card>
 
-      {karyawan && <JalurCard jabatanId={j.id!} kode={j.kode!} />}
+      {JALUR_KARIER_AKTIF && karyawan && <JalurCard jabatanId={j.id!} kode={j.kode!} />}
     </article>
   );
 }
@@ -361,7 +362,7 @@ function Hero({
                 Profil kompetensi (PDF)
               </PdfLink>
             )}
-            {kompetensi > 0 && (
+            {JALUR_KARIER_AKTIF && kompetensi > 0 && (
               <PdfLink href={`/dokumen/karier?asal=${encodeURIComponent(j.kode!)}`} className="btn h-9 bg-white/10 text-[13px] text-white ring-1 ring-white/15 hover:bg-white/15">
                 Jalur karier (PDF)
               </PdfLink>
