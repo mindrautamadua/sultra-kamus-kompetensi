@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Form from "next/form";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Empty, PageHeader } from "@/components/ui";
+import { Empty, PageHeader, PdfLink } from "@/components/ui";
 import { MatriksSkeleton } from "@/components/skeleton";
 import { SubmitButton } from "@/components/submit-button";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA, fmt } from "@/lib/labels";
@@ -40,6 +40,8 @@ async function Matriks({ searchParams }: { searchParams: Promise<Search> }) {
       (a, b) => URUT_KATEGORI.indexOf(a.kategori) - URUT_KATEGORI.indexOf(b.kategori) || (ins.perKolom.get(b.kode) ?? 0) - (ins.perKolom.get(a.kode) ?? 0),
     );
   const unduh = (u: string, kunci = "") => `/matriks/unduh?${new URLSearchParams({ unit: u, kategori, ...(kunci && { q: kunci }) })}`;
+  // PDF selalu per divisi utuh (tanpa kata kunci); "semua" = satu bagian per divisi
+  const cetak = `/dokumen/matriks?${new URLSearchParams({ unit, kategori, kolom })}`;
 
   return (
     <div className="space-y-4">
@@ -118,7 +120,10 @@ async function Matriks({ searchParams }: { searchParams: Promise<Search> }) {
         <span className="text-xs text-slate-500">
           Angka di samping nama jabatan = jumlah kompetensi · rata-rata level. Baris bawah header = jumlah jabatan yang memakai kompetensi.
         </span>
-        <span className="ml-auto text-xs text-slate-500">Unduh untuk Excel:</span>
+        <PdfLink href={cetak} className="btn-secondary ml-auto h-8 px-3 text-[13px]">
+          Cetak A3 {semua ? "semua divisi" : "divisi ini"} (PDF)
+        </PdfLink>
+        <span className="text-xs text-slate-500">Unduh untuk Excel:</span>
         <a href={unduh(unit, q)} className="link">
           Tampilan ini (CSV)
         </a>

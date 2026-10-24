@@ -361,6 +361,11 @@ function Hero({
                 Profil kompetensi (PDF)
               </PdfLink>
             )}
+            {kompetensi > 0 && (
+              <PdfLink href={`/dokumen/karier?asal=${encodeURIComponent(j.kode!)}`} className="btn h-9 bg-white/10 text-[13px] text-white ring-1 ring-white/15 hover:bg-white/15">
+                Jalur karier (PDF)
+              </PdfLink>
+            )}
             {bisaEdit && (
               <Link href={`/jabatan/${j.kode}/edit`} className="btn h-9 bg-amber-400 text-[13px] text-brand-950 shadow-sm hover:bg-amber-300">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.6} className="size-4" aria-hidden>

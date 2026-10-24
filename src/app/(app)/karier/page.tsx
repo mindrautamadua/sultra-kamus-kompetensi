@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { Hitung } from "@/components/hitung";
 import { DashboardSkeleton } from "@/components/skeleton";
 import { SubmitButton } from "@/components/submit-button";
-import { Card, PageHeader, Stat, Tag } from "@/components/ui";
+import { Card, PageHeader, PdfLink, Stat, Tag } from "@/components/ui";
 import { kemiripan, kesenjangan, loadProfil, saranJalur, type Profil, type Saran } from "@/lib/kedekatan";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA } from "@/lib/labels";
 
@@ -63,6 +63,11 @@ async function Karier({ searchParams }: { searchParams: Promise<Search> }) {
           <Link href={tautan(tujuan.kode, asal.kode)} className="btn-secondary">
             ⇄ Tukar arah
           </Link>
+        )}
+        {asal && (
+          <PdfLink href={`/dokumen/karier?${new URLSearchParams(tujuan ? { asal: asal.kode, tujuan: tujuan.kode } : { asal: asal.kode })}`} className="btn-secondary">
+            Cetak A3 (PDF)
+          </PdfLink>
         )}
         {asal && (
           <Link href="/karier" className="px-2 py-2 text-sm text-slate-500 hover:text-slate-900">
