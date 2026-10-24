@@ -2,14 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import type { FormState } from "@/lib/actions";
-import { wajibLogin } from "@/lib/auth";
+import { pasangSesi, sesiSaatIni, wajibLogin } from "@/lib/auth";
 import { cocokPassword, hashPassword, passwordAcak } from "@/lib/password";
 import { bacaPengaturan } from "@/lib/pengaturan";
 import { bolehKelolaAkun, PERAN, type Peran, TIDAK_BERHAK } from "@/lib/peran";
 import { admin, ok } from "@/lib/supabase-admin";
 
 // Server Actions halaman Pengguna (khusus admin) dan Akun Saya. Password baru dibuat acak di server dan
-// dikembalikan sekali lewat `pesan`; yang tersimpan hanya hash-nya.
+// dikembalikan sekali lewat `pesan`; yang tersimpan hanya hash-nya. Mengganti/mereset password dan menonaktifkan akun
+// mencabut semua sesi akun itu (trigger sesi_versi di database).
 
 async function wajibAdmin() {
   const s = await wajibLogin();
@@ -87,9 +88,14 @@ export async function gantiPasswordSaya(_: FormState, fd: FormData): Promise<For
   try {
     const u = ok(await admin().from("pengguna").select("password_hash").eq("id", s.id).single());
     if (!(await cocokPassword(lama, u.password_hash))) return { error: "Password saat ini salah." };
-    ok(await admin().from("pengguna").update({ password_hash: await hashPassword(baru), updated_at: new Date().toISOString() }).eq("id", s.id).select("id"));
+    const { sesi_versi } = ok(
+      await admin().from("pengguna").update({ password_hash: await hashPassword(baru), updated_at: new Date().toISOString() }).eq("id", s.id).select("sesi_versi").single(),
+    );
+    // sesi di perangkat lain dicabut; sesi ini diperbarui ke versi baru dengan sisa masa berlaku yang sama
+    const kini = await sesiSaatIni();
+    if (kini) await pasangSesi({ id: kini.id, username: kini.username, nama: kini.nama, v: sesi_versi, ingat: kini.ingat }, Math.max(60, kini.exp - Math.floor(Date.now() / 1000)));
   } catch (e) {
     return { error: `Gagal mengganti password: ${(e as Error).message}` };
   }
-  return { pesan: "Password berhasil diganti." };
+  return { pesan: "Password berhasil diganti. Sesi di perangkat lain sudah dikeluarkan." };
 }

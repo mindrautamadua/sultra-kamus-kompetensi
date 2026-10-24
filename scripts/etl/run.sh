@@ -21,4 +21,5 @@ $PY "$ROOT/scripts/etl/build_pemetaan.py" "$ROOT/supabase/data/kompetensi.json" 
   "$ROOT/supabase/data/pemetaan_ai.json"
 $PY "$ROOT/scripts/etl/generate_seed.py" \
   "$ROOT/supabase/data/kompetensi.json" "$ROOT/supabase/data/struktur_organisasi.json" \
-  "$ROOT/supabase/data/jobdesk.json" "$ROOT/supabase/data/pemetaan.json" "$ROOT/supabase/seed.sql"
+  "$ROOT/supabase/data/jobdesk.json" "$ROOT/supabase/data/pemetaan.json" "$ROOT/supabase/seed.sql" \
+  "$ROOT/supabase/data/tanpa_kode_ai.json"

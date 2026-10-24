@@ -1,11 +1,13 @@
 """Generate supabase/seed.sql from the parsed JSON files.
 
-Usage: python -I generate_seed.py <kompetensi.json> <struktur_organisasi.json> <jobdesk.json> <pemetaan.json> <seed.sql>
+Usage: python -I generate_seed.py <kompetensi.json> <struktur_organisasi.json> <jobdesk.json> <pemetaan.json> <seed.sql> [tanpa_kode_ai.json]
 """
 import json
+import os
 import sys
 
 KOMP, ORG, JOB, MAP, OUT = sys.argv[1:6]
+TANPA = sys.argv[6] if len(sys.argv) > 6 and os.path.exists(sys.argv[6]) else None
 k = json.load(open(KOMP))
 o = json.load(open(ORG))
 jd = json.load(open(JOB))['jobdesk']
@@ -154,6 +156,15 @@ if rows:
     out.append('update public.jobdesk_tugas t set tanpa_kompetensi = true from (values')
     out.append(values(rows))
     out.append(') v(file_sumber, urutan) join public.jobdesk d on d.file_sumber = v.file_sumber')
+    out.append('where t.jobdesk_id = d.id and t.urutan = v.urutan;')
+
+# alasan per butir tanpa kode (analisis AI ulang); celah menggantikan tanda tanpa_kompetensi di atas
+if TANPA:
+    rows = [(t['file'], t['urutan'], t['alasan'], t['saran'], t['catatan']) for t in json.load(open(TANPA))['butir']]
+    out.append('\nupdate public.jobdesk_tugas t set alasan_tanpa_kode = v.alasan, saran_kompetensi = v.saran,')
+    out.append("  catatan_tanpa_kode = v.catatan, tanpa_kompetensi = v.alasan = 'celah' from (values")
+    out.append(values(rows))
+    out.append(') v(file_sumber, urutan, alasan, saran, catatan) join public.jobdesk d on d.file_sumber = v.file_sumber')
     out.append('where t.jobdesk_id = d.id and t.urutan = v.urutan;')
 
 open(OUT, 'w').write('\n'.join(out) + '\n')

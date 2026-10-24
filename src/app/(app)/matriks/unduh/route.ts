@@ -9,7 +9,8 @@ export async function GET(request: NextRequest) {
   const m = await loadMatriks(unit === "semua" ? "" : unit, kategori, q);
 
   const cell = (v: string | number) => {
-    const s = String(v);
+    // teks berawalan = + - @ dibaca Excel sebagai rumus; awali tanda kutip agar tetap teks biasa
+    const s = typeof v === "string" && /^[=+\-@\t\r]/.test(v) ? `'${v}` : String(v);
     return /[;"\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   const lines = [

@@ -486,26 +486,35 @@ export type Database = {
       }
       jobdesk_tugas: {
         Row: {
+          alasan_tanpa_kode: string | null
+          catatan_tanpa_kode: string | null
           deskripsi: string
           id: number
           jobdesk_id: number
           kategori: string | null
+          saran_kompetensi: string[]
           tanpa_kompetensi: boolean
           urutan: number
         }
         Insert: {
+          alasan_tanpa_kode?: string | null
+          catatan_tanpa_kode?: string | null
           deskripsi: string
           id?: never
           jobdesk_id: number
           kategori?: string | null
+          saran_kompetensi?: string[]
           tanpa_kompetensi?: boolean
           urutan: number
         }
         Update: {
+          alasan_tanpa_kode?: string | null
+          catatan_tanpa_kode?: string | null
           deskripsi?: string
           id?: never
           jobdesk_id?: number
           kategori?: string | null
+          saran_kompetensi?: string[]
           tanpa_kompetensi?: boolean
           urutan?: number
         }
@@ -779,6 +788,7 @@ export type Database = {
           nama: string
           password_hash: string
           peran: string
+          sesi_versi: number
           terakhir_login: string | null
           terkunci_sampai: string | null
           updated_at: string
@@ -792,6 +802,7 @@ export type Database = {
           nama: string
           password_hash: string
           peran?: string
+          sesi_versi?: number
           terakhir_login?: string | null
           terkunci_sampai?: string | null
           updated_at?: string
@@ -805,6 +816,7 @@ export type Database = {
           nama?: string
           password_hash?: string
           peran?: string
+          sesi_versi?: number
           terakhir_login?: string | null
           terkunci_sampai?: string | null
           updated_at?: string
@@ -1356,7 +1368,29 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      catat_gagal_login: {
+        Args: { p_batas: number; p_id: number; p_menit: number }
+        Returns: undefined
+      }
+      simpan_kompetensi: {
+        Args: {
+          p_catatan: string[]
+          p_definisi: string
+          p_id: number
+          p_levels: Json
+          p_nama: string
+          p_status: string
+        }
+        Returns: string
+      }
+      simpan_pemetaan: {
+        Args: { p_jabatan_id: number; p_rows: Json }
+        Returns: undefined
+      }
+      simpan_tugas_jobdesk: {
+        Args: { p_jabatan_id: number; p_jobdesk_id: number; p_tugas: Json }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

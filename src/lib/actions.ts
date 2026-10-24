@@ -5,11 +5,14 @@ import { redirect } from "next/navigation";
 import { wajibLogin } from "@/lib/auth";
 import { PENILAIAN_DIRI_AKTIF } from "@/lib/fitur";
 import { hitungLevel, kunciIndikator } from "@/lib/penilaian";
+import { REVIEW_LABEL } from "@/lib/labels";
 import { bolehEdit, statusTujuan, TIDAK_BERHAK } from "@/lib/peran";
 import { admin, ok } from "@/lib/supabase-admin";
 
 // Server Actions for the edit pages. Each returns { error } on failure (shown by the form via useActionState)
 // and redirects back to the detail page on success. Lists from the client editors arrive as JSON strings.
+// Saves that delete and re-insert child rows go through one database function each (migration simpan_atomik),
+// so a failure halfway cannot leave them deleted.
 
 /** `pesan`: keterangan sukses yang tetap tampil di form (mis. password baru), untuk aksi yang tidak redirect. */
 export type FormState = { error?: string; pesan?: string } | undefined;
@@ -76,6 +79,8 @@ export async function ubahStatusReview(_: FormState, fd: FormData): Promise<Form
     kode = j.kode!;
     if (status === "selesai" && !j.jumlah_kompetensi) return { error: "Jabatan belum punya kompetensi — belum bisa ditandai selesai." };
     const dari = (await db.from("review_jabatan").select("status").eq("jabatan_id", jabatanId).maybeSingle()).data?.status ?? "draf";
+    // dikirim dua kali / dari tab lain yang sudah usang
+    if (dari === status) return { error: `Jabatan ini sudah berstatus ${REVIEW_LABEL[status]}. Muat ulang halaman.` };
     if (!statusTujuan(s.peran, dari).includes(status)) return { error: TIDAK_BERHAK };
     ok(await db.from("review_jabatan").upsert({ jabatan_id: jabatanId, status, peninjau, catatan, updated_at: now() }).select("jabatan_id"));
     ok(await db.from("review_riwayat").insert({ jabatan_id: jabatanId, aksi: "ubah_status", status_dari: dari, status_ke: status, peninjau, pengguna_id: s.id, catatan }).select("id"));
@@ -171,6 +176,15 @@ export async function simpanJabatan(_: FormState, fd: FormData): Promise<FormSta
 
   let kode: string;
   try {
+    if (id && row.atasan_id) {
+      // telusuri garis atasan ke atas: jabatan ini tidak boleh menjadi atasan dari atasannya sendiri
+      const atasan = new Map(ok(await db.from("jabatan").select("id, atasan_id")).map((j) => [j.id, j.atasan_id]));
+      const dilihat = new Set<number>();
+      for (let x: number | null | undefined = row.atasan_id; x && !dilihat.has(x); x = atasan.get(x)) {
+        if (x === id) return { error: "Atasan yang dipilih berada di bawah jabatan ini — garis atasan akan berputar." };
+        dilihat.add(x);
+      }
+    }
     if (id) {
       kode = ok(await db.from("jabatan").update(row).eq("id", id).select("kode").single()).kode;
       await catatEdit(db, id, "simpan_jabatan", s);
@@ -219,12 +233,13 @@ export async function simpanJobdesk(_: FormState, fd: FormData): Promise<FormSta
   if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
   const db = admin();
   const jabatanId = Number(fd.get("jabatan_id"));
-  const fungsi = lines(json<string[]>(fd, "fungsi"));
-  const tugas = json<{ kategori: string | null; teks: string }[]>(fd, "tugas")
-    .map((t) => ({ kategori: t.kategori || null, deskripsi: t.teks.trim() }))
-    .filter((t) => t.deskripsi);
   let kode: string;
   try {
+    const fungsi = lines(json<string[]>(fd, "fungsi"));
+    // asal = urutan lama butir (dari ListEditor), agar bukti pemetaan & penanda celah kamus ikut butirnya
+    const tugas = json<{ kategori?: string | null; teks?: string; asal?: number }[]>(fd, "tugas")
+      .map((t) => ({ kategori: t.kategori || null, deskripsi: String(t.teks ?? "").trim(), asal: Number.isInteger(t.asal) ? t.asal : null }))
+      .filter((t) => t.deskripsi);
     const j = ok(await db.from("jabatan").select("kode, nama, unit_kerja(nama)").eq("id", jabatanId).single());
     kode = j.kode;
     const isi = {
@@ -250,8 +265,7 @@ export async function simpanJobdesk(_: FormState, fd: FormData): Promise<FormSta
             .select("id")
             .single(),
         ).id;
-    ok(await db.from("jobdesk_tugas").delete().eq("jobdesk_id", jobdeskId).select("id"));
-    if (tugas.length) ok(await db.from("jobdesk_tugas").insert(tugas.map((t, i) => ({ ...t, jobdesk_id: jobdeskId, urutan: i + 1 }))).select("id"));
+    ok(await db.rpc("simpan_tugas_jobdesk", { p_jobdesk_id: jobdeskId, p_jabatan_id: jabatanId, p_tugas: tugas }));
     // salinan ringkas di tabel jabatan (dipakai halaman detail & ringkasan)
     ok(
       await db
@@ -275,37 +289,36 @@ export async function simpanPemetaan(_: FormState, fd: FormData): Promise<FormSt
   if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
   const db = admin();
   const jabatanId = Number(fd.get("jabatan_id"));
-  const rows = json<{ kompetensi_id: number; level_target: number }[]>(fd, "pemetaan");
-  if (new Set(rows.map((r) => r.kompetensi_id)).size !== rows.length) return { error: "Ada kompetensi yang tercantum dua kali." };
-  if (rows.some((r) => !(r.level_target >= 1 && r.level_target <= 5))) return { error: "Level target harus 1–5." };
   let kode: string;
   try {
+    const rows = json<{ kompetensi_id: number; level_target: number }[]>(fd, "pemetaan");
+    if (new Set(rows.map((r) => r.kompetensi_id)).size !== rows.length) return { error: "Ada kompetensi yang tercantum dua kali." };
+    // level target tidak boleh melebihi level yang tersedia di kamus kompetensi itu (sama dengan batas di PemetaanEditor)
+    const maks = new Map(
+      ok(await db.from("v_kompetensi").select("id, kode, jumlah_level").in("id", rows.map((r) => r.kompetensi_id))).map((k) => [k.id, { kode: k.kode, maks: k.jumlah_level || 5 }]),
+    );
+    const salah = rows.find((r) => !Number.isInteger(r.level_target) || r.level_target < 1 || r.level_target > (maks.get(r.kompetensi_id)?.maks ?? 5));
+    if (salah) return { error: `Level target ${maks.get(salah.kompetensi_id)?.kode ?? ""} harus 1–${maks.get(salah.kompetensi_id)?.maks ?? 5}.` };
     kode = ok(await db.from("jabatan").select("kode").eq("id", jabatanId).single()).kode;
     // bukti, alasan & metode asal dipertahankan untuk kompetensi yang tetap dipilih; yang baru ditandai manual
     const lama = new Map(
       ok(await db.from("jabatan_kompetensi").select("kompetensi_id, catatan, metode, bukti").eq("jabatan_id", jabatanId)).map((r) => [r.kompetensi_id, r]),
     );
-    ok(await db.from("jabatan_kompetensi").delete().eq("jabatan_id", jabatanId).select("id"));
-    if (rows.length)
-      ok(
-        await db
-          .from("jabatan_kompetensi")
-          .insert(
-            rows.map((r) => {
-              const l = lama.get(r.kompetensi_id);
-              return {
-                jabatan_id: jabatanId,
-                kompetensi_id: r.kompetensi_id,
-                level_target: r.level_target,
-                sumber: "manual",
-                catatan: l?.catatan ?? "Ditambahkan saat review di aplikasi.",
-                metode: l?.metode ?? "manual",
-                bukti: l?.bukti ?? [],
-              };
-            }),
-          )
-          .select("id"),
-      );
+    ok(
+      await db.rpc("simpan_pemetaan", {
+        p_jabatan_id: jabatanId,
+        p_rows: rows.map((r) => {
+          const l = lama.get(r.kompetensi_id);
+          return {
+            kompetensi_id: r.kompetensi_id,
+            level_target: r.level_target,
+            catatan: l?.catatan ?? "Ditambahkan saat review di aplikasi.",
+            metode: l?.metode ?? "manual",
+            bukti: l?.bukti ?? [],
+          };
+        }),
+      }),
+    );
     ok(await db.from("jabatan").update({ diubah_di_aplikasi: now() }).eq("id", jabatanId).select("id"));
     await catatEdit(db, jabatanId, "simpan_kompetensi", s);
   } catch (e) {
@@ -324,45 +337,26 @@ export async function simpanKompetensi(_: FormState, fd: FormData): Promise<Form
   const id = Number(fd.get("id"));
   const nama = text(fd, "nama");
   if (!nama) return { error: "Nama kompetensi wajib diisi." };
-  // per level: textarea deskripsi-<n> + daftar indikator-<n> (JSON) dari LevelEditor
-  const levels = [1, 2, 3, 4, 5].map((level) => ({ level, deskripsi: String(fd.get(`deskripsi-${level}`) ?? ""), indikator: json<string[]>(fd, `indikator-${level}`) }));
   const NAMA_LEVEL = ["Dasar", "Memadai", "Mandiri", "Mahir", "Master"];
   let kode: string;
   try {
+    // per level: textarea deskripsi-<n> + daftar indikator-<n> (JSON) dari LevelEditor; level yang kosong dihapus
+    const levels = [1, 2, 3, 4, 5].map((level) => ({
+      level,
+      nama_level: NAMA_LEVEL[level - 1],
+      deskripsi: String(fd.get(`deskripsi-${level}`) ?? "").trim() || null,
+      indikator: lines(json<string[]>(fd, `indikator-${level}`)),
+    }));
     kode = ok(
-      await db
-        .from("kompetensi")
-        .update({
-          nama,
-          definisi: text(fd, "definisi"),
-          status: String(fd.get("status") || "lengkap"),
-          catatan: lines(json<string[]>(fd, "catatan")),
-          diubah_di_aplikasi: now(),
-        })
-        .eq("id", id)
-        .select("kode")
-        .single(),
-    ).kode;
-    for (const lv of levels) {
-      const ind = lines(lv.indikator);
-      // level yang memang kosong di kamus tidak perlu dibuatkan baris baru
-      if (!lv.deskripsi.trim() && !ind.length) {
-        ok(await db.from("kompetensi_level").delete().eq("kompetensi_id", id).eq("level", lv.level).select("id"));
-        continue;
-      }
-      const row = ok(
-        await db
-          .from("kompetensi_level")
-          .upsert(
-            { kompetensi_id: id, level: lv.level, nama_level: NAMA_LEVEL[lv.level - 1], deskripsi: lv.deskripsi.trim() || null },
-            { onConflict: "kompetensi_id,level" },
-          )
-          .select("id")
-          .single(),
-      );
-      ok(await db.from("indikator_perilaku").delete().eq("kompetensi_level_id", row.id).select("id"));
-      if (ind.length) ok(await db.from("indikator_perilaku").insert(ind.map((d, i) => ({ kompetensi_level_id: row.id, urutan: i + 1, deskripsi: d }))).select("id"));
-    }
+      await db.rpc("simpan_kompetensi", {
+        p_id: id,
+        p_nama: nama,
+        p_definisi: text(fd, "definisi") as string, // null = definisi dikosongkan
+        p_status: String(fd.get("status") || "lengkap"),
+        p_catatan: lines(json<string[]>(fd, "catatan")),
+        p_levels: levels,
+      }),
+    );
   } catch (e) {
     return { error: `Gagal menyimpan kompetensi: ${(e as Error).message}` };
   }

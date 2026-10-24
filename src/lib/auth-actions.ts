@@ -2,9 +2,10 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { pasangSesi } from "@/lib/auth";
 import { cocokPassword, HASH_TIRUAN } from "@/lib/password";
 import { bacaPengaturan } from "@/lib/pengaturan";
-import { buatToken, COOKIE_SESI } from "@/lib/sesi";
+import { COOKIE_SESI } from "@/lib/sesi";
 import { admin } from "@/lib/supabase-admin";
 
 export type LoginState = { error?: string; username?: string; ingat?: boolean } | undefined;
@@ -26,7 +27,7 @@ export async function login(_: LoginState, fd: FormData): Promise<LoginState> {
   const atur = await bacaPengaturan();
   const { data: u, error } = await db
     .from("pengguna")
-    .select("id, username, nama, password_hash, aktif, gagal_login, terkunci_sampai")
+    .select("id, username, nama, password_hash, aktif, terkunci_sampai, sesi_versi")
     .eq("username", username)
     .maybeSingle();
   if (error) return { error: `Gagal memeriksa akun: ${error.message}`, username, ingat };
@@ -39,31 +40,14 @@ export async function login(_: LoginState, fd: FormData): Promise<LoginState> {
   // tetap hitung hash meski akun tidak ada, agar lama respons sama
   const cocok = await cocokPassword(password, u?.password_hash ?? HASH_TIRUAN);
   if (!u || !u.aktif || !cocok) {
-    if (u) {
-      const gagal = u.gagal_login + 1;
-      await db
-        .from("pengguna")
-        .update(
-          gagal >= atur.batas_gagal_login
-            ? { gagal_login: 0, terkunci_sampai: new Date(Date.now() + atur.lama_kunci_menit * 60000).toISOString() }
-            : { gagal_login: gagal },
-        )
-        .eq("id", u.id);
-    }
+    // dihitung atomik di database agar percobaan paralel tidak saling menimpa hitungan gagal
+    if (u) await db.rpc("catat_gagal_login", { p_id: u.id, p_batas: atur.batas_gagal_login, p_menit: atur.lama_kunci_menit });
     return { error: SALAH, username, ingat };
   }
 
   await db.from("pengguna").update({ gagal_login: 0, terkunci_sampai: null, terakhir_login: new Date().toISOString() }).eq("id", u.id);
   const lamaDetik = ingat ? atur.lama_ingat_hari * 24 * 60 * 60 : atur.lama_sesi_jam * 60 * 60;
-  const token = await buatToken({ id: u.id, username: u.username, nama: u.nama }, lamaDetik);
-  (await cookies()).set(COOKIE_SESI, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    // tanpa maxAge = cookie sesi browser, terhapus saat browser ditutup
-    ...(ingat ? { maxAge: lamaDetik } : {}),
-  });
+  await pasangSesi({ id: u.id, username: u.username, nama: u.nama, v: u.sesi_versi, ingat }, lamaDetik);
   redirect(dari);
 }
 

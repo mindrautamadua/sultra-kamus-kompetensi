@@ -38,7 +38,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
   const j = await supabase.from("v_jabatan").select("*").eq("kode", decodeURIComponent(kode)).maybeSingle().then(must);
   if (!j) notFound();
 
-  const [bawahan, kompetensi, sejenis, semua, saya] = await Promise.all([
+  const [bawahan, kompetensi, sejenis, semua, saya, jobdesk] = await Promise.all([
     supabase.from("v_jabatan").select("kode, nama, kelompok_jabatan, jumlah_kompetensi").eq("atasan_id", j.id!).order("urutan").then(must),
     supabase
       .from("v_jabatan_kompetensi")
@@ -49,6 +49,15 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
     supabase.from("v_jabatan").select("kode, unit_induk_nama").eq("nama", j.nama!).neq("kode", j.kode!).then(must),
     (j.jenjang ?? 0) > 0 ? loadProfil() : Promise.resolve(new Map<number, Profil>()),
     penggunaSaatIni(),
+    // dokumen jobdesk utama (urutan terkecil) = sumber uraian_tugas & nomor bukti
+    supabase
+      .from("jobdesk")
+      .select("jobdesk_tugas(urutan, tanpa_kompetensi, alasan_tanpa_kode, saran_kompetensi, catatan_tanpa_kode)")
+      .eq("jabatan_id", j.id!)
+      .order("urutan")
+      .limit(1)
+      .maybeSingle()
+      .then(must),
   ]);
 
   // pembanding: jabatan lain sejenjang yang sudah punya pemetaan, dalam rumpun yang sama — kantor pusat (punya
@@ -71,6 +80,16 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
   const pendukung = new Map<number, string[]>();
   for (const k of kompetensi) for (const n of k.bukti ?? []) pendukung.set(n, [...(pendukung.get(n) ?? []), k.kompetensi_kode!]);
   const tercakup = tugas.filter((_, i) => pendukung.has(i + 1)).length;
+  // butir tanpa kode → alasannya (analisis AI per butir); fallback: celah kamus bila ditandai, selain itu tugas umum
+  const struktural = kompetensi.some((k) => k.kategori === "kepemimpinan");
+  const butir = new Map((jobdesk?.jobdesk_tugas ?? []).map((t) => [t.urutan, t]));
+  const alasanTanpaKode = (n: number): Alasan => {
+    const t = butir.get(n);
+    const jenis = (t?.alasan_tanpa_kode ?? (t?.tanpa_kompetensi ? "celah" : struktural ? "kepemimpinan" : "umum")) as Alasan["jenis"];
+    return { jenis, saran: t?.saran_kompetensi ?? [], catatan: t?.catatan_tanpa_kode ?? null };
+  };
+  const dianalisis = kompetensi.some((k) => k.metode === "ai");
+  const jumlahCelah = tugas.filter((_, i) => !pendukung.has(i + 1) && alasanTanpaKode(i + 1).jenis === "celah").length;
 
   const khas = kompetensi.filter((k) => k.kategori === "teknis" && sejenjang.length && pakaiSejenjang(k.kompetensi_kode!).share < KHAS);
   const campuran = KATEGORI.map(([k]) => ({ n: kompetensi.filter((x) => x.kategori === k).length, kelas: KATEGORI_WARNA[k], label: KATEGORI_LABEL[k].toLowerCase() }));
@@ -100,7 +119,13 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
             icon="M4.5 5.5l1.5 1.5 2.5-3M4.5 11l1.5 1.5 2.5-3M11 5.5h5M11 11h5M4.5 16h11.5"
             label="Tugas didukung kompetensi"
             value={tugas.length ? `${tercakup}/${tugas.length}` : "—"}
-            hint={tugas.length ? (tercakup === tugas.length ? "Semua butir tugas punya kompetensi teknis" : `${tugas.length - tercakup} butir tanpa bukti kompetensi`) : "Jobdesk belum tersedia"}
+            hint={
+              tugas.length
+                ? tercakup === tugas.length
+                  ? "Semua butir tugas punya kompetensi teknis"
+                  : `${tugas.length - tercakup} butir tanpa kode${jumlahCelah ? `, ${jumlahCelah} di antaranya celah kamus` : ""}`
+                : "Jobdesk belum tersedia"
+            }
             aksen={tugas.length && tercakup < tugas.length ? "amber" : "emerald"}
           >
             {tugas.length > 0 && (
@@ -155,7 +180,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
         <Card
           title="Uraian jabatan (jobdesk)"
           className="lg:col-span-2"
-          action={tugas.length > 0 && <span className="text-xs text-slate-500">Kode di kanan = kompetensi teknis yang didukung butir tugas</span>}
+          action={tugas.length > 0 && <span className="text-xs text-slate-500">Kode di kanan = kompetensi teknis yang didukung butir tugas{dianalisis && "; tanpa kode = alasannya"}</span>}
         >
           {j.ikhtisar_jabatan || tugas.length > 0 ? (
             <div className="space-y-4 p-4 text-sm">
@@ -175,7 +200,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
                         {i + 1}
                       </span>
                       <span className="min-w-0 flex-1 leading-relaxed text-slate-700">{t}</span>
-                      {ks.length > 0 && (
+                      {ks.length > 0 ? (
                         <span className="flex basis-full flex-wrap gap-1 self-start pl-8 sm:basis-auto sm:shrink-0 sm:justify-end sm:pl-0">
                           {ks.map((k) => (
                             <a key={k} href={`#k-${k}`} className="rounded bg-sky-50 px-1.5 py-px font-mono text-[11px] font-semibold text-sky-800 ring-1 ring-inset ring-sky-200 hover:bg-sky-100">
@@ -183,6 +208,12 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
                             </a>
                           ))}
                         </span>
+                      ) : (
+                        dianalisis && (
+                          <span className="flex basis-full self-start pl-8 sm:basis-auto sm:shrink-0 sm:pl-0">
+                            <AlasanTanpaKode {...alasanTanpaKode(i + 1)} />
+                          </span>
+                        )
                       )}
                     </li>
                   );
@@ -449,6 +480,35 @@ function OrgSnippet({ j, bawahan }: { j: Jabatan; bawahan: { kode: string | null
 }
 
 const METODE: Record<string, string> = { ai: "Analisis AI", tfidf: "Kemiripan teks", manual: "Ditambah HC", aturan: "Aturan jenjang" };
+
+type Alasan = { jenis: "kepemimpinan" | "umum" | "terlewat" | "luar_bidang" | "celah"; saran: string[]; catatan: string | null };
+
+const ALASAN: Record<Alasan["jenis"], { label: string; kelas: string; arti: string }> = {
+  kepemimpinan: { label: "Kepemimpinan", kelas: "bg-slate-50 text-slate-500 ring-slate-200", arti: "Tugas manajerial — dicakup kompetensi kepemimpinan." },
+  umum: { label: "Tugas umum", kelas: "bg-slate-50 text-slate-500 ring-slate-200", arti: "Tugas umum/administratif — dicakup kompetensi inti." },
+  terlewat: { label: "Saran", kelas: "bg-white text-sky-700 ring-sky-300", arti: "Dicakup kompetensi teknis jabatan ini, tetapi belum dicantumkan sebagai bukti." },
+  luar_bidang: { label: "Luar bidang", kelas: "bg-violet-50 text-violet-800 ring-violet-200", arti: "Butuh kompetensi di kamus yang belum dipetakan ke jabatan ini." },
+  celah: { label: "Celah kamus", kelas: "bg-amber-50 text-amber-800 ring-amber-200", arti: "Tugas inti tanpa padanan kompetensi teknis di kamus — bahan review kamus." },
+};
+
+/** Label untuk butir tugas yang tidak menjadi bukti kompetensi teknis mana pun. */
+function AlasanTanpaKode({ jenis, saran, catatan }: Alasan) {
+  const a = ALASAN[jenis];
+  return (
+    <span title={[a.arti, catatan].filter(Boolean).join(" ")} className={`cursor-help rounded px-1.5 py-px text-[11px] font-medium ring-1 ring-inset ${a.kelas}`}>
+      {a.label}
+      {saran.length > 0 && ": "}
+      {saran.map((k, i) => (
+        <span key={k}>
+          {i > 0 && ", "}
+          <Link href={jenis === "terlewat" ? `#k-${k}` : `/kompetensi/${k}`} className="font-mono font-semibold hover:underline">
+            {k}
+          </Link>
+        </span>
+      ))}
+    </span>
+  );
+}
 
 /** Alasan + butir tugas pendukung untuk satu kompetensi teknis (bukti = nomor urut uraian tugas). */
 function Bukti({ alasan, metode, bukti, tugas }: { alasan: string | null; metode: string | null; bukti: number[]; tugas: string[] }) {

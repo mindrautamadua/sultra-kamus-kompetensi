@@ -29,9 +29,49 @@ const IKON = {
   admin: "M10 2.5l1.6 2.2 2.7-.4.4 2.7 2.2 1.6-1.4 2.4 1.4 2.4-2.2 1.6-.4 2.7-2.7-.4L10 17.5l-1.6-2.2-2.7.4-.4-2.7-2.2-1.6L4.5 10 3.1 7.6l2.2-1.6.4-2.7 2.7.4zM10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
   tip: "M7.5 15.5h5M8 17.5h4M10 2.5a5 5 0 0 0-3 9c.6.5 1 1.2 1 2h4c0-.8.4-1.5 1-2a5 5 0 0 0-3-9z",
   cari: "M9 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM13.5 13.5 17 17",
+  manfaat: "M10 2.5l2.3 4.7 5.2.8-3.8 3.6.9 5.1L10 14.3l-4.6 2.4.9-5.1L2.5 8l5.2-.8z",
 };
 
 const BAGIAN: Bagian[] = [
+  {
+    id: "manfaat",
+    judul: "Manfaat aplikasi",
+    grup: "Memulai",
+    icon: IKON.manfaat,
+    ringkas: "Untuk apa Kamus Kompetensi dipakai dan apa untungnya bagi Anda.",
+    isi: (
+      <>
+        <p>
+          Kamus Kompetensi menjadi satu acuan bersama tentang kompetensi apa yang dibutuhkan setiap jabatan di Bank Sultra, sampai level berapa,
+          dan seperti apa perilaku yang diharapkan di setiap level.
+        </p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <Kotak judul="Satu bahasa kompetensi">
+            Definisi dan indikator perilaku yang sama dipakai seluruh unit, sehingga tidak ada lagi tafsir berbeda tentang arti suatu kompetensi.
+          </Kotak>
+          <Kotak judul="Rekrutmen & seleksi">
+            Level target per jabatan menjadi dasar kriteria seleksi dan pertanyaan wawancara berbasis perilaku.
+          </Kotak>
+          <Kotak judul="Pelatihan tepat sasaran">
+            Kesenjangan level antara jabatan saat ini dan jabatan tujuan menunjukkan kompetensi mana yang perlu dikembangkan lebih dulu.
+          </Kotak>
+          <Kotak judul="Promosi, rotasi & suksesi">
+            Kedekatan profil antarjabatan membantu menemukan calon penerus dan pilihan rotasi yang masuk akal, bukan sekadar berdasarkan senioritas.
+          </Kotak>
+          <Kotak judul="Penilaian yang objektif">
+            Indikator per level memberi tolok ukur yang jelas saat atasan menilai bawahan dan memberi umpan balik.
+          </Kotak>
+          <Kotak judul="Dokumen siap pakai">
+            Kamus, uraian tugas, dan matriks kompetensi bisa diunduh sebagai PDF atau CSV tanpa perlu menyusun ulang.
+          </Kotak>
+        </div>
+        <Tip>
+          Ingin tahu apa yang perlu diasah untuk jabatan berikutnya? Buka <b>Jalur Karier</b>, pilih jabatan Anda sekarang dan jabatan yang dituju,
+          lalu lihat peta kesenjangan levelnya.
+        </Tip>
+      </>
+    ),
+  },
   {
     id: "mulai",
     judul: "Masuk & navigasi",

@@ -82,7 +82,8 @@ function IconButton({ label, onClick, disabled, children }: { label: string; onC
   );
 }
 
-export type Item = { kategori?: string | null; teks: string };
+/** asal: penanda butir yang sudah ada (mis. urutan lama tugas), dikirim balik apa adanya; butir baru tanpa asal. */
+export type Item = { kategori?: string | null; teks: string; asal?: number };
 
 /**
  * Editable list of text items (tugas, fungsi, indikator, ...). Optionally each item has a kategori.
@@ -114,7 +115,7 @@ export function ListEditor({
     setItems((xs) => [...xs, { key: next, teks: "", kategori: kategori ? (xs.at(-1)?.kategori ?? "") : undefined }]);
     setNext((n) => n + 1);
   };
-  const value = kategori ? items.map(({ kategori: k, teks }) => ({ kategori: k || null, teks })) : items.map((x) => x.teks);
+  const value = kategori ? items.map(({ kategori: k, teks, asal }) => ({ kategori: k || null, teks, asal })) : items.map((x) => x.teks);
 
   return (
     <div className="space-y-2">

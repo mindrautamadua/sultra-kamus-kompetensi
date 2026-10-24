@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./database.types";
 
 // Write client for Server Actions. Uses the service role key (bypasses RLS), so it must never reach the browser.
-// The app is an internal tool on local Supabase without login — anyone who can open the app can edit.
+// Callers must check the session first (wajibLogin) and the role (src/lib/peran.ts).
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 

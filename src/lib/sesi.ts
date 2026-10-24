@@ -4,7 +4,8 @@
 export const COOKIE_SESI = "kk_sesi";
 // Lama sesi (dengan/tanpa "Ingat saya") diatur admin di tabel pengaturan, lihat src/lib/pengaturan.ts.
 
-export type Sesi = { id: number; username: string; nama: string; exp: number };
+/** v = pengguna.sesi_versi saat login (token versi lain sudah dicabut); ingat = cookie persisten ("Ingat saya"). */
+export type Sesi = { id: number; username: string; nama: string; v: number; ingat: boolean; exp: number };
 
 const enc = new TextEncoder();
 const b64url = (buf: ArrayBuffer | Uint8Array) => Buffer.from(buf instanceof Uint8Array ? buf : new Uint8Array(buf)).toString("base64url");
@@ -32,7 +33,8 @@ export async function bacaToken(token: string | undefined): Promise<Sesi | null>
     const sah = await crypto.subtle.verify("HMAC", await getKunci(), Buffer.from(sig, "base64url"), enc.encode(payload));
     if (!sah) return null;
     const s = JSON.parse(Buffer.from(payload, "base64url").toString()) as Sesi;
-    return s.exp > Date.now() / 1000 ? s : null;
+    // token lama tanpa versi dianggap tidak sah: login ulang sekali
+    return s.exp > Date.now() / 1000 && typeof s.v === "number" ? s : null;
   } catch {
     return null;
   }

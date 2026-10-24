@@ -1,14 +1,16 @@
+import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./database.types";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !key) {
-  throw new Error("NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY belum diisi di .env.local");
+  throw new Error("NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY belum diisi di .env.local");
 }
 
-// Read-only client used from Server Components.
+// Read client used from Server Components. Uses the service role key because the anon role has no read access
+// (migration tutup_akses_anon): data is only reachable through the app, behind login (src/proxy.ts).
 export const supabase = createClient<Database>(url, key, {
   auth: { persistSession: false },
 });

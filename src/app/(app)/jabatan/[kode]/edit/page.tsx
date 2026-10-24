@@ -44,9 +44,11 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
       .maybeSingle()
       .then(must),
     supabase.from("jabatan_kompetensi").select("kompetensi_id, level_target, sumber, catatan, metode, bukti").eq("jabatan_id", j.id).then(must),
-    supabase.from("v_kompetensi").select("id, kode, nama, bidang_nama, kategori, status, jumlah_level").neq("status", "dihapus").order("urutan").then(must),
+    supabase.from("v_kompetensi").select("id, kode, nama, bidang_nama, kategori, status, jumlah_level").order("urutan").then(must),
   ]);
-  const options: KompetensiOption[] = kompetensi.map((k) => ({
+  // kompetensi berstatus dihapus tidak ditawarkan, kecuali yang masih terpetakan ke jabatan ini (agar tetap tampil dan bisa dilepas)
+  const terpetakan = new Set(pemetaan.map((p) => p.kompetensi_id));
+  const options: KompetensiOption[] = kompetensi.filter((k) => k.status !== "dihapus" || terpetakan.has(k.id!)).map((k) => ({
     id: k.id!,
     kode: k.kode!,
     nama: k.nama!,
@@ -130,7 +132,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
             <Fieldset legend={`Uraian tugas (${tugas.length})`}>
               <ListEditor
                 name="tugas"
-                initial={tugas.map((t) => ({ kategori: t.kategori, teks: t.deskripsi }))}
+                initial={tugas.map((t) => ({ kategori: t.kategori, teks: t.deskripsi, asal: t.urutan }))}
                 kategori={KATEGORI_TUGAS}
                 placeholder="Uraian tugas"
                 addLabel="Tambah tugas"
