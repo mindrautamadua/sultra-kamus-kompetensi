@@ -52,7 +52,7 @@ async function Rekap({ searchParams }: { searchParams: Promise<{ lihat?: string 
         </Link>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Stat label="Kompetensi dinilai" value={String(rows.length)} hint={semua ? `oleh ${new Set(rows.map((r) => r.pengguna?.nama)).size} pengguna` : undefined} />
         <Stat label="Memenuhi target" value={String(bertarget.length - kurang.length)} hint={`dari ${bertarget.length} yang punya target jabatan`} />
         <Stat label="Di bawah target" value={String(kurang.length)} hint="perlu rencana pengembangan" />

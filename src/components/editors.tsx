@@ -304,3 +304,121 @@ export function PemetaanEditor({
     </div>
   );
 }
+
+export type JabatanOption = { id: number; kode: string; nama: string; unit: string; levelDefault: number };
+
+/** Edit the jabatan + level target list of one kompetensi (kebalikan PemetaanEditor). */
+export function PemetaanJabatanEditor({
+  name,
+  options,
+  initial,
+  maxLevel,
+}: {
+  name: string;
+  options: JabatanOption[];
+  initial: { jabatan_id: number; level_target: number }[];
+  maxLevel: number;
+}) {
+  const byId = useMemo(() => new Map(options.map((o) => [o.id, o])), [options]);
+  const awal = useMemo(() => new Map(initial.map((r) => [r.jabatan_id, r.level_target])), [initial]);
+  const [rows, setRows] = useState(initial);
+  const [cari, setCari] = useState("");
+  const dipakai = new Set(rows.map((r) => r.jabatan_id));
+  const term = cari.trim().toLowerCase();
+  const kandidat = options.filter((o) => !dipakai.has(o.id) && (!term || `${o.kode} ${o.nama} ${o.unit}`.toLowerCase().includes(term))).slice(0, 40);
+  const sorted = [...rows].sort((a, b) => byId.get(a.jabatan_id)!.nama.localeCompare(byId.get(b.jabatan_id)!.nama, "id"));
+  const dilepas = initial.filter((r) => !dipakai.has(r.jabatan_id)).length;
+  const ditambah = rows.filter((r) => !awal.has(r.jabatan_id)).length;
+  const diubah = rows.filter((r) => awal.has(r.jabatan_id) && awal.get(r.jabatan_id) !== r.level_target).length;
+
+  return (
+    <div className="space-y-3">
+      <input type="hidden" name={name} value={JSON.stringify(rows)} />
+      <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-3">
+        <label className="field-label">
+          Tambah jabatan
+          <input value={cari} onChange={(e) => setCari(e.target.value)} placeholder="Cari kode, nama jabatan, atau unit kerja…" className="field" />
+        </label>
+        {term && (
+          <ul className="mt-2 max-h-64 overflow-auto rounded-lg border border-slate-200 bg-white text-sm">
+            {kandidat.length === 0 && <li className="px-3 py-2 text-slate-500">Tidak ada jabatan yang cocok.</li>}
+            {kandidat.map((o) => (
+              <li key={o.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRows((xs) => [...xs, { jabatan_id: o.id, level_target: awal.get(o.id) ?? Math.min(o.levelDefault, maxLevel) }]);
+                    setCari("");
+                  }}
+                  className="flex w-full items-baseline gap-2 px-3 py-2 text-left hover:bg-brand-50"
+                >
+                  <span className="font-mono text-xs text-slate-500">{o.kode}</span>
+                  <span className="flex-1">{o.nama}</span>
+                  <span className="text-xs text-slate-500">{o.unit}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="overflow-hidden rounded-lg border border-slate-200">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-left text-xs text-slate-500">
+            <tr>
+              <th className="px-3 py-2 font-medium">Jabatan</th>
+              <th className="w-40 px-3 py-2 font-medium">Level target</th>
+              <th className="w-12" />
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.length === 0 && (
+              <tr>
+                <td colSpan={3} className="px-3 py-4 text-center text-slate-500">
+                  Belum ada jabatan. Tambahkan dari kotak di atas.
+                </td>
+              </tr>
+            )}
+            {sorted.map((r) => {
+              const o = byId.get(r.jabatan_id)!;
+              return (
+                <tr key={r.jabatan_id} className="border-t border-slate-100">
+                  <td className="px-3 py-2">
+                    <span className="mr-2 font-mono text-xs text-slate-500">{o.kode}</span>
+                    {o.nama}
+                    {!awal.has(r.jabatan_id) && <span className="ml-2 rounded bg-emerald-50 px-1 text-xs font-medium text-emerald-700">baru</span>}
+                    <div className="mt-0.5 text-xs text-slate-500">{o.unit}</div>
+                  </td>
+                  <td className="px-3 py-1.5">
+                    <select
+                      value={r.level_target}
+                      aria-label={`Level target ${o.nama}`}
+                      onChange={(e) => setRows((xs) => xs.map((x) => (x.jabatan_id === r.jabatan_id ? { ...x, level_target: Number(e.target.value) } : x)))}
+                      className="field h-9 w-full"
+                    >
+                      {[1, 2, 3, 4, 5].map((lv) => (
+                        <option key={lv} value={lv} disabled={lv > maxLevel}>
+                          {lv} · {["Dasar", "Memadai", "Mandiri", "Mahir", "Master"][lv - 1]}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="px-1">
+                    <IconButton label={`Lepas ${o.nama}`} onClick={() => setRows((xs) => xs.filter((x) => x.jabatan_id !== r.jabatan_id))}>
+                      <path d="M5 6.5h10M8 6.5V5h4v1.5M6.5 6.5l.6 9h5.8l.6-9" strokeLinecap="round" strokeLinejoin="round" />
+                    </IconButton>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {(ditambah > 0 || diubah > 0 || dilepas > 0) && (
+        <p className="text-sm text-slate-600">
+          Perubahan belum disimpan: {[ditambah && `${ditambah} ditambah`, diubah && `${diubah} level diubah`, dilepas && `${dilepas} dilepas`].filter(Boolean).join(", ")}.
+        </p>
+      )}
+    </div>
+  );
+}

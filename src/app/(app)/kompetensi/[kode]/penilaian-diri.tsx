@@ -88,7 +88,7 @@ export function PenilaianDiri({ kode, levels, jabatan, awal }: { kode: string; l
           </button>
         </div>
       ) : (
-        <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="grid grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <ol className="divide-y divide-slate-100 lg:border-r lg:border-slate-200">
             {levels.map((l) => {
               const n = l.indikator.filter((i) => centang.has(kunciIndikator(l.level, i.urutan))).length;

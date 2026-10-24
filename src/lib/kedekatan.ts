@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { JENJANG_LABEL } from "@/lib/labels";
 import { must, supabase } from "@/lib/supabase";
 
 // Kedekatan antarjabatan & kesenjangan kompetensi (jalur karier), dihitung dari pemetaan jabatan_kompetensi.
@@ -128,4 +129,42 @@ export function saranJalur(asal: Profil, semua: Map<number, Profil>, n = 6) {
     .sort((a, b) => b.kemiripan - a.kemiripan || a.langkah - b.langkah)
     .slice(0, n);
   return { atasan, promosi, rotasi };
+}
+
+// kompetensi teknis yang dimiliki < KHAS jabatan pembanding dianggap ciri khas jabatan ini
+export const KHAS = 0.15;
+// pembanding minimal; bila rumpun (kantor pusat / jaringan kantor) terlalu kecil, pakai semua jabatan sejenjang
+const MIN_PEMBANDING = 5;
+
+const rata = (xs: number[]) => (xs.length ? xs.reduce((s, x) => s + x, 0) / xs.length : 0);
+
+export type Pembanding = {
+  sejenjang: Profil[];
+  /** mis. "Kepala Seksi / Koordinator kantor pusat" */
+  lingkup: string;
+  /** porsi pembanding yang memakai kompetensi ini (0–1) dan rata-rata level targetnya */
+  pakai: (kode: string) => { share: number; level: number };
+  rataKomp: number;
+  rataLevel: number;
+};
+
+/**
+ * Pembanding: jabatan lain sejenjang yang sudah punya pemetaan, dalam rumpun yang sama — kantor pusat (punya
+ * direktorat) atau jaringan kantor — supaya mis. Teller dibandingkan dengan pelaksana kantor cabang, bukan divisi.
+ */
+export function pembanding(j: { id: number; jenjang: number; direktorat: string | null }, semua: Map<number, Profil>): Pembanding {
+  const semuaSejenjang = [...semua.values()].filter((p) => p.jenjang === j.jenjang && p.id !== j.id && p.kompetensi.size > 0);
+  const pusat = !!j.direktorat;
+  const serumpun = semuaSejenjang.filter((p) => !!p.direktorat === pusat);
+  const sejenjang = serumpun.length >= MIN_PEMBANDING ? serumpun : semuaSejenjang;
+  return {
+    sejenjang,
+    lingkup: `${JENJANG_LABEL[j.jenjang]}${sejenjang === serumpun ? (pusat ? " kantor pusat" : " jaringan kantor") : ""}`,
+    pakai: (kode) => {
+      const punya = sejenjang.filter((p) => p.kompetensi.has(kode));
+      return { share: sejenjang.length ? punya.length / sejenjang.length : 0, level: rata(punya.map((p) => p.kompetensi.get(kode)!.level)) };
+    },
+    rataKomp: rata(sejenjang.map((p) => p.kompetensi.size)),
+    rataLevel: rata(sejenjang.map((p) => rata([...p.kompetensi.values()].map((k) => k.level)))),
+  };
 }

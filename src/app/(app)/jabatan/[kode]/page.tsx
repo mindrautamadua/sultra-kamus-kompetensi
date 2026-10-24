@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { Batang, Card, Empty, PdfLink, Stat, Tag } from "@/components/ui";
 import { JabatanDetailSkeleton } from "@/components/skeleton";
 import { penggunaSaatIni } from "@/lib/auth";
-import { loadProfil, type Profil } from "@/lib/kedekatan";
+import { KHAS, loadProfil, pembanding, type Profil } from "@/lib/kedekatan";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA } from "@/lib/labels";
 import { bolehEdit } from "@/lib/peran";
 import { must, supabase } from "@/lib/supabase";
@@ -25,10 +25,6 @@ export default function Page(props: PageProps<"/jabatan/[kode]">) {
 }
 
 const KATEGORI_WARNA: Record<string, string> = { inti: "bg-brand-700", kepemimpinan: "bg-amber-400", teknis: "bg-sky-400" };
-// kompetensi teknis yang dimiliki < KHAS jabatan pembanding dianggap ciri khas jabatan ini
-const KHAS = 0.15;
-// pembanding minimal; bila rumpun (kantor pusat / jaringan kantor) terlalu kecil, pakai semua jabatan sejenjang
-const MIN_PEMBANDING = 5;
 
 const des = (n: number, d = 1) => n.toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d });
 const rata = (xs: number[]) => (xs.length ? xs.reduce((s, x) => s + x, 0) / xs.length : 0);
@@ -60,19 +56,10 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
       .then(must),
   ]);
 
-  // pembanding: jabatan lain sejenjang yang sudah punya pemetaan, dalam rumpun yang sama — kantor pusat (punya
-  // direktorat) atau jaringan kantor — supaya mis. Teller dibandingkan dengan pelaksana kantor cabang, bukan divisi
-  const semuaSejenjang = [...semua.values()].filter((p) => p.jenjang === j.jenjang && p.id !== j.id && p.kompetensi.size > 0);
-  const pusat = !!j.direktorat;
-  const serumpun = semuaSejenjang.filter((p) => !!p.direktorat === pusat);
-  const sejenjang = serumpun.length >= MIN_PEMBANDING ? serumpun : semuaSejenjang;
-  const lingkup = `${JENJANG_LABEL[j.jenjang ?? 4]}${sejenjang === serumpun ? (pusat ? " kantor pusat" : " jaringan kantor") : ""}`;
-  const pakaiSejenjang = (kode: string) => {
-    const punya = sejenjang.filter((p) => p.kompetensi.has(kode));
-    return { share: sejenjang.length ? punya.length / sejenjang.length : 0, level: rata(punya.map((p) => p.kompetensi.get(kode)!.level)) };
-  };
-  const rataKompSejenjang = rata(sejenjang.map((p) => p.kompetensi.size));
-  const rataLevelSejenjang = rata(sejenjang.map((p) => rata([...p.kompetensi.values()].map((k) => k.level))));
+  const { sejenjang, lingkup, pakai: pakaiSejenjang, rataKomp: rataKompSejenjang, rataLevel: rataLevelSejenjang } = pembanding(
+    { id: j.id!, jenjang: j.jenjang ?? 4, direktorat: j.direktorat },
+    semua,
+  );
   const levelSaya = rata(kompetensi.map((k) => k.level_target ?? 0));
 
   // butir tugas → kompetensi teknis yang menjadikannya bukti
@@ -153,7 +140,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
 
       {karyawan && <ReviewPanel jabatanId={j.id!} />}
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card title="Posisi dalam struktur" className="lg:col-span-1">
           <OrgSnippet j={j} bawahan={bawahan} />
           <dl className="divide-y divide-slate-100 border-t border-slate-100 text-sm">
@@ -262,8 +249,10 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
                       const banding = sejenjang.length ? pakaiSejenjang(k.kompetensi_kode!) : null;
                       return (
                         <tr key={k.kompetensi_kode} id={`k-${k.kompetensi_kode}`} className="scroll-mt-6 border-b border-slate-50 align-top last:border-0 target:bg-sky-50/60">
-                          <td className="w-20 px-4 py-2.5 font-mono text-xs text-slate-500">{k.kompetensi_kode}</td>
-                          <td className="py-2.5 pr-3">
+                          <td className="hidden w-20 px-4 py-2.5 font-mono text-xs text-slate-500 sm:table-cell">{k.kompetensi_kode}</td>
+                          <td className="py-2.5 pr-3 pl-4 sm:pl-0">
+                            {/* layar sempit: kolom kode disembunyikan, kode tampil di atas nama */}
+                            <div className="font-mono text-[11px] text-slate-500 sm:hidden">{k.kompetensi_kode}</div>
                             <Link href={`/kompetensi/${k.kompetensi_kode}`} className="font-medium text-slate-800 hover:text-brand-700 hover:underline">
                               {k.kompetensi_nama}
                             </Link>
@@ -283,8 +272,9 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
                           <td className="w-24 py-3">
                             <LevelMeter level={k.level_target ?? 0} sejenjang={banding?.level ?? 0} lingkup={lingkup} />
                           </td>
-                          <td className="whitespace-nowrap px-4 py-2.5 text-right text-slate-600">
-                            <span className="font-semibold text-slate-800">L{k.level_target}</span> · {k.nama_level ?? LEVEL_NAMA[(k.level_target ?? 1) - 1]}
+                          <td className="whitespace-nowrap py-2.5 pr-4 pl-2 text-right text-slate-600 sm:px-4">
+                            <span className="font-semibold text-slate-800">L{k.level_target}</span>
+                            <span className="hidden sm:inline"> · {k.nama_level ?? LEVEL_NAMA[(k.level_target ?? 1) - 1]}</span>
                           </td>
                         </tr>
                       );
@@ -366,6 +356,11 @@ function Hero({
             <PdfLink href={`/dokumen/jobdesk/${j.kode}`} className="btn h-9 bg-white/10 text-[13px] text-white ring-1 ring-white/15 hover:bg-white/15">
               Uraian tugas (PDF)
             </PdfLink>
+            {kompetensi > 0 && (
+              <PdfLink href={`/dokumen/profil/${j.kode}`} className="btn h-9 bg-white/10 text-[13px] text-white ring-1 ring-white/15 hover:bg-white/15">
+                Profil kompetensi (PDF)
+              </PdfLink>
+            )}
             {bisaEdit && (
               <Link href={`/jabatan/${j.kode}/edit`} className="btn h-9 bg-amber-400 text-[13px] text-brand-950 shadow-sm hover:bg-amber-300">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.6} className="size-4" aria-hidden>

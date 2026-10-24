@@ -24,7 +24,7 @@ export default function Page() {
 async function Isi() {
   const [s, { panjang_password_min: min }] = await Promise.all([wajibLogin(), bacaPengaturan()]);
   return (
-    <div className="grid max-w-4xl gap-6 lg:grid-cols-2">
+    <div className="grid grid-cols-1 max-w-4xl gap-6 lg:grid-cols-2">
       <Card title="Akun">
         <dl className="space-y-3 p-4 text-sm">
           <div>

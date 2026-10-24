@@ -162,7 +162,7 @@ async function Progres() {
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card title={`Aktivitas ${MINGGU} minggu terakhir`} className="xl:col-span-2">
           <Mingguan data={mingguan} />
         </Card>
@@ -193,9 +193,9 @@ async function Progres() {
         </Card>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card title="Antrean tindakan" className="xl:col-span-2">
-          <div className="grid divide-y divide-slate-100 md:grid-cols-2 md:divide-x md:divide-y-0">
+          <div className="grid grid-cols-1 divide-y divide-slate-100 md:grid-cols-2 md:divide-x md:divide-y-0">
             <Antrean judul="Dibuka kembali" desc="diedit setelah selesai, perlu ditandai ulang" items={dibukaKembali} status="draf" />
             <Antrean
               judul="Belum selesai"
@@ -234,7 +234,7 @@ async function Progres() {
         title="Peta progres per divisi / kantor"
         action={<span className="text-xs text-slate-500">Warna kartu = porsi selesai</span>}
       >
-        <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {perUnit.map(({ unit, total: t, n }, i) => {
             const p = persen(n.selesai, t);
             return (
@@ -315,7 +315,7 @@ function Hero({ total, n, eta, lajuMinggu }: { total: number; n: Record<string, 
       <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
 
-      <div className="relative grid gap-8 lg:grid-cols-5">
+      <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-5">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center lg:col-span-2">
           <div className="relative size-36 shrink-0 self-center">
             <svg viewBox="0 0 120 120" className="size-full -rotate-90" aria-hidden>

@@ -5,7 +5,7 @@ import { Hitung } from "@/components/hitung";
 import { DashboardSkeleton } from "@/components/skeleton";
 import { Batang, Card, PageHeader, Stat } from "@/components/ui";
 import { JENJANG_LABEL, fmt } from "@/lib/labels";
-import { must, supabase } from "@/lib/supabase";
+import { loadKualitas, persen } from "@/lib/kualitas";
 
 export const metadata: Metadata = { title: "Kualitas Pemetaan" };
 
@@ -27,167 +27,12 @@ export default function Page() {
   );
 }
 
-type Profil = {
-  id: number;
-  kode: string;
-  nama: string;
-  jenjang: number;
-  kelompok_jabatan: string;
-  unit_induk_nama: string;
-  unit_nama: string;
-  jumlah_kompetensi: number;
-  jumlah_teknis: number;
-  jumlah_kepemimpinan: number;
-  rata_level: number | null;
-  profil: string[];
-};
-
-const persen = (n: number, total: number) => (total ? Math.round((n / total) * 100) : 0);
-// kelompok pemakaian kompetensi teknis: berapa jabatan yang memakai satu kompetensi
-const SEBARAN = [
-  { label: "0", min: 0, max: 0, kelas: "bg-amber-400" },
-  { label: "1", min: 1, max: 1, kelas: "bg-sky-300" },
-  { label: "2–5", min: 2, max: 5, kelas: "bg-sky-400" },
-  { label: "6–20", min: 6, max: 20, kelas: "bg-brand-500" },
-  { label: "> 20", min: 21, max: Infinity, kelas: "bg-brand-800" },
-];
-
 async function Kualitas() {
-  const [pemakaian, profilRaw, atasan, levelKamus, celah, totalTugas] = await Promise.all([
-    supabase.from("v_kompetensi_pemakaian").select("*").neq("status", "dihapus").order("bidang_urutan").order("urutan").then(must),
-    supabase.from("v_profil_jabatan").select("*").order("urutan").then(must),
-    supabase.from("v_cek_level_atasan").select("*").then(must),
-    supabase.from("v_cek_level_kamus").select("*").then(must),
-    supabase
-      .from("jobdesk_tugas")
-      .select("id, urutan, deskripsi, jobdesk(kelompok_unit, jabatan(kode, nama))")
-      .eq("tanpa_kompetensi", true)
-      .order("jobdesk_id")
-      .order("urutan")
-      .then(must),
-    supabase
-      .from("jobdesk_tugas")
-      .select("id", { count: "exact", head: true })
-      .then((r) => r.count ?? 0),
-  ]);
-  const profil = profilRaw as unknown as Profil[];
-
-  // ---- cakupan kamus
-  // hanya kompetensi berstatus lengkap yang bisa dipetakan; draft/usulan dilaporkan terpisah
-  const bisaDipakai = (k: (typeof pemakaian)[number]) => k.status === "lengkap";
-  const teknis = pemakaian.filter((k) => k.kategori === "teknis" && bisaDipakai(k));
-  const tidakDipakai = teknis.filter((k) => !k.jumlah_jabatan);
-  const belumFinal = pemakaian.filter((k) => !bisaDipakai(k));
-  const perBidang = groupBy(
-    pemakaian.filter((k) => k.kategori === "teknis"),
-    (k) => `${k.bidang_kode}|${k.bidang_nama}`,
-  ).map(([key, ks]) => {
-    const [kode, nama] = key.split("|");
-    const jabatanPemakai = new Set(profil.filter((p) => p.profil.some((x) => x.startsWith(`${kode}-`))).map((p) => p.id)).size;
-    return {
-      kode,
-      nama,
-      total: ks.length,
-      dipakai: ks.filter((k) => k.jumlah_jabatan).length,
-      jabatanPemakai,
-      kosong: ks.filter((k) => !k.jumlah_jabatan && bisaDipakai(k)),
-    };
-  });
-  const sebaran = SEBARAN.map((s) => ({ ...s, n: teknis.filter((k) => (k.jumlah_jabatan ?? 0) >= s.min && (k.jumlah_jabatan ?? 0) <= s.max).length }));
-  const terpopuler = [...teknis].sort((a, b) => (b.jumlah_jabatan ?? 0) - (a.jumlah_jabatan ?? 0)).slice(0, 5);
-
-  const perUnit = groupBy(profil, (p) => p.unit_induk_nama).map(([unit, ps]) => {
-    const kode = new Set(ps.flatMap((p) => p.profil.map((x) => x.split(":")[0])).filter((k) => !k.startsWith("CC-") && !k.startsWith("LC-")));
-    const bidang = new Set([...kode].map((k) => k.split("-")[0]));
-    return { unit, jabatan: ps.length, kompetensi: kode.size, bidang: [...bidang] };
-  });
-  const maxKompUnit = Math.max(1, ...perUnit.map((u) => u.kompetensi));
-
-  // ---- konsistensi: jabatan bernama sama di unit berbeda
-  const normNama = (s: string) =>
-    s
-      .toLowerCase()
-      .replace(/\(.*?\)/g, " ")
-      .replace(/&/g, " dan ")
-      .replace(/[^a-z0-9]+/g, " ")
-      .trim();
-  const grupNama = groupBy(profil, (p) => normNama(p.nama))
-    .filter(([, ps]) => ps.length > 1)
-    .map(([, ps]) => {
-      const peta = ps.map((p) => new Map(p.profil.map((x) => x.split(":") as [string, string])));
-      const semua = [...new Set(peta.flatMap((m) => [...m.keys()]))].sort((a, b) => a.localeCompare(b, "id", { numeric: true }));
-      const beda = semua.filter((k) => new Set(peta.map((m) => m.get(k) ?? "-")).size > 1);
-      return { nama: ps[0].nama, ps, peta, beda, sama: semua.length - beda.length };
-    })
-    .filter((g) => g.beda.length > 0)
-    .sort((a, b) => b.beda.length - a.beda.length);
-  const namaKompetensi = new Map(pemakaian.map((k) => [k.kode!, k.nama!]));
-
-  // ---- aturan kepemimpinan & kompetensi teknis
-  const pelaksanaLC = profil.filter((p) => p.jenjang === 4 && p.jumlah_kepemimpinan > 0);
-  const strukturalTanpaLC = profil.filter((p) => p.jenjang <= 3 && p.jumlah_kepemimpinan === 0);
-  const tanpaTeknis = profil.filter((p) => p.jumlah_teknis === 0);
-
-  // ---- outlier per jenjang (aturan IQR) untuk jumlah kompetensi & rata-rata level
-  const outlier: { p: Profil; alasan: string }[] = [];
-  for (const [jenjang, ps] of groupBy(profil, (p) => String(p.jenjang))) {
-    for (const [ukuran, label] of [
-      [(p: Profil) => p.jumlah_kompetensi, "jumlah kompetensi"],
-      [(p: Profil) => p.rata_level ?? 0, "rata-rata level"],
-    ] as const) {
-      const xs = ps.map(ukuran).sort((a, b) => a - b);
-      const q1 = xs[Math.floor(xs.length * 0.25)];
-      const q3 = xs[Math.floor(xs.length * 0.75)];
-      const iqr = q3 - q1;
-      if (!iqr) continue; // seragam (mis. masih draf otomatis) → tidak ada outlier yang bermakna
-      for (const p of ps) {
-        const v = ukuran(p);
-        if (v < q1 - 1.5 * iqr || v > q3 + 1.5 * iqr) outlier.push({ p, alasan: `${label} ${v} (umumnya ${q1}–${q3} di jenjang ${jenjang})` });
-      }
-    }
-  }
-
-  const aturan = pelaksanaLC.length + strukturalTanpaLC.length + tanpaTeknis.length;
-  // butir tugas inti tanpa padanan kamus (hasil analisis AI), dikelompokkan per jabatan
-  const celahPerJabatan = groupBy(
-    celah.filter((t) => t.jobdesk?.jabatan),
-    (t) => t.jobdesk!.jabatan!.kode,
-  ).map(([kode, ts]) => ({ kode, nama: ts[0].jobdesk!.jabatan!.nama, unit: ts[0].jobdesk!.kelompok_unit.replace(/^\d+\.\s*/, ""), ts }));
-  const celahPerUnit = groupBy(celahPerJabatan, (g) => g.unit)
-    .map(([unit, gs]) => ({ unit, butir: gs.reduce((s, g) => s + g.ts.length, 0), jabatan: gs.length }))
-    .sort((a, b) => b.butir - a.butir);
-
-  // ---- temuan per jabatan: berapa jenis cek yang menyangkut tiap jabatan
-  const cek = [
-    { key: "celah", label: "Tugas tanpa padanan", kode: celahPerJabatan.map((g) => g.kode), href: "#celah" },
-    { key: "nama", label: "Sama nama, profil beda", kode: grupNama.flatMap((g) => g.ps.map((p) => p.kode)), href: "#nama-sama" },
-    { key: "atasan", label: "Level melebihi atasan", kode: atasan.map((r) => r.jabatan_kode!), href: "#atasan" },
-    {
-      key: "aturan",
-      label: "Aturan dasar",
-      kode: [...pelaksanaLC, ...strukturalTanpaLC, ...tanpaTeknis].map((p) => p.kode).concat(levelKamus.map((r) => r.jabatan_kode!)),
-      href: "#aturan",
-    },
-    { key: "outlier", label: "Profil menyimpang", kode: outlier.map((o) => o.p.kode), href: "#outlier" },
-  ];
-  const temuan = new Map<string, Set<string>>();
-  for (const c of cek) for (const k of c.kode) temuan.set(k, (temuan.get(k) ?? new Set()).add(c.label));
-  const bersih = profil.length - temuan.size;
-  const prioritas = [...temuan.entries()]
-    .map(([kode, s]) => ({ p: profil.find((p) => p.kode === kode)!, cek: [...s] }))
-    .filter((x) => x.p)
-    .sort((a, b) => b.cek.length - a.cek.length || a.p.jenjang - b.p.jenjang)
-    .slice(0, 8);
-
-  const ringkas = [
-    { href: "#tidak-dipakai", label: "Kompetensi teknis tidak dipakai", nilai: `${tidakDipakai.length}/${teknis.length}`, n: tidakDipakai.length },
-    { href: "#celah", label: "Tugas inti tanpa padanan kamus", nilai: String(celah.length), n: celah.length },
-    { href: "#nama-sama", label: "Jabatan sama nama, profil beda", nilai: String(grupNama.length), n: grupNama.length },
-    { href: "#atasan", label: "Level bawahan > atasan", nilai: String(atasan.length), n: atasan.length },
-    { href: "#aturan", label: "Pelanggaran aturan dasar", nilai: String(aturan + levelKamus.length), n: aturan + levelKamus.length },
-    { href: "#outlier", label: "Profil menyimpang (outlier)", nilai: String(outlier.length), n: outlier.length },
-  ];
-  const cekAman = ringkas.filter((r) => !r.n).length;
+  const {
+    profil, teknis, tidakDipakai, belumFinal, perBidang, sebaran, terpopuler, perUnit, maxKompUnit, grupNama, namaKompetensi, pelaksanaLC,
+    strukturalTanpaLC, tanpaTeknis, outlier, aturan, celahPerJabatan, celahPerUnit, temuan, bersih, prioritas, ringkas, cekAman, atasan, levelKamus,
+    celah, totalTugas,
+  } = await loadKualitas();
 
   return (
     <div className="space-y-6">
@@ -244,7 +89,7 @@ async function Kualitas() {
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card title="Mulai dari sini — jabatan dengan temuan terbanyak" className="xl:col-span-2">
           <div id="prioritas" className="scroll-mt-6">
             {prioritas.length === 0 ? (
@@ -257,7 +102,7 @@ async function Kualitas() {
                       <span className="grid size-7 shrink-0 place-items-center rounded-full bg-amber-50 text-xs font-semibold tabular-nums text-amber-800 ring-1 ring-amber-200">
                         {cs.length}
                       </span>
-                      <span className="min-w-0 flex-1">
+                      <span className="min-w-0 flex-[1_1_12rem]">
                         <span className="block font-medium text-slate-900 group-hover:text-brand-700">{p.nama}</span>
                         <span className="block truncate text-xs text-slate-500">
                           {p.unit_induk_nama} · {JENJANG_LABEL[p.jenjang]}
@@ -374,7 +219,7 @@ async function Kualitas() {
         </div>
       </Card>
 
-      <div className="grid gap-6 xl:grid-cols-5">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
         <Card title={`Tugas inti tanpa padanan kamus · ${celah.length} butir`} className="xl:col-span-3">
           <div id="celah" className="scroll-mt-6">
             <p className="border-b border-slate-100 px-4 py-2.5 text-xs text-slate-500">
@@ -384,7 +229,7 @@ async function Kualitas() {
             {celahPerJabatan.length === 0 ? (
               <p className="px-4 py-4 text-sm text-slate-500">Belum ada data (analisis AI belum dijalankan untuk jobdesk ini).</p>
             ) : (
-              <div className="grid divide-y divide-slate-100 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:divide-x md:divide-y-0">
+              <div className="grid grid-cols-1 divide-y divide-slate-100 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:divide-x md:divide-y-0">
                 <div className="p-4">
                   <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Per unit</h3>
                   <ul className="space-y-2.5 text-sm">
@@ -528,7 +373,7 @@ async function Kualitas() {
         </div>
       </Card>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Card title="Level bawahan lebih tinggi dari atasan" action={<Hasil n={atasan.length} />}>
           <div id="atasan" className="scroll-mt-6">
             <p className="border-b border-slate-100 px-4 py-2.5 text-xs text-slate-500">Untuk kompetensi yang sama, atasan umumnya ditargetkan minimal setara bawahannya.</p>
@@ -606,7 +451,7 @@ function Hero({ total, bersih, ringkas, cekAman }: { total: number; bersih: numb
       <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
 
-      <div className="relative grid gap-8 lg:grid-cols-5">
+      <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-5">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center lg:col-span-2">
           <div className="relative size-36 shrink-0 self-center">
             <svg viewBox="0 0 120 120" className="size-full -rotate-90" aria-hidden>
@@ -649,7 +494,7 @@ function Hero({ total, bersih, ringkas, cekAman }: { total: number; bersih: numb
           </div>
         </div>
 
-        <ul className="grid content-center gap-2 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 content-center gap-2 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
           {ringkas.map((x, i) => (
             <li key={x.href}>
               <a
@@ -722,10 +567,4 @@ function Aturan({ judul, items }: { judul: string; items: { kode: string; teks: 
       )}
     </div>
   );
-}
-
-function groupBy<T>(xs: T[], key: (x: T) => string): [string, T[]][] {
-  const m = new Map<string, T[]>();
-  for (const x of xs) m.set(key(x), [...(m.get(key(x)) ?? []), x]);
-  return [...m];
 }

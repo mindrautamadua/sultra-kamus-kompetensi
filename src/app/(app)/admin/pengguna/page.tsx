@@ -31,7 +31,7 @@ async function Daftar() {
   return (
     <div className="space-y-6">
       <Card title="Hak tiap peran">
-        <dl className="grid gap-x-6 gap-y-3 p-4 text-sm sm:grid-cols-2">
+        <dl className="grid grid-cols-1 gap-x-6 gap-y-3 p-4 text-sm sm:grid-cols-2">
           {PERAN.map((p) => (
             <div key={p}>
               <dt className="font-semibold text-slate-900">{PERAN_LABEL[p]}</dt>
@@ -46,7 +46,7 @@ async function Daftar() {
           {rows.map((u) => {
             const terkunci = u.terkunci_sampai && new Date(u.terkunci_sampai) > new Date();
             return (
-              <li key={u.id} className="grid gap-4 p-4 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:items-start">
+              <li key={u.id} className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:items-start">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className={`font-semibold ${u.aktif ? "text-slate-900" : "text-slate-400 line-through"}`}>{u.nama}</span>
@@ -94,7 +94,7 @@ async function Daftar() {
 
       <Card title="Tambah akun">
         <ActionForm action={tambahPengguna} submit="Buat akun" className="p-4">
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <label className="field-label">
               Username
               <input name="username" required pattern="[a-z0-9._\-]{3,32}" autoComplete="off" placeholder="mis. andi.hc" className="field" />

@@ -45,7 +45,7 @@ const BAGIAN: Bagian[] = [
           Kamus Kompetensi menjadi satu acuan bersama tentang kompetensi apa yang dibutuhkan setiap jabatan di Bank Sultra, sampai level berapa,
           dan seperti apa perilaku yang diharapkan di setiap level.
         </p>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <Kotak judul="Satu bahasa kompetensi">
             Definisi dan indikator perilaku yang sama dipakai seluruh unit, sehingga tidak ada lagi tafsir berbeda tentang arti suatu kompetensi.
           </Kotak>
@@ -62,7 +62,7 @@ const BAGIAN: Bagian[] = [
             Indikator per level memberi tolok ukur yang jelas saat atasan menilai bawahan dan memberi umpan balik.
           </Kotak>
           <Kotak judul="Dokumen siap pakai">
-            Kamus, uraian tugas, dan matriks kompetensi bisa diunduh sebagai PDF atau CSV tanpa perlu menyusun ulang.
+            Kamus, uraian tugas, profil kompetensi jabatan, dan matriks kompetensi bisa diunduh sebagai PDF atau CSV tanpa perlu menyusun ulang.
           </Kotak>
         </div>
         <Tip>
@@ -136,7 +136,10 @@ const BAGIAN: Bagian[] = [
         Klik <b>Terapkan</b>, lalu buka jabatan yang dicari.
       </>,
       <>Detail jabatan menampilkan posisi dalam struktur, jobdesk, dan kompetensi beserta level targetnya.</>,
-      <>Unduh uraian tugas lewat tombol PDF.</>,
+      <>
+        Unduh <b>Uraian tugas (PDF)</b> atau <b>Profil kompetensi (PDF)</b>: ringkasan, peta level target dibanding jabatan sejenjang, dan
+        perilaku yang diharapkan. Versi satu divisi/kantor ada di tautan <b>Jobdesk</b> dan <b>Profil</b> pada kartu unit.
+      </>,
     ],
     isi: (
       <Tip>
@@ -217,7 +220,7 @@ const BAGIAN: Bagian[] = [
           Klik <b>+ Tambah jabatan</b> di Daftar Jabatan, atau <b>Edit jabatan, jobdesk &amp; kompetensi</b> di detail jabatan. Halaman edit terdiri
           atas empat kartu yang disimpan masing-masing:
         </p>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <Kotak judul="Data jabatan">Nama, unit kerja, atasan langsung, kelompok jabatan, jenjang, dan catatan.</Kotak>
           <Kotak judul="Jobdesk">Pangkat, pendidikan, bawahan, fungsi, dan uraian tugas.</Kotak>
           <Kotak judul="Kompetensi yang dibutuhkan">
@@ -305,7 +308,7 @@ const BAGIAN: Bagian[] = [
     peran: "admin",
     ringkas: "Mengelola akun pengguna dan pengaturan aplikasi.",
     isi: (
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <Kotak judul="Pengguna">
           Buat akun (username huruf kecil, angka, titik, minus, atau garis bawah), ubah nama dan peran, nonaktifkan akun dengan menghapus centang
           Aktif, atau reset password.
@@ -389,7 +392,7 @@ export function Panduan({ peran }: { peran: Peran | null }) {
         {/* cahaya dekoratif */}
         <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
         <div className="pointer-events-none absolute -bottom-40 left-1/3 size-80 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
-        <div className="relative grid gap-8 lg:grid-cols-[1fr_minmax(0,420px)] lg:items-end">
+        <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-[1fr_minmax(0,420px)] lg:items-end">
           <div className="animate-[masuk_0.4s_ease-out_both]">
             <div className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-300">Panduan Pengguna</div>
             <h1 className="mt-2 font-heading text-[28px] font-semibold leading-tight tracking-tight md:text-[34px]">
@@ -413,11 +416,11 @@ export function Panduan({ peran }: { peran: Peran | null }) {
               />
             </label>
           </div>
-          <ol className="grid gap-2 sm:grid-cols-3 lg:grid-cols-1">
+          <ol className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1">
             {[
               { href: "/kompetensi", judul: "Cari kompetensi", ket: "Definisi dan 5 level perilaku" },
               { href: "/jabatan", judul: "Buka jabatan", ket: "Jobdesk dan level target" },
-              { href: "/matriks", judul: "Unduh dokumen", ket: "PDF kamus, jobdesk, CSV matriks" },
+              { href: "/matriks", judul: "Unduh dokumen", ket: "PDF kamus, jobdesk, profil, CSV matriks" },
             ].map((s, i) => (
               <li key={s.href} className="animate-[masuk_0.4s_ease-out_both]" style={{ animationDelay: `${120 + i * 80}ms` }}>
                 <Link href={s.href} className="group flex items-center gap-3 rounded-xl bg-white/5 p-3 ring-1 ring-white/10 transition hover:bg-white/10 hover:ring-white/20">
@@ -440,7 +443,7 @@ export function Panduan({ peran }: { peran: Peran | null }) {
         <h2 id="judul-peran" className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-slate-700">
           Peran akun
         </h2>
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {PERAN.map((p) => {
             const saya = p === peran;
             return (
@@ -459,7 +462,7 @@ export function Panduan({ peran }: { peran: Peran | null }) {
         </div>
       </section>
 
-      <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[220px_1fr]">
         <nav aria-label="Daftar isi" className="hidden lg:sticky lg:top-8 lg:block lg:self-start">
           {GRUP.map((g) => {
             const isi = tampil.filter((b) => b.grup === g);

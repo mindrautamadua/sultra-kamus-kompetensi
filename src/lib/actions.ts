@@ -328,6 +328,69 @@ export async function simpanPemetaan(_: FormState, fd: FormData): Promise<FormSt
   redirect(`/jabatan/${kode}`);
 }
 
+/**
+ * Pemetaan dari sisi kompetensi: daftar jabatan + level target untuk satu kompetensi. Hanya baris kompetensi ini yang
+ * disentuh, sehingga kompetensi lain di jabatan yang sama tidak ikut berubah. Baris baru ditandai manual; baris yang
+ * levelnya diubah ikut ditandai manual dengan alasan, metode & bukti asal dipertahankan.
+ */
+export async function simpanPemetaanKompetensi(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const kompetensiId = Number(fd.get("kompetensi_id"));
+  let kode: string;
+  try {
+    const rows = json<{ jabatan_id: number; level_target: number }[]>(fd, "pemetaan");
+    if (new Set(rows.map((r) => r.jabatan_id)).size !== rows.length) return { error: "Ada jabatan yang tercantum dua kali." };
+    const k = ok(await db.from("v_kompetensi").select("kode, jumlah_level").eq("id", kompetensiId).single());
+    kode = k.kode!;
+    const maks = k.jumlah_level || 5;
+    if (rows.some((r) => !Number.isInteger(r.level_target) || r.level_target < 1 || r.level_target > maks)) return { error: `Level target harus 1–${maks}.` };
+
+    const lama = new Map(ok(await db.from("jabatan_kompetensi").select("jabatan_id, level_target").eq("kompetensi_id", kompetensiId)).map((r) => [r.jabatan_id, r.level_target]));
+    const baru = rows.filter((r) => !lama.has(r.jabatan_id));
+    const ubah = rows.filter((r) => lama.has(r.jabatan_id) && lama.get(r.jabatan_id) !== r.level_target);
+    const dipilih = new Set(rows.map((r) => r.jabatan_id));
+    const hapus = [...lama.keys()].filter((id) => !dipilih.has(id));
+    if (baru.length > 0) {
+      const ada = new Set(ok(await db.from("jabatan").select("id").in("id", baru.map((r) => r.jabatan_id))).map((j) => j.id));
+      if (baru.some((r) => !ada.has(r.jabatan_id))) return { error: "Ada jabatan yang sudah tidak ada. Muat ulang halaman." };
+    }
+
+    // tambah & ubah dulu, hapus terakhir: bila gagal di tengah, tidak ada pemetaan yang hilang tanpa penggantinya
+    if (baru.length > 0)
+      ok(
+        await db
+          .from("jabatan_kompetensi")
+          .insert(
+            baru.map((r) => ({
+              jabatan_id: r.jabatan_id,
+              kompetensi_id: kompetensiId,
+              level_target: r.level_target,
+              sumber: "manual",
+              catatan: "Ditambahkan dari halaman kompetensi di aplikasi.",
+              metode: "manual",
+              bukti: [],
+            })),
+          )
+          .select("id"),
+      );
+    for (const r of ubah)
+      ok(await db.from("jabatan_kompetensi").update({ level_target: r.level_target, sumber: "manual" }).eq("jabatan_id", r.jabatan_id).eq("kompetensi_id", kompetensiId).select("id"));
+    if (hapus.length > 0) ok(await db.from("jabatan_kompetensi").delete().eq("kompetensi_id", kompetensiId).in("jabatan_id", hapus).select("id"));
+
+    const terdampak = [...baru.map((r) => r.jabatan_id), ...ubah.map((r) => r.jabatan_id), ...hapus];
+    if (terdampak.length > 0) {
+      ok(await db.from("jabatan").update({ diubah_di_aplikasi: now() }).in("id", terdampak).select("id"));
+      for (const id of terdampak) await catatEdit(db, id, "simpan_kompetensi", s);
+    }
+  } catch (e) {
+    return { error: `Gagal menyimpan pemetaan: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect(`/kompetensi/${kode}#jabatan`);
+}
+
 // ---------- kompetensi
 
 export async function simpanKompetensi(_: FormState, fd: FormData): Promise<FormState> {

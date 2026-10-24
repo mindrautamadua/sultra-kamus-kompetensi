@@ -52,7 +52,7 @@ export function FilterBarSkeleton({ fields = 3 }: { fields?: number }) {
 export function DashboardSkeleton({ label = "Memuat ringkasan" }: { label?: string }) {
   return (
     <Wrap label={label} className="space-y-6">
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <div className="flex h-60 items-center gap-6 rounded-2xl bg-brand-950 p-6 xl:col-span-2">
           <div className="size-36 shrink-0 rounded-full border-[10px] border-white/10" />
           <div className="flex-1 space-y-3">
@@ -76,9 +76,9 @@ export function DashboardSkeleton({ label = "Memuat ringkasan" }: { label?: stri
           </div>
         ))}
       </div>
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <CardShell className="xl:col-span-2">
-          <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 9 }).map((_, i) => (
               <div key={i} className="rounded-xl border border-slate-200 p-3.5">
                 <div className="flex justify-between">
@@ -112,7 +112,7 @@ export function JabatanSkeleton() {
   return (
     <Wrap label="Memuat daftar jabatan" className="space-y-6">
       <FilterBarSkeleton fields={4} />
-      <div className="grid h-64 gap-8 rounded-2xl bg-brand-950 p-6 lg:grid-cols-5">
+      <div className="grid grid-cols-1 h-64 gap-8 rounded-2xl bg-brand-950 p-6 lg:grid-cols-5">
         <div className="space-y-2 lg:col-span-3">
           <div className="h-3 w-40 rounded-md bg-white/10" />
           <div className="mb-5 h-6 w-3/4 rounded-md bg-white/10" />
@@ -135,7 +135,7 @@ export function JabatanSkeleton() {
           </div>
         ))}
       </div>
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <CardShell rows={6} />
         <CardShell rows={6} />
       </div>
@@ -220,7 +220,7 @@ export function MatriksSkeleton() {
 export function AnalisaSkeleton() {
   return (
     <Wrap label="Memuat analisa data" className="space-y-6">
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <CardShell rows={5} />
         <CardShell rows={5} />
       </div>
@@ -255,7 +255,7 @@ export function JabatanDetailSkeleton() {
           </div>
         ))}
       </div>
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <CardShell rows={4} />
         <CardShell className="lg:col-span-2">
           <div className="space-y-3 p-4">
@@ -281,7 +281,7 @@ export function DetailSkeleton({ label }: { label: string }) {
         </div>
         <Bone className="h-7 w-96 max-w-full" />
       </div>
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <CardShell rows={4} />
         <CardShell rows={3} className="lg:col-span-2" />
       </div>

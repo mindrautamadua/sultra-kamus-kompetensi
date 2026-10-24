@@ -20,7 +20,7 @@ const WARNA = ["bg-brand-700 text-white ring-brand-700", "bg-amber-400 text-ambe
  * Tangga level 1–5 yang bisa diklik, mode bandingkan dua level, dan sebaran level target jabatan.
  * Level aktif disimpan di hash URL (#level-3) supaya tautan bisa dibagikan.
  */
-export function LevelInteraktif({ levels, jabatan }: { levels: Level[]; jabatan: JabatanTarget[] }) {
+export function LevelInteraktif({ levels, jabatan, petakanHref }: { levels: Level[]; jabatan: JabatanTarget[]; petakanHref?: string }) {
   const [mode, setMode] = useState<Mode>("satu");
   // pilihan terakhir di ujung; mode bandingkan memakai dua pilihan terakhir. Sebelum ada klik, level awal dari hash.
   const [dipilih, setPilihan] = useState<number[] | null>(null);
@@ -126,7 +126,7 @@ export function LevelInteraktif({ levels, jabatan }: { levels: Level[]; jabatan:
         <div className="p-4">
           {mode === "satu" && <PanelLevel l={levels.find((l) => l.level === aktif)!} n={perLevel(aktif)} onJabatan={() => setFilterJabatan(aktif)} />}
           {mode === "banding" && (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {banding.map((n, i) => (
                 <div key={n} className={`rounded-lg p-4 ring-1 ring-inset ${i === 0 ? "bg-brand-50/50 ring-brand-100" : "bg-amber-50/60 ring-amber-200"}`}>
                   <PanelLevel l={levels.find((l) => l.level === n)!} n={perLevel(n)} onJabatan={() => setFilterJabatan(n)} warna={i} />
@@ -147,7 +147,7 @@ export function LevelInteraktif({ levels, jabatan }: { levels: Level[]; jabatan:
         </div>
       </section>
 
-      <SebaranJabatan jabatan={jabatan} levels={levels} max={maxPerLevel} perLevel={perLevel} filter={filterJabatan} setFilter={setFilterJabatan} />
+      <SebaranJabatan jabatan={jabatan} levels={levels} max={maxPerLevel} perLevel={perLevel} filter={filterJabatan} setFilter={setFilterJabatan} petakanHref={petakanHref} />
     </div>
   );
 }
@@ -170,7 +170,7 @@ function PanelLevel({ l, n, onJabatan, warna = 0 }: { l: Level; n: number; onJab
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_1.3fr]">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.3fr]">
       <div>
         <div className="flex items-center gap-2">
           <span className={`grid size-8 place-items-center rounded-full text-sm font-semibold ring-1 ring-inset ${WARNA[warna]}`}>{l.level}</span>
@@ -218,6 +218,7 @@ function SebaranJabatan({
   perLevel,
   filter,
   setFilter,
+  petakanHref,
 }: {
   jabatan: JabatanTarget[];
   levels: Level[];
@@ -225,6 +226,8 @@ function SebaranJabatan({
   perLevel: (n: number) => number;
   filter: number | null;
   setFilter: (n: number | null) => void;
+  /** halaman pemetaan dari sisi kompetensi; hanya diisi untuk editor */
+  petakanHref?: string;
 }) {
   const [q, setQ] = useState("");
   const term = q.trim().toLowerCase();
@@ -236,12 +239,29 @@ function SebaranJabatan({
     <section id="jabatan" className="scroll-mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50/70 px-4 py-3">
         <h2 className="text-[13px] font-semibold uppercase tracking-wide text-slate-700">Dipetakan ke jabatan</h2>
-        <span className="text-xs text-slate-500 tabular-nums">{jabatan.length} jabatan</span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-slate-500 tabular-nums">{jabatan.length} jabatan</span>
+          {petakanHref && (
+            <Link href={petakanHref} className="btn-secondary h-8 px-3 text-[13px]">
+              Petakan ke jabatan
+            </Link>
+          )}
+        </div>
       </div>
       {jabatan.length === 0 ? (
-        <p className="px-4 py-4 text-sm text-slate-500">Belum dipetakan ke jabatan mana pun.</p>
+        <p className="px-4 py-4 text-sm text-slate-500">
+          Belum dipetakan ke jabatan mana pun.
+          {petakanHref && (
+            <>
+              {" "}
+              <Link href={petakanHref} className="font-medium text-brand-700 hover:underline">
+                Petakan sekarang →
+              </Link>
+            </>
+          )}
+        </p>
       ) : (
-        <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
           <div className="border-b border-slate-100 p-4 md:border-r md:border-b-0">
             <div className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">Sebaran level target</div>
             <ul className="space-y-1.5">

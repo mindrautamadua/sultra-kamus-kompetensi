@@ -55,7 +55,7 @@ export async function ReviewPanel({ jabatanId }: { jabatanId: number }) {
 
   return (
     <Card title="Status review" action={<ReviewBadge status={status} />}>
-      <div id="review" className="grid scroll-mt-6 divide-y divide-slate-100 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
+      <div id="review" className="grid grid-cols-1 scroll-mt-6 divide-y divide-slate-100 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
         <div className="space-y-3 p-4">
           <p className="text-sm text-slate-600">
             <b className="text-slate-900">{REVIEW_LABEL[status]}</b> — {PENJELASAN[status]}

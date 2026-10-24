@@ -61,7 +61,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
       <ActionForm action={simpanKompetensi} submit="Simpan kompetensi">
         <input type="hidden" name="id" value={k.id} />
         <Card title="Identitas">
-          <div className="grid gap-4 p-4 md:grid-cols-[1fr_200px]">
+          <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-[1fr_200px]">
             <label className="field-label">
               Nama kompetensi
               <input name="nama" required defaultValue={k.nama} className="field" />

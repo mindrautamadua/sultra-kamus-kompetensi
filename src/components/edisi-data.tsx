@@ -1,6 +1,6 @@
 import { bacaPengaturan } from "@/lib/pengaturan";
 
-const KOTAK = "hidden rounded-xl bg-white/5 p-3 text-xs leading-relaxed text-brand-200 ring-1 ring-white/10 md:block md:collapsed:hidden";
+const KOTAK = "rounded-xl bg-white/5 p-3 text-xs leading-relaxed text-brand-200 ring-1 ring-white/10 md:collapsed:hidden";
 
 /** Kotak edisi data di sidebar; teksnya diatur admin di Admin › Pengaturan. */
 export async function EdisiData() {

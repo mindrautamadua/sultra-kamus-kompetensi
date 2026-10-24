@@ -46,7 +46,7 @@ async function Isi() {
       <Card title="Tampilan">
         <ActionForm action={simpanTampilan} className="p-4">
           <p className="text-sm text-slate-600">Kotak keterangan edisi data di bawah menu sidebar, terlihat oleh semua pengguna.</p>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <label className="field-label">
               Judul edisi
               <input name="edisi_judul" required maxLength={80} defaultValue={p.edisi_judul} className="field" />
@@ -61,7 +61,7 @@ async function Isi() {
 
       <Card title="Keamanan login">
         <ActionForm action={simpanKeamanan} className="p-4">
-          <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
             {(Object.keys(BATAS_ANGKA) as (keyof typeof BATAS_ANGKA)[]).map((k) => (
               <label key={k} className="field-label">
                 {BATAS_ANGKA[k].label}

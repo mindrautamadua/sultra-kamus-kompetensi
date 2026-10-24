@@ -300,7 +300,7 @@ function Wawasan({
 
       <Perhatian belum={belum} reviewN={reviewN} />
 
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <ProfilJenjang karyawan={karyawan} profil={profil} className="xl:col-span-2" />
         <SebaranBidang komp={komp} ids={ids} total={karyawan.length} />
       </div>
@@ -359,7 +359,7 @@ function Hero({ rows, all, profil, filtered, jumlahUnit }: { rows: Row[]; all: R
       <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
 
-      <div className="relative grid gap-8 lg:grid-cols-5">
+      <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <div className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-300">{filtered ? "Struktur jabatan · hasil filter" : "Struktur jabatan"}</div>
           <p className="mt-1.5 font-heading text-xl font-medium leading-snug">
@@ -469,7 +469,7 @@ function ProfilJenjang({ karyawan, profil, className = "" }: { karyawan: Row[]; 
             {baris.map((b, i) => {
               const total = b.inti + b.kepemimpinan + b.teknis;
               return (
-                <li key={b.jj} className="grid items-center gap-x-4 gap-y-1.5 sm:grid-cols-[11rem_1fr_7rem]">
+                <li key={b.jj} className="grid grid-cols-1 items-center gap-x-4 gap-y-1.5 sm:grid-cols-[11rem_1fr_7rem]">
                   <div className="leading-tight">
                     <div className="text-sm font-semibold text-slate-800">{JENJANG_LABEL[b.jj]}</div>
                     <div className="text-xs text-slate-500">
@@ -628,15 +628,26 @@ function KartuUnit({
       <header className="border-b border-slate-100 px-4 pb-3 pt-3.5">
         <div className="flex items-start justify-between gap-3">
           <h4 className="font-heading text-[15px] font-semibold leading-snug text-slate-900">{unit}</h4>
-          <a
-            href={`/dokumen/jobdesk?unit=${encodeURIComponent(unit)}`}
-            target="_blank"
-            rel="noopener"
-            className="shrink-0 rounded-md px-1.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-50"
-            title="Uraian tugas seluruh jabatan unit ini (PDF)"
-          >
-            PDF ↗
-          </a>
+          <span className="flex shrink-0 gap-0.5">
+            <a
+              href={`/dokumen/jobdesk?unit=${encodeURIComponent(unit)}`}
+              target="_blank"
+              rel="noopener"
+              className="rounded-md px-1.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-50"
+              title="Uraian tugas seluruh jabatan unit ini (PDF)"
+            >
+              Jobdesk ↗
+            </a>
+            <a
+              href={`/dokumen/profil?unit=${encodeURIComponent(unit)}`}
+              target="_blank"
+              rel="noopener"
+              className="rounded-md px-1.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-50"
+              title="Profil kompetensi seluruh jabatan unit ini (PDF)"
+            >
+              Profil ↗
+            </a>
+          </span>
         </div>
         <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
           <span>{items.length} jabatan</span>

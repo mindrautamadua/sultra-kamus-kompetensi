@@ -22,6 +22,9 @@ export const KATEGORI_LABEL: Record<string, string> = {
 
 export const LEVEL_NAMA = ["Dasar", "Memadai", "Mandiri", "Mahir", "Master"] as const;
 
+/** Level target awal saat kompetensi ditambahkan ke jabatan, menurut jenjang jabatan. */
+export const LEVEL_JENJANG: Record<number, number> = { 0: 5, 1: 5, 2: 4, 3: 3, 4: 2 };
+
 export const JENJANG_LABEL: Record<number, string> = {
   0: "Direksi",
   1: "Kepala Divisi / Pemimpin",

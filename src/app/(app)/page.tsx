@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { Hitung } from "@/components/hitung";
-import { Batang, Card, PageHeader, Stat } from "@/components/ui";
+import { Batang, Card, PageHeader, PdfLink, Stat } from "@/components/ui";
 import { DashboardSkeleton } from "@/components/skeleton";
 import { sesiSaatIni } from "@/lib/auth";
 import { KATEGORI_LABEL, LEVEL_NAMA, REVIEW_BAR, REVIEW_LABEL, REVIEW_STATUS, fmt } from "@/lib/labels";
@@ -17,10 +17,13 @@ export default function Home() {
         title="Ringkasan"
         desc="Kamus kompetensi (inti, kepemimpinan, dan 13 bidang teknis) serta daftar jabatan beserta jobdesk dari struktur organisasi Perubahan Ketiga Tahun 2026."
       >
-        {/* nama pengguna dibaca dari cookie, jadi di-stream terpisah dari kerangka halaman */}
-        <Suspense fallback={null}>
-          <Salam />
-        </Suspense>
+        <div className="flex flex-wrap items-center gap-3">
+          <PdfLink href="/dokumen/laporan">Laporan eksekutif (PDF)</PdfLink>
+          {/* nama pengguna dibaca dari cookie, jadi di-stream terpisah dari kerangka halaman */}
+          <Suspense fallback={null}>
+            <Salam />
+          </Suspense>
+        </div>
       </PageHeader>
       <Suspense fallback={<DashboardSkeleton />}>
         <Dashboard />
@@ -100,7 +103,7 @@ async function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Hero
           className="xl:col-span-2"
           total={karyawan.length}
@@ -161,10 +164,10 @@ async function Dashboard() {
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card title="Kompetensi per bidang" className="xl:col-span-2" action={<Link href="/kompetensi" className="link text-xs">Lihat kamus →</Link>}>
           {/* kategori berisi satu bidang (inti, kepemimpinan) berbagi satu baris; sisanya selebar kartu */}
-          <div className="grid gap-x-3 gap-y-5 p-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-3 gap-y-5 p-4 sm:grid-cols-2 lg:grid-cols-3">
             {perKategori.map(({ k, bs }) => (
               <section key={k} className={bs.length > 1 ? "sm:col-span-2 lg:col-span-3" : ""}>
                 <h3 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -501,7 +504,7 @@ function DaftarTugas({
           </a>
         </div>
 
-        <div className="grid divide-y divide-slate-100 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
+        <div className="grid grid-cols-1 divide-y divide-slate-100 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
           <div>
             <h3 className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Jabatan tanpa jobdesk / kompetensi</h3>
             {belum.length ? (

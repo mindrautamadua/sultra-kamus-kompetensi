@@ -106,7 +106,7 @@ async function Matriks({ searchParams }: { searchParams: Promise<Search> }) {
             m={m}
             ins={ins}
           />
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <KompetensiBersama m={m} ins={ins} />
             <LevelPerJenjang ins={ins} />
             <ProfilJabatan m={m} ins={ins} />
@@ -296,7 +296,7 @@ function Hero({ judul, sub, m, ins }: { judul: string; sub: string; m: Matriks; 
       {/* cahaya dekoratif */}
       <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
-      <div className="relative grid gap-6 lg:grid-cols-[1fr_minmax(0,440px)] lg:items-end">
+      <div className="relative grid grid-cols-1 gap-6 lg:grid-cols-[1fr_minmax(0,440px)] lg:items-end">
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-300">Matriks</span>

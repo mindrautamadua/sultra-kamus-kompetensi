@@ -175,7 +175,7 @@ function PetaMobilitas({ semua }: { semua: Map<number, Profil> }) {
       <section className="relative overflow-hidden rounded-2xl bg-brand-950 p-6 text-white shadow-lg ring-1 ring-brand-900" aria-label="Peta mobilitas">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
         <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
-        <div className="relative grid gap-8 lg:grid-cols-5">
+        <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-300">Peta mobilitas</div>
             <p className="mt-1.5 font-heading text-xl font-medium leading-snug">
@@ -239,14 +239,14 @@ function PetaMobilitas({ semua }: { semua: Map<number, Profil> }) {
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Card title="Pasangan rotasi paling alami">
           <ul className="divide-y divide-slate-50 text-sm">
             {alami.map(({ a, b, v }) => (
               <li key={`${a.id}-${b.id}`}>
                 <Link
                   href={tautan(a.kode, b.kode)}
-                  className="grid items-center gap-x-3 gap-y-1 px-4 py-2.5 hover:bg-slate-50 sm:grid-cols-[1fr_auto_1fr_4.5rem]"
+                  className="grid grid-cols-1 items-center gap-x-3 gap-y-1 px-4 py-2.5 hover:bg-slate-50 sm:grid-cols-[1fr_auto_1fr_4.5rem]"
                 >
                   <Nama p={a} />
                   <span className="hidden text-slate-300 sm:block" aria-hidden>
@@ -314,7 +314,7 @@ function PetaMobilitas({ semua }: { semua: Map<number, Profil> }) {
           {terisolasi.length === 0 ? (
             <p className="px-4 py-4 text-sm text-emerald-700">Tidak ada. Setiap jabatan punya padanan rotasi yang cukup mirip.</p>
           ) : (
-            <ul className="grid max-h-96 gap-x-6 overflow-auto px-4 py-2 text-sm md:grid-cols-2">
+            <ul className="grid grid-cols-1 max-h-96 gap-x-6 overflow-auto px-4 py-2 text-sm md:grid-cols-2">
               {terisolasi.map(({ p, rotasi }) => (
                 <li key={p.id} className="border-b border-slate-50 py-1.5">
                   <Link href={tautan(p.kode)} className="flex items-baseline gap-2 hover:text-brand-700">
@@ -368,7 +368,7 @@ function SaranJalur({ asal, semua }: { asal: Profil; semua: Map<number, Profil> 
     <div className="space-y-6">
       <section className="relative overflow-hidden rounded-2xl bg-brand-950 p-6 text-white shadow-lg ring-1 ring-brand-900">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
-        <div className="relative grid gap-8 lg:grid-cols-5">
+        <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <ProfilGelap p={asal} judul="Jabatan asal" />
           </div>
@@ -411,7 +411,7 @@ function SaranJalur({ asal, semua }: { asal: Profil; semua: Map<number, Profil> 
         </div>
       </section>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Card title={`Promosi — ${asal.jenjang > 1 ? JENJANG_LABEL[asal.jenjang - 1] : "jenjang tertinggi"}`}>
           <DaftarSaran asal={asal} saran={promosi} kosong="Tidak ada jabatan satu jenjang di atas." />
         </Card>
@@ -425,7 +425,7 @@ function SaranJalur({ asal, semua }: { asal: Profil; semua: Map<number, Profil> 
           {penerus.length === 0 ? (
             <p className="px-4 py-4 text-sm text-slate-500">Tidak ada jabatan di jenjang bawahnya.</p>
           ) : (
-            <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
               {penerus.map(({ p, v, langkah, langsung }) => (
                 <Link
                   key={p.id}
@@ -460,7 +460,7 @@ function DaftarSaran({ asal, saran, kosong }: { asal: Profil; saran: Saran[]; ko
         <li key={s.p.id}>
           <Link
             href={tautan(asal.kode, s.p.kode)}
-            className="group grid items-center gap-x-4 gap-y-1.5 px-4 py-2.5 hover:bg-slate-50 sm:grid-cols-[1fr_7rem_5.5rem]"
+            className="group grid grid-cols-1 items-center gap-x-4 gap-y-1.5 px-4 py-2.5 hover:bg-slate-50 sm:grid-cols-[1fr_7rem_5.5rem]"
           >
             <span className="min-w-0">
               <span className="flex items-center gap-2">
@@ -526,7 +526,7 @@ function Perbandingan({ asal, tujuan }: { asal: Profil; tujuan: Profil }) {
       <section className="relative overflow-hidden rounded-2xl bg-brand-950 p-6 text-white shadow-lg ring-1 ring-brand-900">
         <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
         <div className="pointer-events-none absolute -bottom-32 left-1/3 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
-        <div className="relative grid items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
+        <div className="relative grid grid-cols-1 items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
           <ProfilGelap p={asal} judul="Dari" />
           <div className="flex flex-col items-center gap-2 text-center">
             <span className="rounded-full bg-amber-400/15 px-3 py-1 text-xs font-semibold text-amber-300 ring-1 ring-amber-300/30">{arah}</span>

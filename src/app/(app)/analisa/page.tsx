@@ -240,7 +240,7 @@ async function Analisa() {
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-5">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
         <Kedalaman bidang={bidang} kedalaman={kedalaman} rataLevel={rataLevel} className="xl:col-span-3" />
         <SebaranLevel sebaran={sebaran} pelaksanaTinggi={pelaksanaTinggi} className="xl:col-span-2" />
       </div>
@@ -254,7 +254,7 @@ async function Analisa() {
           Temuan dari dokumen sumber
           <span className="h-px flex-1 bg-slate-200" aria-hidden />
         </h2>
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <Temuan judul="Kompetensi belum lengkap" n={belumLengkap.length + levelKosong.length} nada={belumLengkap.length + levelKosong.length ? "amber" : "emerald"}>
             <ul className="divide-y divide-slate-50 text-sm">
               {belumLengkap.map((k) => (
@@ -368,7 +368,7 @@ function Hero({ total, siap, bidang, indikator, fakta }: { total: number; siap: 
       <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
 
-      <div className="relative grid gap-8 lg:grid-cols-5">
+      <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-5">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center lg:col-span-2">
           <div className="relative size-36 shrink-0 self-center">
             <svg viewBox="0 0 120 120" className="size-full -rotate-90" aria-hidden>
@@ -414,7 +414,7 @@ function Hero({ total, siap, bidang, indikator, fakta }: { total: number; siap: 
           </div>
         </div>
 
-        <dl className="grid content-center gap-3 sm:grid-cols-3 lg:col-span-3">
+        <dl className="grid grid-cols-1 content-center gap-3 sm:grid-cols-3 lg:col-span-3">
           {fakta.map((f, i) => (
             <div key={i} className="animate-[masuk_0.45s_ease-out_both] rounded-xl bg-white/[0.06] p-4 ring-1 ring-white/10" style={{ animationDelay: `${200 + i * 100}ms` }}>
               <dt className="font-heading text-2xl font-semibold tabular-nums text-white">{f.angka}</dt>
@@ -576,7 +576,7 @@ function TumpangTindih({
   const namaBidang = new Map(bidang.map((b) => [b.kode, b.nama?.replace(/\s*\(.*\)$/, "")]));
   return (
     <Card title={`Kandidat tumpang tindih antar bidang (${mirip.length})`}>
-      <div id="tumpang-tindih" className="grid scroll-mt-6 divide-y divide-slate-100 lg:grid-cols-5 lg:divide-x lg:divide-y-0">
+      <div id="tumpang-tindih" className="grid grid-cols-1 scroll-mt-6 divide-y divide-slate-100 lg:grid-cols-5 lg:divide-x lg:divide-y-0">
         <div className="p-4 lg:col-span-2">
           <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Pasangan bidang</h3>
           {pasangan.length === 0 ? (
@@ -609,7 +609,7 @@ function TumpangTindih({
           <h3 className="px-4 pb-2 pt-4 text-xs font-semibold uppercase tracking-wide text-slate-500">Pasangan kompetensi paling mirip</h3>
           <ul className="max-h-96 divide-y divide-slate-50 overflow-y-auto text-sm">
             {mirip.slice(0, 40).map(({ a, b, s }, i) => (
-              <li key={i} className="grid items-center gap-x-3 gap-y-1 px-4 py-2 sm:grid-cols-[1fr_1fr_3.5rem]">
+              <li key={i} className="grid grid-cols-1 items-center gap-x-3 gap-y-1 px-4 py-2 sm:grid-cols-[1fr_1fr_3.5rem]">
                 <Link href={`/kompetensi/${a.kode}`} className="min-w-0 hover:text-brand-700 hover:underline">
                   <span className="mr-2 font-mono text-xs text-slate-500">{a.kode}</span>
                   {a.nama}
@@ -646,7 +646,7 @@ function Saran({ saran }: { saran: { unit: string; n: number; disarankan: { b: s
         </div>
         <ul className="divide-y divide-slate-50 text-sm">
           {saran.map((s) => (
-            <li key={s.unit} className="grid gap-2 px-4 py-2.5 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:items-center">
+            <li key={s.unit} className="grid grid-cols-1 gap-2 px-4 py-2.5 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:items-center">
               <div className="min-w-0">
                 {s.unit === JARINGAN ? (
                   <span className="text-slate-800">{s.unit}</span>

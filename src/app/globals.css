@@ -2,6 +2,13 @@
 
 /* sidebar diciutkan: <html data-sidebar="collapsed"> (lihat lib/sidebar.ts) */
 @custom-variant collapsed (&:where([data-sidebar="collapsed"], [data-sidebar="collapsed"] *));
+/* menu HP dibuka: <html data-menu="open"> (lihat components/menu-hp.tsx) */
+@custom-variant menu-open (&:where([data-menu="open"], [data-menu="open"] *));
+@media (width < 48rem) {
+  [data-menu="open"] body {
+    overflow: hidden;
+  }
+}
 
 /* Design system: enterprise data-dense — navy (brand) + amber (aksen), netral slate.
    Font: Lexend (judul), Source Sans 3 (isi), Geist Mono (kode/angka). */

@@ -204,7 +204,7 @@ export function DaftarKompetensi({
     <div className="space-y-6">
       <Hero s={statistik} totalJabatan={totalJabatan} usulan={usulan} />
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <TerbanyakDipakai s={statistik} totalJabatan={totalJabatan} />
         <SebaranLevel level={statistik.level} />
         <PerluPerhatian s={statistik} fokus={fokus} onFokus={pilihFokus} />
@@ -349,7 +349,7 @@ export function DaftarKompetensi({
         tampilan === "daftar" ? (
           <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200 bg-white">{terurut.map(baris)}</ul>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{terurut.map(kartu)}</ul>
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">{terurut.map(kartu)}</ul>
         )
       ) : (
         urutKategori.map((kat) => (
@@ -374,7 +374,7 @@ export function DaftarKompetensi({
                 {tampilan === "daftar" ? (
                   <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200 bg-white">{rows.map(baris)}</ul>
                 ) : (
-                  <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{rows.map(kartu)}</ul>
+                  <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">{rows.map(kartu)}</ul>
                 )}
               </section>
             ))}
@@ -433,7 +433,7 @@ function Hero({ s, totalJabatan, usulan }: { s: Statistik; totalJabatan: number;
       {/* cahaya dekoratif */}
       <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand-500/30 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 left-1/4 size-72 rounded-full bg-amber-400/10 blur-3xl" aria-hidden />
-      <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+      <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
           <div className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-300">Isi kamus</div>
           <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">

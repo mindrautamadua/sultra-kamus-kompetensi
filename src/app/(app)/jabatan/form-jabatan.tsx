@@ -40,7 +40,7 @@ export async function FormJabatan({ nilai, submit }: { nilai: Nilai; submit: str
   return (
     <ActionForm action={simpanJabatan} submit={submit}>
       {nilai.id && <input type="hidden" name="id" value={nilai.id} />}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <label className="field-label md:col-span-2">
           Nama jabatan
           <input name="nama" required defaultValue={nilai.nama ?? ""} placeholder="mis. Pelaksana Analis Kredit" className="field" />

@@ -7,13 +7,13 @@ import { DetailSkeleton } from "@/components/skeleton";
 import { Card } from "@/components/ui";
 import { hapusJabatan, simpanJobdesk, simpanPemetaan } from "@/lib/actions";
 import { wajibEditor } from "@/lib/auth";
+import { LEVEL_JENJANG } from "@/lib/labels";
 import { must, supabase } from "@/lib/supabase";
 import { FormJabatan } from "../../form-jabatan";
 
 export const metadata: Metadata = { title: "Edit Jabatan" };
 
 const KATEGORI_TUGAS = ["Perencanaan", "Pengorganisasian", "Pengarahan", "Pengawasan", "Kewenangan", "Tugas Kolektif", "Jabatan Ex Officio", "Kewajiban Pelaporan"];
-const LEVEL_JENJANG: Record<number, number> = { 0: 5, 1: 5, 2: 4, 3: 3, 4: 2 };
 
 export default function Page(props: PageProps<"/jabatan/[kode]/edit">) {
   return (
@@ -97,7 +97,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
           {jobdesk?.file_sumber && <p className="mb-4 text-xs text-slate-500">Sumber awal: {jobdesk.file_sumber}</p>}
           <ActionForm action={simpanJobdesk} submit="Simpan jobdesk">
             <input type="hidden" name="jabatan_id" value={j.id} />
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label className="field-label">
                 Atasan langsung (teks di dokumen)
                 <input name="atasan_langsung" defaultValue={jobdesk?.atasan_langsung ?? ""} className="field" />

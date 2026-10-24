@@ -21,7 +21,7 @@ function ActiveNav() {
 
 function NavList({ path }: { path: string | null }) {
   return (
-    <nav className="flex gap-1 overflow-x-auto md:flex-col">
+    <nav className="flex flex-col gap-1">
       {ITEMS.map((it) => {
         const active = path !== null && (it.href === "/" ? path === "/" : path.startsWith(it.href));
         return (
@@ -36,7 +36,7 @@ function NavList({ path }: { path: string | null }) {
                 : "text-brand-200 hover:bg-white/5 hover:text-white"
             }`}
           >
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.5} className={`hidden size-5 shrink-0 md:block ${active ? "text-amber-300" : ""}`} aria-hidden>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.5} className={`size-5 shrink-0 ${active ? "text-amber-300" : ""}`} aria-hidden>
               <path d={it.icon} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span className="md:collapsed:sr-only">{it.label}</span>

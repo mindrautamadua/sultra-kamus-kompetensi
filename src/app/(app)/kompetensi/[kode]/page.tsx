@@ -49,6 +49,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
     deskripsi: l.deskripsi,
     indikator: [...l.indikator].sort((a, b) => a.urutan - b.urutan),
   }));
+  const editor = bolehEdit((await penggunaSaatIni())?.peran);
   const dataJabatan: JabatanTarget[] = k.jabatan.flatMap((j) => (j.jabatan ? [{ kode: j.jabatan.kode, nama: j.jabatan.nama, level: j.level_target }] : []));
 
   return (
@@ -66,7 +67,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{k.nama}</h1>
           <div className="flex flex-wrap gap-2">
             <PdfLink href={`/dokumen/kompetensi/${k.kode}`}>PDF</PdfLink>
-            {bolehEdit((await penggunaSaatIni())?.peran) && (
+            {editor && (
               <Link href={`/kompetensi/${k.kode}/edit`} className="btn-secondary h-9 shrink-0 text-[13px]">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.6} className="size-4" aria-hidden>
                   <path d="M12.5 4.5l3 3L8 15H5v-3z" strokeLinejoin="round" />
@@ -101,7 +102,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
         </div>
       )}
 
-      <LevelInteraktif levels={dataLevel} jabatan={dataJabatan} />
+      <LevelInteraktif levels={dataLevel} jabatan={dataJabatan} petakanHref={editor ? `/kompetensi/${k.kode}/pemetaan` : undefined} />
 
       {PENILAIAN_DIRI_AKTIF && (
         <Suspense fallback={null}>
@@ -176,7 +177,7 @@ async function Terkait({ kode, jabatanId }: { kode: string; jabatanId: number[] 
     <section>
       <h2 className="mb-1 text-[13px] font-semibold uppercase tracking-wide text-slate-700">Sering muncul bersama</h2>
       <p className="mb-3 text-sm text-slate-500">Kompetensi teknis yang juga dipetakan ke jabatan-jabatan di atas.</p>
-      <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {top.map(([kd, { nama, n }]) => (
           <li key={kd}>
             <Link href={`/kompetensi/${kd}`} className="group block rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition hover:border-brand-300 hover:shadow-md">
@@ -207,7 +208,7 @@ async function Tetangga({ kode, bidangId }: { kode: string; bidangId: number }) 
   if (!prev && !next) return null;
 
   return (
-    <nav aria-label="Kompetensi lain di bidang ini" className="grid gap-3 border-t border-slate-200 pt-5 sm:grid-cols-2">
+    <nav aria-label="Kompetensi lain di bidang ini" className="grid grid-cols-1 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-2">
       {prev ? (
         <Link href={`/kompetensi/${prev.kode}`} className="group rounded-xl border border-slate-200 bg-white p-3 hover:border-brand-300">
           <div className="text-xs text-slate-500">← Sebelumnya · {prev.kode}</div>

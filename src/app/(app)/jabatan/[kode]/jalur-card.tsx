@@ -19,7 +19,7 @@ export async function JalurCard({ jabatanId, kode }: { jabatanId: number; kode: 
         </Link>
       }
     >
-      <div className="grid divide-y divide-slate-100 text-sm md:grid-cols-2 md:divide-x md:divide-y-0">
+      <div className="grid grid-cols-1 divide-y divide-slate-100 text-sm md:grid-cols-2 md:divide-x md:divide-y-0">
         <div className="p-4">
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Promosi ke atasan langsung</h3>
           {keAtasan && atasan ? (
