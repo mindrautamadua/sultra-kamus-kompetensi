@@ -1,0 +1,432 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { wajibLogin } from "@/lib/auth";
+import { PENILAIAN_DIRI_AKTIF } from "@/lib/fitur";
+import { hitungLevel, kunciIndikator } from "@/lib/penilaian";
+import { bolehEdit, statusTujuan, TIDAK_BERHAK } from "@/lib/peran";
+import { admin, ok } from "@/lib/supabase-admin";
+
+// Server Actions for the edit pages. Each returns { error } on failure (shown by the form via useActionState)
+// and redirects back to the detail page on success. Lists from the client editors arrive as JSON strings.
+
+/** `pesan`: keterangan sukses yang tetap tampil di form (mis. password baru), untuk aksi yang tidak redirect. */
+export type FormState = { error?: string; pesan?: string } | undefined;
+
+const now = () => new Date().toISOString();
+const text = (fd: FormData, k: string) => {
+  const v = String(fd.get(k) ?? "").trim();
+  return v || null;
+};
+const json = <T,>(fd: FormData, k: string): T => JSON.parse(String(fd.get(k) || "[]"));
+const lines = (xs: string[]) => xs.map((x) => x.trim()).filter(Boolean);
+
+function kelompokDari(nama: string) {
+  const n = nama.toLowerCase();
+  const map: [string, string, number][] = [
+    ["direktur", "Direksi", 0],
+    ["pemimpin", "Pemimpin Kantor", 1],
+    ["kepala divisi", "Kepala Divisi", 1],
+    ["kepala satuan", "Kepala Divisi", 1],
+    ["kepala bagian", "Kepala Bagian", 2],
+    ["ketua", "Ketua Kelompok", 2],
+    ["kepala seksi", "Kepala Seksi", 3],
+    ["koordinator", "Koordinator", 3],
+    ["head teller", "Koordinator", 3],
+  ];
+  const m = map.find(([p]) => n.startsWith(p));
+  return m ? { kelompok: m[1], jenjang: m[2] } : { kelompok: "Pelaksana", jenjang: 4 };
+}
+
+function refreshAll() {
+  revalidatePath("/", "layout");
+}
+
+type Db = ReturnType<typeof admin>;
+type Pelaku = Awaited<ReturnType<typeof wajibLogin>>;
+
+/**
+ * Catat penyimpanan dari editor ke riwayat review. Jabatan yang sudah ditandai selesai kembali ke draf karena
+ * isinya berubah dan perlu ditandai selesai ulang.
+ */
+async function catatEdit(db: Db, jabatanId: number, aksi: string, pelaku: Pelaku) {
+  const peninjau = pelaku.nama;
+  const r = (await db.from("review_jabatan").select("status").eq("jabatan_id", jabatanId).maybeSingle()).data;
+  const dari = r?.status ?? "draf";
+  const ke = "draf";
+  const catatan = dari === "selesai" ? "Diedit setelah ditandai selesai — perlu ditandai selesai ulang." : null;
+  if (ke !== dari) ok(await db.from("review_jabatan").upsert({ jabatan_id: jabatanId, status: ke, peninjau, catatan, updated_at: now() }).select("jabatan_id"));
+  ok(await db.from("review_riwayat").insert({ jabatan_id: jabatanId, aksi, status_dari: dari, status_ke: ke, peninjau, pengguna_id: pelaku.id, catatan }).select("id"));
+}
+
+// ---------- review
+
+export async function ubahStatusReview(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  const db = admin();
+  const jabatanId = Number(fd.get("jabatan_id"));
+  const status = String(fd.get("status") ?? "");
+  const peninjau = s.nama;
+  const catatan = text(fd, "catatan");
+  if (!["draf", "selesai"].includes(status)) return { error: "Pilih status baru." };
+  let kode: string;
+  try {
+    const j = ok(await db.from("v_jabatan").select("kode, jumlah_kompetensi").eq("id", jabatanId).single());
+    kode = j.kode!;
+    if (status === "selesai" && !j.jumlah_kompetensi) return { error: "Jabatan belum punya kompetensi — belum bisa ditandai selesai." };
+    const dari = (await db.from("review_jabatan").select("status").eq("jabatan_id", jabatanId).maybeSingle()).data?.status ?? "draf";
+    if (!statusTujuan(s.peran, dari).includes(status)) return { error: TIDAK_BERHAK };
+    ok(await db.from("review_jabatan").upsert({ jabatan_id: jabatanId, status, peninjau, catatan, updated_at: now() }).select("jabatan_id"));
+    ok(await db.from("review_riwayat").insert({ jabatan_id: jabatanId, aksi: "ubah_status", status_dari: dari, status_ke: status, peninjau, pengguna_id: s.id, catatan }).select("id"));
+  } catch (e) {
+    return { error: `Gagal mengubah status: ${(e as Error).message}` };
+  }
+  refreshAll();
+  // "lanjut": buka jabatan berikutnya di antrean status asal (terlama dulu), agar konsultan tidak bolak-balik ke daftar
+  if (fd.get("lanjut") === "on") {
+    const berikut = await jabatanBerikutnya(db, String(fd.get("antrean") ?? ""), jabatanId);
+    redirect(berikut ? `/jabatan/${berikut}#review` : "/review");
+  }
+  redirect(`/jabatan/${kode}#review`);
+}
+
+/** Kode jabatan berikutnya berstatus `status`, urut struktur organisasi (jabatan yang belum pernah disentuh dulu). */
+async function jabatanBerikutnya(db: Db, status: string, kecuali: number) {
+  const { data } = await db
+    .from("v_review_jabatan")
+    .select("kode")
+    .eq("status", status)
+    .neq("jabatan_id", kecuali)
+    .order("updated_at", { ascending: true, nullsFirst: true })
+    .order("urutan")
+    .limit(1)
+    .maybeSingle();
+  return data?.kode ?? null;
+}
+
+/**
+ * Tandai banyak jabatan selesai sekaligus dari halaman Tandai Selesai Massal. Tiap jabatan tetap diperiksa
+ * sendiri-sendiri (masih draf dan sudah punya kompetensi) dan dicatat di riwayatnya masing-masing; yang tidak
+ * lolos dilewati, bukan menggagalkan semuanya.
+ */
+export async function tandaiSelesaiMassal(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const ids = [...new Set(fd.getAll("jabatan_id").map(Number).filter(Boolean))];
+  if (!ids.length) return { error: "Pilih minimal satu jabatan." };
+  if (fd.get("yakin") !== "on") return { error: "Centang konfirmasi bahwa pemetaan jabatan terpilih sudah diperiksa." };
+  const catatan = text(fd, "catatan");
+  const db = admin();
+  try {
+    const [jabatan, review] = await Promise.all([
+      db.from("v_jabatan").select("id, jumlah_kompetensi").in("id", ids).then(ok),
+      db.from("review_jabatan").select("jabatan_id, status").in("jabatan_id", ids).then(ok),
+    ]);
+    const statusDari = new Map(review.map((r) => [r.jabatan_id, r.status]));
+    const adaKompetensi = new Set(jabatan.filter((j) => j.jumlah_kompetensi).map((j) => j.id));
+    const lolos = ids.filter((id) => adaKompetensi.has(id) && (statusDari.get(id) ?? "draf") === "draf");
+    if (lolos.length) {
+      const waktu = now();
+      ok(await db.from("review_jabatan").upsert(lolos.map((id) => ({ jabatan_id: id, status: "selesai", peninjau: s.nama, catatan, updated_at: waktu }))).select("jabatan_id"));
+      ok(
+        await db
+          .from("review_riwayat")
+          .insert(lolos.map((id) => ({ jabatan_id: id, aksi: "selesai_massal", status_dari: "draf", status_ke: "selesai", peninjau: s.nama, pengguna_id: s.id, catatan })))
+          .select("id"),
+      );
+    }
+    refreshAll();
+    const lewat = ids.length - lolos.length;
+    return lolos.length
+      ? { pesan: `${lolos.length} jabatan ditandai selesai.${lewat ? ` ${lewat} dilewati karena sudah selesai atau belum punya kompetensi.` : ""}` }
+      : { error: "Tidak ada jabatan terpilih yang bisa ditandai selesai (sudah selesai atau belum punya kompetensi)." };
+  } catch (e) {
+    return { error: `Gagal menandai selesai: ${(e as Error).message}` };
+  }
+}
+
+// ---------- jabatan
+
+export async function simpanJabatan(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const id = Number(fd.get("id")) || null;
+  const nama = text(fd, "nama");
+  const unit = Number(fd.get("unit_kerja_id"));
+  if (!nama) return { error: "Nama jabatan wajib diisi." };
+  if (!unit) return { error: "Unit kerja wajib dipilih." };
+  const tebak = kelompokDari(nama);
+  const row = {
+    nama,
+    unit_kerja_id: unit,
+    atasan_id: Number(fd.get("atasan_id")) || null,
+    jenjang: fd.get("jenjang") === "" || fd.get("jenjang") === null ? tebak.jenjang : Number(fd.get("jenjang")),
+    kelompok_jabatan: text(fd, "kelompok_jabatan") ?? tebak.kelompok,
+    catatan: text(fd, "catatan"),
+    diubah_di_aplikasi: now(),
+  };
+  if (row.atasan_id && row.atasan_id === id) return { error: "Atasan tidak boleh jabatan itu sendiri." };
+
+  let kode: string;
+  try {
+    if (id) {
+      kode = ok(await db.from("jabatan").update(row).eq("id", id).select("kode").single()).kode;
+      await catatEdit(db, id, "simpan_jabatan", s);
+    } else {
+      // kode jabatan baru: <kode unit induk>-B<n> (B = dibuat dari aplikasi)
+      const u = ok(await db.from("unit_kerja").select("kode, nama").eq("id", unit).single());
+      const prefix = `${u.kode.split("-")[0]}-B`;
+      const ada = ok(await db.from("jabatan").select("kode").like("kode", `${prefix}%`));
+      const n = Math.max(0, ...ada.map((j) => Number(j.kode.slice(prefix.length)) || 0)) + 1;
+      kode = `${prefix}${n}`;
+      const urutan = ok(await db.from("jabatan").select("urutan").order("urutan", { ascending: false }).limit(1))[0]?.urutan ?? 0;
+      const baru = ok(await db.from("jabatan").insert({ ...row, kode, urutan: urutan + 1 }).select("id").single());
+      ok(
+        await db
+          .from("jobdesk")
+          .insert({ kelompok_unit: u.nama, nama_jabatan: nama, jabatan_id: baru.id, urutan: 100000 + baru.id, diubah_di_aplikasi: now() })
+          .select("id"),
+      );
+      await catatEdit(db, baru.id, "buat_jabatan", s);
+    }
+  } catch (e) {
+    return { error: `Gagal menyimpan jabatan: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect(`/jabatan/${kode}`);
+}
+
+export async function hapusJabatan(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const id = Number(fd.get("id"));
+  if (fd.get("konfirmasi") !== "HAPUS") return { error: 'Ketik HAPUS untuk mengonfirmasi.' };
+  try {
+    ok(await admin().from("jabatan").delete().eq("id", id).select("id"));
+  } catch (e) {
+    return { error: `Gagal menghapus: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect("/jabatan");
+}
+
+// ---------- jobdesk
+
+export async function simpanJobdesk(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const jabatanId = Number(fd.get("jabatan_id"));
+  const fungsi = lines(json<string[]>(fd, "fungsi"));
+  const tugas = json<{ kategori: string | null; teks: string }[]>(fd, "tugas")
+    .map((t) => ({ kategori: t.kategori || null, deskripsi: t.teks.trim() }))
+    .filter((t) => t.deskripsi);
+  let kode: string;
+  try {
+    const j = ok(await db.from("jabatan").select("kode, nama, unit_kerja(nama)").eq("id", jabatanId).single());
+    kode = j.kode;
+    const isi = {
+      nama_jabatan: j.nama,
+      pendidikan: text(fd, "pendidikan"),
+      pendidikan_tambahan: text(fd, "pendidikan_tambahan"),
+      pangkat: text(fd, "pangkat"),
+      pengalaman_kerja: text(fd, "pengalaman_kerja"),
+      kompetensi: text(fd, "kompetensi"),
+      membawahi: lines(json<string[]>(fd, "membawahi")),
+      atasan_langsung: text(fd, "atasan_langsung"),
+      fungsi,
+      diubah_di_aplikasi: now(),
+    };
+    // jobdesk utama = dokumen pertama yang tertaut ke jabatan; dibuat bila belum ada
+    const ada = ok(await db.from("jobdesk").select("id").eq("jabatan_id", jabatanId).order("urutan").limit(1))[0];
+    const jobdeskId = ada
+      ? ok(await db.from("jobdesk").update(isi).eq("id", ada.id).select("id").single()).id
+      : ok(
+          await db
+            .from("jobdesk")
+            .insert({ ...isi, kelompok_unit: j.unit_kerja?.nama ?? "-", jabatan_id: jabatanId, urutan: 100000 + jabatanId })
+            .select("id")
+            .single(),
+        ).id;
+    ok(await db.from("jobdesk_tugas").delete().eq("jobdesk_id", jobdeskId).select("id"));
+    if (tugas.length) ok(await db.from("jobdesk_tugas").insert(tugas.map((t, i) => ({ ...t, jobdesk_id: jobdeskId, urutan: i + 1 }))).select("id"));
+    // salinan ringkas di tabel jabatan (dipakai halaman detail & ringkasan)
+    ok(
+      await db
+        .from("jabatan")
+        .update({ ikhtisar_jabatan: fungsi.join("\n") || null, uraian_tugas: tugas.map((t) => t.deskripsi), diubah_di_aplikasi: now() })
+        .eq("id", jabatanId)
+        .select("id"),
+    );
+    await catatEdit(db, jabatanId, "simpan_jobdesk", s);
+  } catch (e) {
+    return { error: `Gagal menyimpan jobdesk: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect(`/jabatan/${kode}`);
+}
+
+// ---------- pemetaan kompetensi
+
+export async function simpanPemetaan(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const jabatanId = Number(fd.get("jabatan_id"));
+  const rows = json<{ kompetensi_id: number; level_target: number }[]>(fd, "pemetaan");
+  if (new Set(rows.map((r) => r.kompetensi_id)).size !== rows.length) return { error: "Ada kompetensi yang tercantum dua kali." };
+  if (rows.some((r) => !(r.level_target >= 1 && r.level_target <= 5))) return { error: "Level target harus 1–5." };
+  let kode: string;
+  try {
+    kode = ok(await db.from("jabatan").select("kode").eq("id", jabatanId).single()).kode;
+    // bukti, alasan & metode asal dipertahankan untuk kompetensi yang tetap dipilih; yang baru ditandai manual
+    const lama = new Map(
+      ok(await db.from("jabatan_kompetensi").select("kompetensi_id, catatan, metode, bukti").eq("jabatan_id", jabatanId)).map((r) => [r.kompetensi_id, r]),
+    );
+    ok(await db.from("jabatan_kompetensi").delete().eq("jabatan_id", jabatanId).select("id"));
+    if (rows.length)
+      ok(
+        await db
+          .from("jabatan_kompetensi")
+          .insert(
+            rows.map((r) => {
+              const l = lama.get(r.kompetensi_id);
+              return {
+                jabatan_id: jabatanId,
+                kompetensi_id: r.kompetensi_id,
+                level_target: r.level_target,
+                sumber: "manual",
+                catatan: l?.catatan ?? "Ditambahkan saat review di aplikasi.",
+                metode: l?.metode ?? "manual",
+                bukti: l?.bukti ?? [],
+              };
+            }),
+          )
+          .select("id"),
+      );
+    ok(await db.from("jabatan").update({ diubah_di_aplikasi: now() }).eq("id", jabatanId).select("id"));
+    await catatEdit(db, jabatanId, "simpan_kompetensi", s);
+  } catch (e) {
+    return { error: `Gagal menyimpan pemetaan: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect(`/jabatan/${kode}`);
+}
+
+// ---------- kompetensi
+
+export async function simpanKompetensi(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const id = Number(fd.get("id"));
+  const nama = text(fd, "nama");
+  if (!nama) return { error: "Nama kompetensi wajib diisi." };
+  // per level: textarea deskripsi-<n> + daftar indikator-<n> (JSON) dari LevelEditor
+  const levels = [1, 2, 3, 4, 5].map((level) => ({ level, deskripsi: String(fd.get(`deskripsi-${level}`) ?? ""), indikator: json<string[]>(fd, `indikator-${level}`) }));
+  const NAMA_LEVEL = ["Dasar", "Memadai", "Mandiri", "Mahir", "Master"];
+  let kode: string;
+  try {
+    kode = ok(
+      await db
+        .from("kompetensi")
+        .update({
+          nama,
+          definisi: text(fd, "definisi"),
+          status: String(fd.get("status") || "lengkap"),
+          catatan: lines(json<string[]>(fd, "catatan")),
+          diubah_di_aplikasi: now(),
+        })
+        .eq("id", id)
+        .select("kode")
+        .single(),
+    ).kode;
+    for (const lv of levels) {
+      const ind = lines(lv.indikator);
+      // level yang memang kosong di kamus tidak perlu dibuatkan baris baru
+      if (!lv.deskripsi.trim() && !ind.length) {
+        ok(await db.from("kompetensi_level").delete().eq("kompetensi_id", id).eq("level", lv.level).select("id"));
+        continue;
+      }
+      const row = ok(
+        await db
+          .from("kompetensi_level")
+          .upsert(
+            { kompetensi_id: id, level: lv.level, nama_level: NAMA_LEVEL[lv.level - 1], deskripsi: lv.deskripsi.trim() || null },
+            { onConflict: "kompetensi_id,level" },
+          )
+          .select("id")
+          .single(),
+      );
+      ok(await db.from("indikator_perilaku").delete().eq("kompetensi_level_id", row.id).select("id"));
+      if (ind.length) ok(await db.from("indikator_perilaku").insert(ind.map((d, i) => ({ kompetensi_level_id: row.id, urutan: i + 1, deskripsi: d }))).select("id"));
+    }
+  } catch (e) {
+    return { error: `Gagal menyimpan kompetensi: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect(`/kompetensi/${kode}`);
+}
+
+// ---------- penilaian diri
+
+export type HasilPenilaian = { error?: string; level?: number; target?: number | null; disimpan?: string };
+
+/** Simpan penilaian diri pengguna yang login. Level dihitung ulang dari indikator di database, bukan dari browser. */
+export async function simpanPenilaianDiri(kode: string, jabatanKode: string | null, dicentang: string[]): Promise<HasilPenilaian> {
+  const s = await wajibLogin();
+  if (!PENILAIAN_DIRI_AKTIF) return { error: "Penilaian diri sedang dinonaktifkan." };
+  const db = admin();
+  try {
+    const k = ok(
+      await db
+        .from("kompetensi")
+        .select("id, level:kompetensi_level(level, indikator:indikator_perilaku(urutan))")
+        .eq("kode", kode)
+        .single(),
+    );
+    const levels = k.level.map((l) => ({ level: l.level, urutan: l.indikator.map((i) => i.urutan) }));
+    const sah = new Set(levels.flatMap((l) => l.urutan.map((u) => kunciIndikator(l.level, u))));
+    const centang = [...new Set(dicentang)].filter((c) => sah.has(c)).sort();
+    const level = hitungLevel(levels, new Set(centang));
+
+    let jabatanId: number | null = null;
+    let target: number | null = null;
+    if (jabatanKode) {
+      const j = ok(await db.from("jabatan").select("id, jabatan_kompetensi(level_target, kompetensi_id)").eq("kode", jabatanKode).single());
+      jabatanId = j.id;
+      target = j.jabatan_kompetensi.find((x) => x.kompetensi_id === k.id)?.level_target ?? null;
+    }
+
+    const row = ok(
+      await db
+        .from("penilaian_diri")
+        .upsert(
+          { pengguna_id: s.id, kompetensi_id: k.id, jabatan_id: jabatanId, dicentang: centang, level_perkiraan: level, level_target: target, updated_at: now() },
+          { onConflict: "pengguna_id,kompetensi_id" },
+        )
+        .select("updated_at")
+        .single(),
+    );
+    revalidatePath("/penilaian-diri");
+    return { level, target, disimpan: row.updated_at };
+  } catch (e) {
+    return { error: `Gagal menyimpan penilaian: ${(e as Error).message}` };
+  }
+}
+
+export async function hapusPenilaianDiri(kode: string): Promise<HasilPenilaian> {
+  const s = await wajibLogin();
+  if (!PENILAIAN_DIRI_AKTIF) return { error: "Penilaian diri sedang dinonaktifkan." };
+  const db = admin();
+  try {
+    const k = ok(await db.from("kompetensi").select("id").eq("kode", kode).single());
+    ok(await db.from("penilaian_diri").delete().eq("pengguna_id", s.id).eq("kompetensi_id", k.id).select("id"));
+    revalidatePath("/penilaian-diri");
+    return {};
+  } catch (e) {
+    return { error: `Gagal menghapus penilaian: ${(e as Error).message}` };
+  }
+}

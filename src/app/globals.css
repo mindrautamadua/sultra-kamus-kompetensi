@@ -1,26 +1,130 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* sidebar diciutkan: <html data-sidebar="collapsed"> (lihat lib/sidebar.ts) */
+@custom-variant collapsed (&:where([data-sidebar="collapsed"], [data-sidebar="collapsed"] *));
 
+/* Design system: enterprise data-dense — navy (brand) + amber (aksen), netral slate.
+   Font: Lexend (judul), Source Sans 3 (isi), Geist Mono (kode/angka). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Lexend Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
+
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dbe5fe;
+  --color-brand-200: #bfd0fd;
+  --color-brand-300: #93b0fb;
+  --color-brand-400: #6087f6;
+  --color-brand-500: #3b63ef;
+  --color-brand-600: #2747d9;
+  --color-brand-700: #1f37b4;
+  --color-brand-800: #1e3192;
+  --color-brand-900: #1d2d73;
+  --color-brand-950: #121a42;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+  }
+  button, select, summary, [role="button"] {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* komponen form & tombol (dipakai sebagai kelas biasa: className="btn-primary") */
+@utility filter-bar {
+  @apply flex flex-wrap items-end gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm;
+}
+@utility field-label {
+  @apply flex flex-col gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500;
+}
+@utility field {
+  @apply h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm font-normal normal-case tracking-normal text-slate-900 shadow-xs transition-colors outline-none placeholder:text-slate-400 hover:border-slate-400 focus:border-brand-500 focus:ring-3 focus:ring-brand-500/20;
+}
+@utility btn {
+  @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold whitespace-nowrap transition-colors duration-150;
+}
+@utility btn-primary {
+  @apply btn bg-brand-700 text-white shadow-sm hover:bg-brand-800;
+}
+@utility btn-secondary {
+  @apply btn border border-slate-300 bg-white text-slate-700 shadow-xs hover:border-slate-400 hover:bg-slate-50;
+}
+@utility link {
+  @apply font-medium text-brand-700 underline-offset-2 hover:text-brand-800 hover:underline;
+}
+
+/* Matriks kompetensi: sel heatmap level 1–5. Ditulis sebagai CSS biasa (bukan kelas Tailwind per sel)
+   agar HTML tetap ringan saat semua jabatan ditampilkan (±64 ribu sel).  */
+.lv1 { background: var(--color-brand-50); color: var(--color-brand-800); }
+.lv2 { background: var(--color-brand-100); color: var(--color-brand-900); }
+.lv3 { background: var(--color-brand-300); color: var(--color-brand-950); }
+.lv4 { background: var(--color-brand-600); color: #fff; }
+.lv5 { background: var(--color-brand-900); color: #fff; }
+.matriks td {
+  min-width: 1.75rem;
+  border-bottom: 1px solid var(--color-slate-100);
+  border-left: 1px solid var(--color-slate-100);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.matriks tbody tr:hover > * {
+  background: var(--color-amber-50);
+  color: var(--color-slate-900);
+}
+
+/* Skeleton: blok abu-abu dengan kilau bergerak (berhenti otomatis bila prefers-reduced-motion) */
+.bone {
+  background: linear-gradient(90deg, var(--color-slate-200) 0%, var(--color-slate-100) 50%, var(--color-slate-200) 100%);
+  background-size: 200% 100%;
+  animation: bone-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes bone-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+/* Saat filter dikirim (SubmitButton data-pending), hasil lama di bawah form diredupkan sampai data baru tiba */
+.filter-bar:has([data-pending]) ~ * {
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 150ms;
+}
+
+/* Halaman login: elemen masuk berurutan, tangga level tumbuh dari bawah, pesan gagal login bergetar.
+   Semuanya dimatikan oleh prefers-reduced-motion di atas. */
+@keyframes naik {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes masuk {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes goyang {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+/* Halaman Ringkasan: batang tumbuh dari kiri, cincin progres terisi, kartu masuk berurutan
+   (pakai juga keyframes naik/masuk di atas). Dimatikan oleh prefers-reduced-motion. */
+@keyframes tumbuh {
+  from { transform: scaleX(0); }
+}
+@keyframes lingkar {
+  from { stroke-dashoffset: var(--penuh); }
 }

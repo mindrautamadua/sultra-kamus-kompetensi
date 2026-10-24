@@ -1,0 +1,4857 @@
+{
+ "unit_kerja": [
+  {
+   "kode": "DIR",
+   "nama": "Direksi",
+   "jenis": "direksi",
+   "parent_kode": null,
+   "direktorat": null,
+   "urutan": 1,
+   "catatan": null
+  },
+  {
+   "kode": "KCU",
+   "nama": "Kantor Cabang Utama",
+   "jenis": "kantor",
+   "parent_kode": "DIR",
+   "direktorat": null,
+   "urutan": 2,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA ANALIS."
+  },
+  {
+   "kode": "KCU-01",
+   "nama": "Bagian Pemasaran",
+   "jenis": "bagian",
+   "parent_kode": "KCU",
+   "direktorat": null,
+   "urutan": 3,
+   "catatan": null
+  },
+  {
+   "kode": "KCU-02",
+   "nama": "Seksi Kredit",
+   "jenis": "seksi",
+   "parent_kode": "KCU-01",
+   "direktorat": null,
+   "urutan": 4,
+   "catatan": null
+  },
+  {
+   "kode": "KCU-03",
+   "nama": "Seksi Pemasaran Dana dan Jasa Elektronik",
+   "jenis": "seksi",
+   "parent_kode": "KCU-01",
+   "direktorat": null,
+   "urutan": 5,
+   "catatan": null
+  },
+  {
+   "kode": "KCU-04",
+   "nama": "Bagian Operasional",
+   "jenis": "bagian",
+   "parent_kode": "KCU",
+   "direktorat": null,
+   "urutan": 6,
+   "catatan": null
+  },
+  {
+   "kode": "KCU-05",
+   "nama": "Seksi Pelayanan & Jasa",
+   "jenis": "seksi",
+   "parent_kode": "KCU-04",
+   "direktorat": null,
+   "urutan": 7,
+   "catatan": null
+  },
+  {
+   "kode": "KC",
+   "nama": "Kantor Cabang Tipe 1 (SME)",
+   "jenis": "kantor",
+   "parent_kode": "DIR",
+   "direktorat": null,
+   "urutan": 8,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA ANALIS."
+  },
+  {
+   "kode": "KC-01",
+   "nama": "Seksi Pemasaran Kredit, Dana & Jasa Elektronik",
+   "jenis": "seksi",
+   "parent_kode": "KC",
+   "direktorat": null,
+   "urutan": 9,
+   "catatan": null
+  },
+  {
+   "kode": "KC-02",
+   "nama": "Seksi Operasional",
+   "jenis": "seksi",
+   "parent_kode": "KC",
+   "direktorat": null,
+   "urutan": 10,
+   "catatan": null
+  },
+  {
+   "kode": "KCP1",
+   "nama": "Kantor Cabang Pembantu Tipe 1 (Tower)",
+   "jenis": "kantor",
+   "parent_kode": "DIR",
+   "direktorat": null,
+   "urutan": 11,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA ANALIS."
+  },
+  {
+   "kode": "KCP2",
+   "nama": "Kantor Cabang Pembantu Tipe 2 (SME)",
+   "jenis": "kantor",
+   "parent_kode": "DIR",
+   "direktorat": null,
+   "urutan": 12,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA ANALIS."
+  },
+  {
+   "kode": "KCP3",
+   "nama": "Kantor Cabang Pembantu Tipe 3 (Non SME)",
+   "jenis": "kantor",
+   "parent_kode": "DIR",
+   "direktorat": null,
+   "urutan": 13,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA ANALIS."
+  },
+  {
+   "kode": "D04",
+   "nama": "Divisi Perencanaan",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Utama",
+   "urutan": 14,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA PEFORMA BISNIS & PORTOFOLIO."
+  },
+  {
+   "kode": "D04-01",
+   "nama": "Bagian Rencana Bisnis Bank",
+   "jenis": "bagian",
+   "parent_kode": "D04",
+   "direktorat": null,
+   "urutan": 15,
+   "catatan": null
+  },
+  {
+   "kode": "D04-02",
+   "nama": "Bagian Perencanaan Strategis",
+   "jenis": "bagian",
+   "parent_kode": "D04",
+   "direktorat": null,
+   "urutan": 16,
+   "catatan": null
+  },
+  {
+   "kode": "D04-03",
+   "nama": "Seksi Perencanaan Strategis",
+   "jenis": "seksi",
+   "parent_kode": "D04-02",
+   "direktorat": null,
+   "urutan": 17,
+   "catatan": null
+  },
+  {
+   "kode": "D05",
+   "nama": "Divisi Corporate Secretary",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Utama",
+   "urutan": 18,
+   "catatan": null
+  },
+  {
+   "kode": "D05-01",
+   "nama": "Bagian Sekretaris Perusahaan",
+   "jenis": "bagian",
+   "parent_kode": "D05",
+   "direktorat": null,
+   "urutan": 19,
+   "catatan": null
+  },
+  {
+   "kode": "D05-02",
+   "nama": "Seksi Sekretaris & Protokoler",
+   "jenis": "seksi",
+   "parent_kode": "D05-01",
+   "direktorat": null,
+   "urutan": 20,
+   "catatan": null
+  },
+  {
+   "kode": "D05-03",
+   "nama": "Seksi Hubungan Masyarakat & Komunikasi Perusahaan",
+   "jenis": "seksi",
+   "parent_kode": "D05-01",
+   "direktorat": null,
+   "urutan": 21,
+   "catatan": null
+  },
+  {
+   "kode": "D05-04",
+   "nama": "Seksi Sekretaris Dewan Komisaris",
+   "jenis": "seksi",
+   "parent_kode": "D05-01",
+   "direktorat": null,
+   "urutan": 22,
+   "catatan": null
+  },
+  {
+   "kode": "D06",
+   "nama": "Bagian Hukum & Litigasi",
+   "jenis": "bagian",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Utama",
+   "urutan": 23,
+   "catatan": null
+  },
+  {
+   "kode": "D07",
+   "nama": "Divisi Operasional Kredit",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur TI & Operasional",
+   "urutan": 24,
+   "catatan": null
+  },
+  {
+   "kode": "D07-01",
+   "nama": "Bagian Monitoring Kredit",
+   "jenis": "bagian",
+   "parent_kode": "D07",
+   "direktorat": null,
+   "urutan": 25,
+   "catatan": null
+  },
+  {
+   "kode": "D07-02",
+   "nama": "Bagian Administrasi Kredit",
+   "jenis": "bagian",
+   "parent_kode": "D07",
+   "direktorat": null,
+   "urutan": 26,
+   "catatan": null
+  },
+  {
+   "kode": "D07-03",
+   "nama": "Bagian Risiko Bisnis",
+   "jenis": "bagian",
+   "parent_kode": "D07",
+   "direktorat": null,
+   "urutan": 27,
+   "catatan": null
+  },
+  {
+   "kode": "D08",
+   "nama": "Divisi Kredit Menengah, Komersial, Korporasi & Hubungan Kelembagaan",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Bisnis",
+   "urutan": 28,
+   "catatan": null
+  },
+  {
+   "kode": "D08-01",
+   "nama": "Bagian Kredit Menengah, Komersial, Korporasi & Hubungan Kelembagaan",
+   "jenis": "bagian",
+   "parent_kode": "D08",
+   "direktorat": null,
+   "urutan": 29,
+   "catatan": null
+  },
+  {
+   "kode": "D09",
+   "nama": "Divisi Kredit Konsumtif & Mikro",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Bisnis",
+   "urutan": 30,
+   "catatan": null
+  },
+  {
+   "kode": "D09-01",
+   "nama": "Bagian Kredit Konsumtif",
+   "jenis": "bagian",
+   "parent_kode": "D09",
+   "direktorat": null,
+   "urutan": 31,
+   "catatan": null
+  },
+  {
+   "kode": "D09-02",
+   "nama": "Seksi Kredit Konsumtif (KPR & KKB) & (Multiguna)",
+   "jenis": "seksi",
+   "parent_kode": "D09-01",
+   "direktorat": null,
+   "urutan": 32,
+   "catatan": null
+  },
+  {
+   "kode": "D09-03",
+   "nama": "Bagian Kredit Mikro",
+   "jenis": "bagian",
+   "parent_kode": "D09",
+   "direktorat": null,
+   "urutan": 33,
+   "catatan": null
+  },
+  {
+   "kode": "D09-04",
+   "nama": "Seksi Kredit Mikro",
+   "jenis": "seksi",
+   "parent_kode": "D09-03",
+   "direktorat": null,
+   "urutan": 34,
+   "catatan": null
+  },
+  {
+   "kode": "D09-05",
+   "nama": "Bagian Manajemen Aset Khusus",
+   "jenis": "bagian",
+   "parent_kode": "D09",
+   "direktorat": null,
+   "urutan": 35,
+   "catatan": null
+  },
+  {
+   "kode": "D10",
+   "nama": "Divisi Kepatuhan, APU PPT & PPPSPM",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Kepatuhan",
+   "urutan": 36,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA ANALIS CTR & STR, APU PPT & PPPSPM."
+  },
+  {
+   "kode": "D10-01",
+   "nama": "Bagian Kepatuhan",
+   "jenis": "bagian",
+   "parent_kode": "D10",
+   "direktorat": null,
+   "urutan": 37,
+   "catatan": null
+  },
+  {
+   "kode": "D10-02",
+   "nama": "Bagian APU PPT & PPPSPM",
+   "jenis": "bagian",
+   "parent_kode": "D10",
+   "direktorat": null,
+   "urutan": 38,
+   "catatan": null
+  },
+  {
+   "kode": "D11",
+   "nama": "Divisi Manajemen Risiko",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Kepatuhan",
+   "urutan": 39,
+   "catatan": null
+  },
+  {
+   "kode": "D11-01",
+   "nama": "Bagian Manajemen Risiko Kredit dan Likuiditas",
+   "jenis": "bagian",
+   "parent_kode": "D11",
+   "direktorat": null,
+   "urutan": 40,
+   "catatan": null
+  },
+  {
+   "kode": "D11-02",
+   "nama": "Bagian Operasional dan Risiko Lainnya",
+   "jenis": "bagian",
+   "parent_kode": "D11",
+   "direktorat": null,
+   "urutan": 41,
+   "catatan": null
+  },
+  {
+   "kode": "D11-03",
+   "nama": "Bagian Strategi Anti Fraud",
+   "jenis": "bagian",
+   "parent_kode": "D11",
+   "direktorat": null,
+   "urutan": 42,
+   "catatan": null
+  },
+  {
+   "kode": "D11-04",
+   "nama": "Seksi Cyber Risk Management",
+   "jenis": "seksi",
+   "parent_kode": "D11",
+   "direktorat": null,
+   "urutan": 43,
+   "catatan": null
+  },
+  {
+   "kode": "D12",
+   "nama": "Divisi Pemasaran Dana & Jasa",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Bisnis",
+   "urutan": 44,
+   "catatan": null
+  },
+  {
+   "kode": "D12-01",
+   "nama": "Bagian Pemasaran Dana",
+   "jenis": "bagian",
+   "parent_kode": "D12",
+   "direktorat": null,
+   "urutan": 45,
+   "catatan": null
+  },
+  {
+   "kode": "D12-02",
+   "nama": "Seksi Pemasaran Dana",
+   "jenis": "seksi",
+   "parent_kode": "D12-01",
+   "direktorat": null,
+   "urutan": 46,
+   "catatan": null
+  },
+  {
+   "kode": "D12-03",
+   "nama": "Bagian Produk Digital & Cash Management",
+   "jenis": "bagian",
+   "parent_kode": "D12",
+   "direktorat": null,
+   "urutan": 47,
+   "catatan": null
+  },
+  {
+   "kode": "D12-04",
+   "nama": "Seksi Digital & Cash Management",
+   "jenis": "seksi",
+   "parent_kode": "D12-03",
+   "direktorat": null,
+   "urutan": 48,
+   "catatan": null
+  },
+  {
+   "kode": "D13",
+   "nama": "Divisi Teknologi Informasi",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur TI & Operasional",
+   "urutan": 49,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): KEPALA SEKSI DC & DRC."
+  },
+  {
+   "kode": "D13-01",
+   "nama": "Bagian Operasional TI",
+   "jenis": "bagian",
+   "parent_kode": "D13",
+   "direktorat": null,
+   "urutan": 50,
+   "catatan": null
+  },
+  {
+   "kode": "D13-02",
+   "nama": "Seksi Data Center (DC) dan Disaster Recovery Center (DRC)",
+   "jenis": "seksi",
+   "parent_kode": "D13-01",
+   "direktorat": null,
+   "urutan": 51,
+   "catatan": null
+  },
+  {
+   "kode": "D13-03",
+   "nama": "Seksi Helpdesk dan Monitoring",
+   "jenis": "seksi",
+   "parent_kode": "D13-01",
+   "direktorat": null,
+   "urutan": 52,
+   "catatan": null
+  },
+  {
+   "kode": "D13-04",
+   "nama": "Seksi Jaringan Komputer",
+   "jenis": "seksi",
+   "parent_kode": "D13-01",
+   "direktorat": null,
+   "urutan": 53,
+   "catatan": null
+  },
+  {
+   "kode": "D13-05",
+   "nama": "Bagian Pengembangan Aplikasi TI",
+   "jenis": "bagian",
+   "parent_kode": "D13",
+   "direktorat": null,
+   "urutan": 54,
+   "catatan": null
+  },
+  {
+   "kode": "D13-06",
+   "nama": "Seksi Core Banking dan MIS",
+   "jenis": "seksi",
+   "parent_kode": "D13-05",
+   "direktorat": null,
+   "urutan": 55,
+   "catatan": null
+  },
+  {
+   "kode": "D13-07",
+   "nama": "Seksi Switching & Surrounding",
+   "jenis": "seksi",
+   "parent_kode": "D13-05",
+   "direktorat": null,
+   "urutan": 56,
+   "catatan": null
+  },
+  {
+   "kode": "D13-08",
+   "nama": "Seksi Business Analyst & System Analyst",
+   "jenis": "seksi",
+   "parent_kode": "D13-05",
+   "direktorat": null,
+   "urutan": 57,
+   "catatan": null
+  },
+  {
+   "kode": "D13-09",
+   "nama": "Seksi Quality Assurance TI",
+   "jenis": "seksi",
+   "parent_kode": "D13",
+   "direktorat": null,
+   "urutan": 58,
+   "catatan": null
+  },
+  {
+   "kode": "D13-10",
+   "nama": "Seksi TI Governance",
+   "jenis": "seksi",
+   "parent_kode": "D13",
+   "direktorat": null,
+   "urutan": 59,
+   "catatan": null
+  },
+  {
+   "kode": "D14",
+   "nama": "Divisi Human Capital",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Umum",
+   "urutan": 60,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): KEPALA SEKSI HCIS."
+  },
+  {
+   "kode": "D14-01",
+   "nama": "Bagian HC Policy & Development",
+   "jenis": "bagian",
+   "parent_kode": "D14",
+   "direktorat": null,
+   "urutan": 61,
+   "catatan": null
+  },
+  {
+   "kode": "D14-02",
+   "nama": "Seksi Human Capital Information System (HCIS)",
+   "jenis": "seksi",
+   "parent_kode": "D14-01",
+   "direktorat": null,
+   "urutan": 62,
+   "catatan": null
+  },
+  {
+   "kode": "D14-03",
+   "nama": "Seksi HC Policy & Development",
+   "jenis": "seksi",
+   "parent_kode": "D14-01",
+   "direktorat": null,
+   "urutan": 63,
+   "catatan": null
+  },
+  {
+   "kode": "D14-04",
+   "nama": "Bagian HC Service",
+   "jenis": "bagian",
+   "parent_kode": "D14",
+   "direktorat": null,
+   "urutan": 64,
+   "catatan": null
+  },
+  {
+   "kode": "D14-05",
+   "nama": "Seksi HC Operation",
+   "jenis": "seksi",
+   "parent_kode": "D14-04",
+   "direktorat": null,
+   "urutan": 65,
+   "catatan": null
+  },
+  {
+   "kode": "D14-06",
+   "nama": "Seksi HC Support & Alihdaya",
+   "jenis": "seksi",
+   "parent_kode": "D14-04",
+   "direktorat": null,
+   "urutan": 66,
+   "catatan": null
+  },
+  {
+   "kode": "D15",
+   "nama": "Divisi Operasional & Layanan",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur TI & Operasional",
+   "urutan": 67,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA SETTLEMENT & RTGS/SKNBI/BI-FAST."
+  },
+  {
+   "kode": "D15-01",
+   "nama": "Bagian Perlindungan Nasabah & Service Excellence",
+   "jenis": "bagian",
+   "parent_kode": "D15",
+   "direktorat": null,
+   "urutan": 68,
+   "catatan": null
+  },
+  {
+   "kode": "D15-02",
+   "nama": "Seksi Pengaduan & Perlindungan Nasabah",
+   "jenis": "seksi",
+   "parent_kode": "D15-01",
+   "direktorat": null,
+   "urutan": 69,
+   "catatan": null
+  },
+  {
+   "kode": "D15-03",
+   "nama": "Seksi Service Excellence & Service Culture",
+   "jenis": "seksi",
+   "parent_kode": "D15-01",
+   "direktorat": null,
+   "urutan": 70,
+   "catatan": null
+  },
+  {
+   "kode": "D15-04",
+   "nama": "Bagian Operasional & Settlement",
+   "jenis": "bagian",
+   "parent_kode": "D15",
+   "direktorat": null,
+   "urutan": 71,
+   "catatan": null
+  },
+  {
+   "kode": "D15-05",
+   "nama": "Seksi Monitoring & Pengaduan Transaksi E-Channel",
+   "jenis": "seksi",
+   "parent_kode": "D15-04",
+   "direktorat": null,
+   "urutan": 72,
+   "catatan": null
+  },
+  {
+   "kode": "D15-06",
+   "nama": "Seksi Rekonsiliasi Data & Pelaporan E-Channel",
+   "jenis": "seksi",
+   "parent_kode": "D15-04",
+   "direktorat": null,
+   "urutan": 73,
+   "catatan": null
+  },
+  {
+   "kode": "D15-07",
+   "nama": "Seksi Settlement & Sistem Pembayaran",
+   "jenis": "seksi",
+   "parent_kode": "D15-04",
+   "direktorat": null,
+   "urutan": 74,
+   "catatan": null
+  },
+  {
+   "kode": "D16",
+   "nama": "Divisi Keuangan & Akuntansi",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Umum",
+   "urutan": 75,
+   "catatan": null
+  },
+  {
+   "kode": "D16-01",
+   "nama": "Bagian Keuangan & Akuntansi",
+   "jenis": "bagian",
+   "parent_kode": "D16",
+   "direktorat": null,
+   "urutan": 76,
+   "catatan": null
+  },
+  {
+   "kode": "D16-02",
+   "nama": "Seksi Perpajakan",
+   "jenis": "seksi",
+   "parent_kode": "D16-01",
+   "direktorat": null,
+   "urutan": 77,
+   "catatan": null
+  },
+  {
+   "kode": "D16-03",
+   "nama": "Seksi Keuangan",
+   "jenis": "seksi",
+   "parent_kode": "D16-01",
+   "direktorat": null,
+   "urutan": 78,
+   "catatan": null
+  },
+  {
+   "kode": "D16-04",
+   "nama": "Seksi Akuntansi",
+   "jenis": "seksi",
+   "parent_kode": "D16-01",
+   "direktorat": null,
+   "urutan": 79,
+   "catatan": null
+  },
+  {
+   "kode": "D16-05",
+   "nama": "Seksi Reporting",
+   "jenis": "seksi",
+   "parent_kode": "D16-01",
+   "direktorat": null,
+   "urutan": 80,
+   "catatan": null
+  },
+  {
+   "kode": "D17",
+   "nama": "Divisi Treasury",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Bisnis",
+   "urutan": 81,
+   "catatan": null
+  },
+  {
+   "kode": "D17-01",
+   "nama": "Bagian Treasury",
+   "jenis": "bagian",
+   "parent_kode": "D17",
+   "direktorat": null,
+   "urutan": 82,
+   "catatan": null
+  },
+  {
+   "kode": "D17-02",
+   "nama": "Seksi Manajemen Aset Liabilitas (ALM)",
+   "jenis": "seksi",
+   "parent_kode": "D17-01",
+   "direktorat": null,
+   "urutan": 83,
+   "catatan": null
+  },
+  {
+   "kode": "D17-03",
+   "nama": "Seksi Dealer",
+   "jenis": "seksi",
+   "parent_kode": "D17-01",
+   "direktorat": null,
+   "urutan": 84,
+   "catatan": null
+  },
+  {
+   "kode": "D18",
+   "nama": "Divisi Umum",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Umum",
+   "urutan": 85,
+   "catatan": null
+  },
+  {
+   "kode": "D18-01",
+   "nama": "Bagian Manajemen Aset & Fasilitas",
+   "jenis": "bagian",
+   "parent_kode": "D18",
+   "direktorat": null,
+   "urutan": 86,
+   "catatan": null
+  },
+  {
+   "kode": "D18-02",
+   "nama": "Seksi Administrasi Umum & Manajemen Aset",
+   "jenis": "seksi",
+   "parent_kode": "D18-01",
+   "direktorat": null,
+   "urutan": 87,
+   "catatan": null
+  },
+  {
+   "kode": "D18-03",
+   "nama": "Seksi Pemeliharaan dan Jaringan Kantor",
+   "jenis": "seksi",
+   "parent_kode": "D18-01",
+   "direktorat": null,
+   "urutan": 88,
+   "catatan": null
+  },
+  {
+   "kode": "D18-04",
+   "nama": "Seksi Operasional & Logistik",
+   "jenis": "seksi",
+   "parent_kode": "D18-01",
+   "direktorat": null,
+   "urutan": 89,
+   "catatan": null
+  },
+  {
+   "kode": "D18-05",
+   "nama": "Bagian Pengadaan & Vendor",
+   "jenis": "bagian",
+   "parent_kode": "D18",
+   "direktorat": null,
+   "urutan": 90,
+   "catatan": null
+  },
+  {
+   "kode": "D18-06",
+   "nama": "Seksi Manajemen Vendor",
+   "jenis": "seksi",
+   "parent_kode": "D18-05",
+   "direktorat": null,
+   "urutan": 91,
+   "catatan": null
+  },
+  {
+   "kode": "D19",
+   "nama": "Satuan Kerja Audit Internal",
+   "jenis": "divisi",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur Utama",
+   "urutan": 92,
+   "catatan": null
+  },
+  {
+   "kode": "D19-01",
+   "nama": "Kelompok Auditor",
+   "jenis": "kelompok",
+   "parent_kode": "D19",
+   "direktorat": null,
+   "urutan": 93,
+   "catatan": null
+  },
+  {
+   "kode": "D19-02",
+   "nama": "Bagian Quality Assurance",
+   "jenis": "bagian",
+   "parent_kode": "D19",
+   "direktorat": null,
+   "urutan": 94,
+   "catatan": null
+  },
+  {
+   "kode": "D19-03",
+   "nama": "Kelompok Auditor IT",
+   "jenis": "kelompok",
+   "parent_kode": "D19",
+   "direktorat": null,
+   "urutan": 95,
+   "catatan": null
+  },
+  {
+   "kode": "D20",
+   "nama": "Bagian CISO & PDP",
+   "jenis": "bagian",
+   "parent_kode": "DIR",
+   "direktorat": "Direktur TI & Operasional",
+   "urutan": 96,
+   "catatan": "Ada di bagan tetapi belum ada jobdesk (atau beda penamaan): PELAKSANA AUDITOR IT; KEPALA SEKSI CYBER RISK MANAGEMENT; PELAKSANA CYBER RISK MANAGEMENT; KETUA TIM AUDITOR IT."
+  },
+  {
+   "kode": "D20-01",
+   "nama": "Seksi IT Security",
+   "jenis": "seksi",
+   "parent_kode": "D20",
+   "direktorat": null,
+   "urutan": 97,
+   "catatan": null
+  },
+  {
+   "kode": "KF",
+   "nama": "Kantor Fungsional",
+   "jenis": "kantor",
+   "parent_kode": "DIR",
+   "direktorat": null,
+   "urutan": 98,
+   "catatan": null
+  }
+ ],
+ "jabatan": [
+  {
+   "kode": "DIR-1",
+   "nama": "Direktur Utama",
+   "unit_kode": "DIR",
+   "jenjang": 0,
+   "kelompok": "Direksi",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 1,
+   "catatan": null,
+   "files": []
+  },
+  {
+   "kode": "DIR-2",
+   "nama": "Direktur Bisnis",
+   "unit_kode": "DIR",
+   "jenjang": 0,
+   "kelompok": "Direksi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 2,
+   "catatan": null,
+   "files": []
+  },
+  {
+   "kode": "DIR-3",
+   "nama": "Direktur TI & Operasional",
+   "unit_kode": "DIR",
+   "jenjang": 0,
+   "kelompok": "Direksi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 3,
+   "catatan": null,
+   "files": []
+  },
+  {
+   "kode": "DIR-4",
+   "nama": "Direktur Umum",
+   "unit_kode": "DIR",
+   "jenjang": 0,
+   "kelompok": "Direksi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 4,
+   "catatan": null,
+   "files": []
+  },
+  {
+   "kode": "DIR-5",
+   "nama": "Direktur Kepatuhan",
+   "unit_kode": "DIR",
+   "jenjang": 0,
+   "kelompok": "Direksi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 5,
+   "catatan": null,
+   "files": []
+  },
+  {
+   "kode": "KCU-1.0",
+   "nama": "Pemimpin Cabang Utama",
+   "unit_kode": "KCU",
+   "jenjang": 1,
+   "kelompok": "Pemimpin Kantor",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 6,
+   "catatan": "Atasan langsung: Direksi.",
+   "files": [
+    "1. Cabang Utama/1.0. Job Desk (Pincabut).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A",
+   "nama": "Kepala Bagian Pemasaran",
+   "unit_kode": "KCU-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "KCU-1.0",
+   "nama_asli": null,
+   "urutan": 7,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A. Job Desk (Kabag Pemasaran).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.1",
+   "nama": "Kepala Seksi Kredit",
+   "unit_kode": "KCU-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "KCU-1.A",
+   "nama_asli": null,
+   "urutan": 8,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A.1. Jobdesk (Kasie Kredit Cabut).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.1.1",
+   "nama": "Relationship Manager (RM) Konsumtif",
+   "unit_kode": "KCU-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.A.1",
+   "nama_asli": null,
+   "urutan": 9,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A.1.1. Jobdesk RM Konsumtif Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.1.2",
+   "nama": "Relationship Manager (RM) SME",
+   "unit_kode": "KCU-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.A.1",
+   "nama_asli": null,
+   "urutan": 10,
+   "catatan": "Atasan \"Pemimpin Cabang Pembantu\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "1. Cabang Utama/1.A.1.2. RM SME Kantor Cabang Capem Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.1.3",
+   "nama": "Relationship Manager (RM) Micro",
+   "unit_kode": "KCU-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.A.1",
+   "nama_asli": null,
+   "urutan": 11,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A.1.3. RM MIKRO BANKING Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.1.4",
+   "nama": "Relationship Manager (RM) Collection",
+   "unit_kode": "KCU-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.A.1",
+   "nama_asli": null,
+   "urutan": 12,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A.1.4. Jobdesk (RM Collection).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.2",
+   "nama": "Kepala Seksi Pemasaran Dana dan Jasa Elektronik",
+   "unit_kode": "KCU-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "KCU-1.A",
+   "nama_asli": null,
+   "urutan": 13,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A.2. Jobdesk (Kasie Pemasaran Dana dan Jasa Elektronik).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.A.2.1",
+   "nama": "Relationship Manager Dana & Jasa Elektronik",
+   "unit_kode": "KCU-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.A.2",
+   "nama_asli": null,
+   "urutan": 14,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.A.2.1. Jobdesk Relationship Manager Dana & Jasa Elektronik).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B",
+   "nama": "Kepala Bagian Operasional",
+   "unit_kode": "KCU-04",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "KCU-1.0",
+   "nama_asli": null,
+   "urutan": 15,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B. Job Desk (Kabag Operasional).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.1",
+   "nama": "Kepala Seksi Pelayanan & Jasa",
+   "unit_kode": "KCU-05",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "KCU-1.B",
+   "nama_asli": null,
+   "urutan": 16,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.1. Job Desk (Kasie Pelayanan & Jasa).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.1.1",
+   "nama": "Customer Service",
+   "unit_kode": "KCU-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.B.1",
+   "nama_asli": null,
+   "urutan": 17,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.1.1. Jobdesk (Customer Service).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.1.2",
+   "nama": "Pelaksana Umum",
+   "unit_kode": "KCU-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.B.1",
+   "nama_asli": null,
+   "urutan": 18,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.1.2 Job Desk (Umum).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.2",
+   "nama": "Head Teller",
+   "unit_kode": "KCU-04",
+   "jenjang": 3,
+   "kelompok": "Koordinator",
+   "atasan_kode": "KCU-1.B",
+   "nama_asli": null,
+   "urutan": 19,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.2. Job Desk (Head Teller).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.2.1",
+   "nama": "Teller",
+   "unit_kode": "KCU-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.B.2",
+   "nama_asli": null,
+   "urutan": 20,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.2.1  Job Desk (Teller).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.2.2",
+   "nama": "Sundries",
+   "unit_kode": "KCU-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.B.2",
+   "nama_asli": null,
+   "urutan": 21,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.2.2 Job Desk (Sundries).docx"
+   ]
+  },
+  {
+   "kode": "KCU-1.B.2.3",
+   "nama": "Verifikasi Transaksi",
+   "unit_kode": "KCU-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCU-1.B.2",
+   "nama_asli": null,
+   "urutan": 22,
+   "catatan": null,
+   "files": [
+    "1. Cabang Utama/1.B.2.3. Job Desk (Verifikasi).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A",
+   "nama": "Pemimpin Cabang",
+   "unit_kode": "KC",
+   "jenjang": 1,
+   "kelompok": "Pemimpin Kantor",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 23,
+   "catatan": "Atasan langsung: Direksi.",
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A. Job Desk (Pincab).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.1",
+   "nama": "Kepala Seksi Pemasaran Kredit, Dana & Jasa Elektronik",
+   "unit_kode": "KC-01",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "KC-2.A",
+   "nama_asli": null,
+   "urutan": 24,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.1. Jobdesk (Kasie Kredit).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.1.1",
+   "nama": "Relationship Manager (RM) Konsumtif",
+   "unit_kode": "KC-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.1",
+   "nama_asli": null,
+   "urutan": 25,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.1.1. Jobdesk RM Konsumtif Ok.docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.1.2",
+   "nama": "Relationship Manager (RM) SME",
+   "unit_kode": "KC-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.1",
+   "nama_asli": null,
+   "urutan": 26,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.1.2. RM SME Kantor Cabang Capem Ok.docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.1.3",
+   "nama": "Relationship Manager (RM) Micro",
+   "unit_kode": "KC-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.1",
+   "nama_asli": null,
+   "urutan": 27,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.1.3. RM MIKRO BANKING Ok.docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.1.4",
+   "nama": "Relationship Manager (RM) Collection",
+   "unit_kode": "KC-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.1",
+   "nama_asli": null,
+   "urutan": 28,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.1.4. Jobdesk (RM Collection).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.1.5",
+   "nama": "Relationship Manager Dana & Jasa Elektronik",
+   "unit_kode": "KC-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.1",
+   "nama_asli": null,
+   "urutan": 29,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.1.5. Jobdesk Relationship Manager Dana & Jasa Elektronik.docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.2",
+   "nama": "Kepala Seksi Operasional",
+   "unit_kode": "KC-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "KC-2.A",
+   "nama_asli": null,
+   "urutan": 30,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.2. Job Desk (Kasie. Operasional).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.2.1",
+   "nama": "Teller",
+   "unit_kode": "KC-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.2",
+   "nama_asli": null,
+   "urutan": 31,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.2.1.  Job Desk (Teller).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.2.2",
+   "nama": "Customer Service",
+   "unit_kode": "KC-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.2",
+   "nama_asli": null,
+   "urutan": 32,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.2.2. Jobdesk (Customer Service).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.2.3",
+   "nama": "Sundries",
+   "unit_kode": "KC-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.2",
+   "nama_asli": null,
+   "urutan": 33,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.2.3. Job Desk (Sundries).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.2.4",
+   "nama": "Verifikasi Transaksi",
+   "unit_kode": "KC-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.2",
+   "nama_asli": null,
+   "urutan": 34,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.2.4. Job Desk (Verifikasi).docx"
+   ]
+  },
+  {
+   "kode": "KC-2.A.2.5",
+   "nama": "Pelaksana Umum",
+   "unit_kode": "KC-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KC-2.A.2",
+   "nama_asli": null,
+   "urutan": 35,
+   "catatan": null,
+   "files": [
+    "2. Cabang TIPE 1 (SME)/2.A.2.5. Job Desk (Umum).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1",
+   "nama": "Pemimpin Cabang Pembantu",
+   "unit_kode": "KCP1",
+   "jenjang": 1,
+   "kelompok": "Pemimpin Kantor",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 36,
+   "catatan": "Atasan langsung: Direksi / Cabang Induk.",
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1. Job Desk (Pincapem).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1",
+   "nama": "Koordinator Operasional",
+   "unit_kode": "KCP1",
+   "jenjang": 3,
+   "kelompok": "Koordinator",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 37,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1. Job Desk (Koordinator Operasional).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.1",
+   "nama": "Teller",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.1",
+   "nama_asli": null,
+   "urutan": 38,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.1. Job Desk (Teller).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.2",
+   "nama": "Customer Service / Safe Deposit Box (SDB)",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.1",
+   "nama_asli": null,
+   "urutan": 39,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.2. Job Desk (Customer Service) SDB.docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.3",
+   "nama": "Sundries",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.1",
+   "nama_asli": null,
+   "urutan": 40,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.3. Job Desk (Sundries).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.4",
+   "nama": "Pelaksana Umum",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.1",
+   "nama_asli": null,
+   "urutan": 41,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.4. Job Desk (Umum).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.5",
+   "nama": "Relationship Manager (RM) Konsumtif",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 42,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.5. Jobdesk RM Konsumtif Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.6",
+   "nama": "Relationship Manager (RM) SME",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 43,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.6. RM SME Kantor Cabang Capem Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.7",
+   "nama": "Relationship Manager (RM) Micro",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 44,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.7. RM MIKRO.docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.8",
+   "nama": "Relationship Manager (RM) Collection",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 45,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.8. Jobdesk (RM Collection).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.1.9",
+   "nama": "Relationship Manager Dana & Jasa Elektronik",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 46,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.1.9. Jobdesk Relationship Manager Dana & Jasa Elektronik.docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.2",
+   "nama": "Relationship Manager Priority",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1",
+   "nama_asli": null,
+   "urutan": 47,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.2. Job Desk (Relationship Manager Priority).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.2.1",
+   "nama": "Customer Service Priority",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.2",
+   "nama_asli": null,
+   "urutan": 48,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.2.1. Job Desk (Customer Service Priority).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.2.2",
+   "nama": "Teller Priority",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.2",
+   "nama_asli": null,
+   "urutan": 49,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.2.2. Job Desk (Teller Priority).docx"
+   ]
+  },
+  {
+   "kode": "KCP1-3.A.1.2.3",
+   "nama": "Relationship Manager Dana & Jasa Elektronik Priority",
+   "unit_kode": "KCP1",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP1-3.A.1.2",
+   "nama_asli": null,
+   "urutan": 50,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 1 (TOWER)/3.A.1.2.3. Job Desk (Relationship Manager Dana & Jasa Elektronik Priority).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.1",
+   "nama": "Pemimpin Cabang Pembantu",
+   "unit_kode": "KCP2",
+   "jenjang": 1,
+   "kelompok": "Pemimpin Kantor",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 51,
+   "catatan": "Atasan langsung: Pemimpin Cabang Induk.",
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.1 Job Desk (Pincapem).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.1.1",
+   "nama": "Koordinator Operasional",
+   "unit_kode": "KCP2",
+   "jenjang": 3,
+   "kelompok": "Koordinator",
+   "atasan_kode": "KCP2-3.B.1",
+   "nama_asli": null,
+   "urutan": 52,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.1.1. Job Desk (Koordinator Operasional ).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.1.1.1",
+   "nama": "Teller",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 53,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.1.1.1. Job Desk (Teller).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.1.1.2",
+   "nama": "Customer Service",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 54,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.1.1.2. Job Desk (Customer Service).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.1.1.3",
+   "nama": "Sundries",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 55,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.1.1.3. Job Desk (Sundries).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.1.1.4",
+   "nama": "Pelaksana Umum",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 56,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.1.1.4. Job Desk (Umum).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.2.1",
+   "nama": "Koordinator Pemasaran",
+   "unit_kode": "KCP2",
+   "jenjang": 3,
+   "kelompok": "Koordinator",
+   "atasan_kode": "KCP2-3.B.1",
+   "nama_asli": null,
+   "urutan": 57,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.2.1 Job Desk (Koordinator Pemasaran ).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.2.1.1",
+   "nama": "Relationship Manager (RM) Konsumtif",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.2.1",
+   "nama_asli": null,
+   "urutan": 58,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.2.1.1. Jobdesk RM Konsumtif Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.2.1.2",
+   "nama": "Relationship Manager (RM) SME",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.2.1",
+   "nama_asli": null,
+   "urutan": 59,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.2.1.2. RM SME Kantor Cabang Capem Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.2.1.3",
+   "nama": "Relationship Manager (RM) Micro",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.2.1",
+   "nama_asli": null,
+   "urutan": 60,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.2.1.3. RM MIKRO BANKING Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.2.1.4",
+   "nama": "Relationship Manager (RM) Collection",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.2.1",
+   "nama_asli": null,
+   "urutan": 61,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.2.1.4. Jobdesk (RM Collection).docx"
+   ]
+  },
+  {
+   "kode": "KCP2-3.B.2.1.5",
+   "nama": "Relationship Manager Dana & Jasa Elektronik",
+   "unit_kode": "KCP2",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP2-3.B.2.1",
+   "nama_asli": null,
+   "urutan": 62,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 2 (SME)/3.B.2.1.5. Jobdesk (RM  Dana & Jasa Elektronik ).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1",
+   "nama": "Pemimpin Cabang Pembantu",
+   "unit_kode": "KCP3",
+   "jenjang": 1,
+   "kelompok": "Pemimpin Kantor",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 63,
+   "catatan": "Atasan langsung: Direksi / Cabang Induk.",
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1 Job Desk (Pincapem).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1",
+   "nama": "Koordinator Operasional",
+   "unit_kode": "KCP3",
+   "jenjang": 3,
+   "kelompok": "Koordinator",
+   "atasan_kode": "KCP3-3.B.1",
+   "nama_asli": null,
+   "urutan": 64,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1. Job Desk (Koordinator Operasional ).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.1",
+   "nama": "Teller",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 65,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.1. Job Desk (Teller).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.2",
+   "nama": "Customer Service",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 66,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.2. Job Desk (Customer Service).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.3",
+   "nama": "Sundries",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 67,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.3. Job Desk (Sundries).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.4",
+   "nama": "Pelaksana Umum",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1.1",
+   "nama_asli": null,
+   "urutan": 68,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.4. Job Desk (Umum).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.5",
+   "nama": "Relationship Manager (RM) Konsumtif",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1",
+   "nama_asli": null,
+   "urutan": 69,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.5. Jobdesk RM Konsumtif Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.6",
+   "nama": "Relationship Manager (RM) Micro",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1",
+   "nama_asli": null,
+   "urutan": 70,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.6. RM MIKRO BANKING Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.7",
+   "nama": "Relationship Manager (RM) SME",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1",
+   "nama_asli": null,
+   "urutan": 71,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.7. RM SME Kantor Cabang Capem Ok.docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.8",
+   "nama": "Relationship Manager (RM) Collection",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1",
+   "nama_asli": null,
+   "urutan": 72,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.8. Jobdesk (RM Collection).docx"
+   ]
+  },
+  {
+   "kode": "KCP3-3.B.1.1.9",
+   "nama": "Relationship Manager Dana & Jasa Elektronik",
+   "unit_kode": "KCP3",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KCP3-3.B.1",
+   "nama_asli": null,
+   "urutan": 73,
+   "catatan": null,
+   "files": [
+    "3. Cabang Pembantu TIPE 3 (NON SME)/3.B.1.1.9. Jobdesk (Relationship Manager Dana & Jasa Elektronik ).docx"
+   ]
+  },
+  {
+   "kode": "D04-4.0",
+   "nama": "Kepala Divisi Perencanaan",
+   "unit_kode": "D04",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 74,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.0. Kepala Divisi Perencanaan.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.A",
+   "nama": "Kepala Bagian Rencana Bisnis Bank",
+   "unit_kode": "D04-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D04-4.0",
+   "nama_asli": null,
+   "urutan": 75,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.A. Job Desk Kabag Rencana Bisnis Bank.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.A.1",
+   "nama": "Pelaksana Penyusunan RBB & RKA",
+   "unit_kode": "D04-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D04-4.A",
+   "nama_asli": null,
+   "urutan": 76,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.A.1. Job Desk Pls. Penyusunan RBB dan RKA.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.A.2",
+   "nama": "Pelaksana Penyusunan & Pelaporan RAKB",
+   "unit_kode": "D04-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D04-4.A",
+   "nama_asli": null,
+   "urutan": 77,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.A.2. Job Desk Pls. Penyusunan dan Pelaporan RAKB.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.B",
+   "nama": "Kepala Bagian Perencanaan Strategis",
+   "unit_kode": "D04-02",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D04-4.0",
+   "nama_asli": null,
+   "urutan": 78,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.B. Job Desk Kabag Perencanaan Strategis.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.B.1",
+   "nama": "Kepala Seksi Perencanaan Strategis",
+   "unit_kode": "D04-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D04-4.B",
+   "nama_asli": null,
+   "urutan": 79,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.B.1. Job Desk Kepala Seksi Perencanaan.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.B.1.2",
+   "nama": "Pelaksana Riset",
+   "unit_kode": "D04-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D04-4.B.1",
+   "nama_asli": null,
+   "urutan": 80,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.B.1.2. Job Desk Pls. Riset.docx"
+   ]
+  },
+  {
+   "kode": "D04-4.B.1.3",
+   "nama": "Pelaksana Business Performance & Portfolio",
+   "unit_kode": "D04-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D04-4.B.1",
+   "nama_asli": null,
+   "urutan": 81,
+   "catatan": null,
+   "files": [
+    "4. DIVISI PERENCANAAN/4.B.1.3 Pelaksana Business Perfomance & Portofolio.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.0",
+   "nama": "Kepala Divisi Corporate Secretary",
+   "unit_kode": "D05",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 82,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.0. KEPALA DIVISI CORSEC.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A",
+   "nama": "Kepala Bagian Sekretaris Perusahaan",
+   "unit_kode": "D05-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D05-5.0",
+   "nama_asli": null,
+   "urutan": 83,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A. KEPALA BAGIAN CORSEC.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.1",
+   "nama": "Kepala Seksi Sekretaris & Protokoler",
+   "unit_kode": "D05-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D05-5.A",
+   "nama_asli": null,
+   "urutan": 84,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.1. KEPALA SEKSI SEKRETARIS & PROTOKOLER.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.1.1",
+   "nama": "Pelaksana Sekretaris",
+   "unit_kode": "D05-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D05-5.A.1",
+   "nama_asli": null,
+   "urutan": 85,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.1.1. PELAKSANA SEKRETARIS.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.1.2",
+   "nama": "Pelaksana Protokoler",
+   "unit_kode": "D05-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D05-5.A.1",
+   "nama_asli": null,
+   "urutan": 86,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.1.2. PELAKSANA PROTOKOLER.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.2",
+   "nama": "Kepala Seksi Hubungan Masyarakat & Komunikasi Perusahaan",
+   "unit_kode": "D05-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D05-5.A",
+   "nama_asli": null,
+   "urutan": 87,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.2. KEPALA SEKSI HUBUNGAN MASYARAKAT & KOMUNIKASI PERUSAHAAN.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.2.1",
+   "nama": "Pelaksana Hubungan Masyarakat",
+   "unit_kode": "D05-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D05-5.A.2",
+   "nama_asli": null,
+   "urutan": 88,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.2.1. PELAKSANA HUBUNGAN MASYARAKAT.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.2.2",
+   "nama": "Pelaksana Komunikasi Perusahaan",
+   "unit_kode": "D05-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D05-5.A.2",
+   "nama_asli": null,
+   "urutan": 89,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.2.2 PELAKSANA KOMUNIKASI MASYARAKAT.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.2.3",
+   "nama": "Pelaksana Event & CSR",
+   "unit_kode": "D05-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D05-5.A.2",
+   "nama_asli": null,
+   "urutan": 90,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.2.3. PELAKSANA EVENT & CSR.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.3",
+   "nama": "Kepala Seksi Sekretaris Dewan Komisaris",
+   "unit_kode": "D05-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D05-5.A",
+   "nama_asli": null,
+   "urutan": 91,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.3 KEPALA SEKSI SEKRETARIS DEWAN KOMISARIS.docx"
+   ]
+  },
+  {
+   "kode": "D05-5.A.3.1",
+   "nama": "Pelaksana Sekretaris Dewan Komisaris",
+   "unit_kode": "D05-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D05-5.A.3",
+   "nama_asli": null,
+   "urutan": 92,
+   "catatan": null,
+   "files": [
+    "5. DIVISI CORPORATE SECRETARY/5.A.3.1. PELAKSANA SEKRETARIS DEWAN KOMISARIS.docx"
+   ]
+  },
+  {
+   "kode": "D06-6.A",
+   "nama": "Kepala Bagian Hukum & Litigasi",
+   "unit_kode": "D06",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 93,
+   "catatan": null,
+   "files": [
+    "6. BAGIAN HUKUM & LITIGASI/6.A. KEPALA BAGIAN HUKUM & LITIGASI.docx"
+   ]
+  },
+  {
+   "kode": "D06-6.A.1.1",
+   "nama": "Pelaksana Hukum & Litigasi",
+   "unit_kode": "D06",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D06-6.A",
+   "nama_asli": null,
+   "urutan": 94,
+   "catatan": null,
+   "files": [
+    "6. BAGIAN HUKUM & LITIGASI/6.A.1.1. PELAKSANA HUKUM & LITIGASI.docx"
+   ]
+  },
+  {
+   "kode": "D07-7",
+   "nama": "Kepala Divisi Operasional Kredit",
+   "unit_kode": "D07",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-3",
+   "nama_asli": null,
+   "urutan": 95,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7. Kadiv Operasional Kredit revisi.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.A",
+   "nama": "Kepala Bagian Monitoring Kredit",
+   "unit_kode": "D07-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D07-7",
+   "nama_asli": null,
+   "urutan": 96,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.A. Kepala Bagian Monitoring Kredit.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.A.1.1",
+   "nama": "Pelaksana Monitoring Kualitas Kredit",
+   "unit_kode": "D07-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.A",
+   "nama_asli": null,
+   "urutan": 97,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.A.1.1. Pelaksana Monitoring Kualitas Kredit ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.A.1.2",
+   "nama": "Pelaksana Pelaporan",
+   "unit_kode": "D07-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.A",
+   "nama_asli": null,
+   "urutan": 98,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.A.1.2. Pelaksana Pelaporan ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.A.1.3",
+   "nama": "Pelaksana Pengalihan Asset Kredit",
+   "unit_kode": "D07-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.A",
+   "nama_asli": null,
+   "urutan": 99,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.A.1.3. Pelaksana Pengalihan Asset Kredit ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.A.1.4",
+   "nama": "Pelaksana Pengelola Asuransi/Penjaminan",
+   "unit_kode": "D07-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.A",
+   "nama_asli": null,
+   "urutan": 100,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.A.1.4. Pelaksana Pengelola Asuransi-Penjaminan  ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.B",
+   "nama": "Kepala Bagian Administrasi Kredit",
+   "unit_kode": "D07-02",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D07-7",
+   "nama_asli": null,
+   "urutan": 101,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.B. Kepala Bagian Administrasi Kredit.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.B.1.1",
+   "nama": "Pelaksana Appraisal Kredit",
+   "unit_kode": "D07-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.B",
+   "nama_asli": null,
+   "urutan": 102,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.B.1.1. Pelaksana Appraisal Kredit ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.B.1.2",
+   "nama": "Pelaksana Administrasi Kredit",
+   "unit_kode": "D07-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.B",
+   "nama_asli": null,
+   "urutan": 103,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.B.1.2. Pelaksana Administrasi Kredit ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.B.1.3",
+   "nama": "Pelaksana Legal Kredit",
+   "unit_kode": "D07-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.B",
+   "nama_asli": null,
+   "urutan": 104,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.B.1.3. Pelaksana Legal Kredit ok.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.C",
+   "nama": "Kepala Bagian Risiko Bisnis",
+   "unit_kode": "D07-03",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D07-7",
+   "nama_asli": null,
+   "urutan": 105,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.C. Kepala Bagian Risiko Kredit.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.C.1",
+   "nama": "Koordinator Analis Kredit",
+   "unit_kode": "D07-03",
+   "jenjang": 3,
+   "kelompok": "Koordinator",
+   "atasan_kode": "D07-7.C",
+   "nama_asli": null,
+   "urutan": 106,
+   "catatan": null,
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.C.1. Koordinator Analis Kredit.doc"
+   ]
+  },
+  {
+   "kode": "D07-7.C.1.1",
+   "nama": "Pelaksana Analis Kredit",
+   "unit_kode": "D07-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D07-7.C.1",
+   "nama_asli": null,
+   "urutan": 107,
+   "catatan": "Atasan \"Koordinator Analis\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "7. DIVISI OPERASIONAL KREDIT/7.C.1.1 Pelaksana Analis Kredit.doc"
+   ]
+  },
+  {
+   "kode": "D08-8",
+   "nama": "Kepala Divisi Kredit Menengah, Komersial, Korporasi & Hubungan Kelembagaan",
+   "unit_kode": "D08",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-2",
+   "nama_asli": null,
+   "urutan": 108,
+   "catatan": null,
+   "files": [
+    "8. DIVISI KREDIT MENENGAH, KOMERSIAL,KORPORASI & HUBUNGAN KELEMBAGAAN/8. Kadiv Kredit Menengah, Komersial, Korporasi & Hub Kelembagaan.doc"
+   ]
+  },
+  {
+   "kode": "D08-8.A",
+   "nama": "Kepala Bagian Kredit Menengah, Komersial, Korporasi & Hubungan Kelembagaan",
+   "unit_kode": "D08-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D08-8",
+   "nama_asli": null,
+   "urutan": 109,
+   "catatan": null,
+   "files": [
+    "8. DIVISI KREDIT MENENGAH, KOMERSIAL,KORPORASI & HUBUNGAN KELEMBAGAAN/8.A. Kepala Bagian Kredit Menengah, Komersial,Korporasi & Hubungan Kelembagaan.doc"
+   ]
+  },
+  {
+   "kode": "D08-8.A.1",
+   "nama": "Relationship Manager (RM) Korporasi & SME",
+   "unit_kode": "D08-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D08-8.A",
+   "nama_asli": null,
+   "urutan": 110,
+   "catatan": null,
+   "files": [
+    "8. DIVISI KREDIT MENENGAH, KOMERSIAL,KORPORASI & HUBUNGAN KELEMBAGAAN/8.A.1. RM Korporasi & SME Kantor Pusat.doc"
+   ]
+  },
+  {
+   "kode": "D08-8.A.2",
+   "nama": "Relationship Manager (RM) Institusi & Hubungan Kelembagaan",
+   "unit_kode": "D08-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D08-8.A",
+   "nama_asli": null,
+   "urutan": 111,
+   "catatan": null,
+   "files": [
+    "8. DIVISI KREDIT MENENGAH, KOMERSIAL,KORPORASI & HUBUNGAN KELEMBAGAAN/8.A.2. RM Institusi & Hubungan Kelembagaan.doc"
+   ]
+  },
+  {
+   "kode": "D09-9",
+   "nama": "Kepala Divisi Kredit Konsumtif & Mikro",
+   "unit_kode": "D09",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-2",
+   "nama_asli": null,
+   "urutan": 112,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9. Kepala Divisi Kredit Konsumtif & Mikro Rev.doc"
+   ]
+  },
+  {
+   "kode": "D09-9.A",
+   "nama": "Kepala Bagian Kredit Konsumtif",
+   "unit_kode": "D09-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D09-9",
+   "nama_asli": null,
+   "urutan": 113,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.A. Kabag Kredit Konsumtif - Konsumtif Rev.docx"
+   ]
+  },
+  {
+   "kode": "D09-9.A.1",
+   "nama": "Kepala Seksi Kredit Konsumtif (KPR & KKB) & (Multiguna)",
+   "unit_kode": "D09-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D09-9.A",
+   "nama_asli": null,
+   "urutan": 114,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.A.1. Kasie Pemasaran Kredit Konsumtif ok.docx"
+   ]
+  },
+  {
+   "kode": "D09-9.A.1.1",
+   "nama": "Pelaksana Pemasaran Kredit Konsumtif (KPR & KKB)",
+   "unit_kode": "D09-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D09-9.A.1",
+   "nama_asli": null,
+   "urutan": 115,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.A.1.1. Pelaksana Pemasaran Kredit Konsumtif (KPR & KKB) ok.docx"
+   ]
+  },
+  {
+   "kode": "D09-9.A.1.2",
+   "nama": "Pelaksana Pemasaran Kredit Konsumtif (Kredit Multiguna)",
+   "unit_kode": "D09-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D09-9.A.1",
+   "nama_asli": null,
+   "urutan": 116,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.A.1.2. Pelaksana Pemasaran Kredit Konsumtif (KMG) ok.docx"
+   ]
+  },
+  {
+   "kode": "D09-9.B",
+   "nama": "Kepala Bagian Kredit Mikro",
+   "unit_kode": "D09-03",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D09-9",
+   "nama_asli": null,
+   "urutan": 117,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.B. Kabag Kredit Mikro revisi.doc"
+   ]
+  },
+  {
+   "kode": "D09-9.B.1",
+   "nama": "Kepala Seksi Kredit Mikro",
+   "unit_kode": "D09-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D09-9.B",
+   "nama_asli": null,
+   "urutan": 118,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.B.1. Kasie Kredit Mikro.doc"
+   ]
+  },
+  {
+   "kode": "D09-9.B.1.1",
+   "nama": "Pelaksana Kredit Mikro",
+   "unit_kode": "D09-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D09-9.B.1",
+   "nama_asli": null,
+   "urutan": 119,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.B.1.1. Pelaksana Kredit Mikro.doc"
+   ]
+  },
+  {
+   "kode": "D09-9.C",
+   "nama": "Kepala Bagian Manajemen Aset Khusus",
+   "unit_kode": "D09-05",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D09-9",
+   "nama_asli": null,
+   "urutan": 120,
+   "catatan": "Atasan \"Kepala Divisi Konsumtif & Mikro Perbankan\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.C. Kabag - Manajemen Aset Khusus.doc"
+   ]
+  },
+  {
+   "kode": "D09-9.C.1.1",
+   "nama": "Pelaksana Penyelamatan Kredit",
+   "unit_kode": "D09-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D09-9.C",
+   "nama_asli": null,
+   "urutan": 121,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.C.1.1. (Pls. Penyelamatan Kredit) ok.docx"
+   ]
+  },
+  {
+   "kode": "D09-9.C.1.2",
+   "nama": "Pelaksana Administrasi Kredit Bermasalah",
+   "unit_kode": "D09-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D09-9.C",
+   "nama_asli": null,
+   "urutan": 122,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.C.1.2. Pelaksana Administrasi Kredit Bermasalah ok.doc"
+   ]
+  },
+  {
+   "kode": "D09-9.C.1.3",
+   "nama": "Pelaksana Pengelolaan Kredit Hapus Buku/Hapus Tagih",
+   "unit_kode": "D09-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D09-9.C",
+   "nama_asli": null,
+   "urutan": 123,
+   "catatan": null,
+   "files": [
+    "9. DIVISI KREDIT KONSUMTIF & MIKRO/9.C.1.3. (Pls. Pengelolaan Kredit Hapus Buku dan Hapus Tagih) ok.docx"
+   ]
+  },
+  {
+   "kode": "D10-10.0",
+   "nama": "Kepala Divisi Kepatuhan, APU PPT & PPPSPM",
+   "unit_kode": "D10",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-5",
+   "nama_asli": null,
+   "urutan": 124,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.0 Kepala Divisi Kepatuhan,APU PPT & PPPSPM.docx"
+   ]
+  },
+  {
+   "kode": "D10-10.A",
+   "nama": "Kepala Bagian Kepatuhan",
+   "unit_kode": "D10-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D10-10.0",
+   "nama_asli": null,
+   "urutan": 125,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.A. Job Desk (Kabag Kepatuhan).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.A.1",
+   "nama": "Pelaksana Kepatuhan",
+   "unit_kode": "D10-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.A",
+   "nama_asli": null,
+   "urutan": 126,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.A.1 Job Desk (Pls. Kepatuhan).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.A.2",
+   "nama": "Pelaksana Pengkajian",
+   "unit_kode": "D10-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.A",
+   "nama_asli": null,
+   "urutan": 127,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.A.2 Job Desk (Pls. Pengkajian).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.A.3",
+   "nama": "Pelaksana Monitoring Kebijakan",
+   "unit_kode": "D10-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.A",
+   "nama_asli": null,
+   "urutan": 128,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.A.3 Job Desk (Pls. Monitoring Kebijakan).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.A.4",
+   "nama": "Pelaksana Pengendalian Anti Gratifikasi (PAG)",
+   "unit_kode": "D10-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.A",
+   "nama_asli": null,
+   "urutan": 129,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.A.4 Job Desk Pelaksana Pengendalian Anti Gratifikasi.docx"
+   ]
+  },
+  {
+   "kode": "D10-10.B",
+   "nama": "Kepala Bagian APU PPT & PPPSPM",
+   "unit_kode": "D10-02",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D10-10.0",
+   "nama_asli": null,
+   "urutan": 130,
+   "catatan": "Atasan \"Kepala Divisi Kepatuhan, APU PPT & Strategi Anti Fraud\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.B. Job Desk (Kabag APU PPT).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.B.1",
+   "nama": "Pelaksana Analis CTR & STR",
+   "unit_kode": "D10-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.B",
+   "nama_asli": null,
+   "urutan": 131,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.B.1 Job Desk (Pls. Analis CTR & STR ).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.B.2",
+   "nama": "Pelaksana Laporan APU PPT & PPPSPM",
+   "unit_kode": "D10-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.B",
+   "nama_asli": null,
+   "urutan": 132,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.B.2 Job Desk (Pls. APU PPT & PPPSPM ).docx"
+   ]
+  },
+  {
+   "kode": "D10-10.B.3",
+   "nama": "Pelaksana Kebijakan & Pengembangan APU PPT & PPPSPM",
+   "unit_kode": "D10-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D10-10.B",
+   "nama_asli": null,
+   "urutan": 133,
+   "catatan": null,
+   "files": [
+    "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10.B.3 Job Desk (Pls. Kebijakan & Pengembangan APU PPT & PPPSPM ).docx"
+   ]
+  },
+  {
+   "kode": "D11-11",
+   "nama": "Kepala Divisi Manajemen Risiko",
+   "unit_kode": "D11",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-5",
+   "nama_asli": null,
+   "urutan": 134,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11. Kepala Divisi Manajemen Risiko.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.A",
+   "nama": "Kepala Bagian Manajemen Risiko Kredit dan Likuiditas",
+   "unit_kode": "D11-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D11-11",
+   "nama_asli": null,
+   "urutan": 135,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.A. Kepala Bagian Risiko Kredit dan Likuiditas.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.A.1",
+   "nama": "Pelaksana Risiko Kredit",
+   "unit_kode": "D11-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D11-11.A",
+   "nama_asli": null,
+   "urutan": 136,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.A.1 Pelaksana Risiko Kredit.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.A.2",
+   "nama": "Pelaksana Likuiditas dan Pasar",
+   "unit_kode": "D11-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D11-11.A",
+   "nama_asli": null,
+   "urutan": 137,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.A.2 Pelaksana Risiko Likuiditas dan Pasar.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.B",
+   "nama": "Kepala Bagian Operasional dan Risiko Lainnya",
+   "unit_kode": "D11-02",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D11-11",
+   "nama_asli": null,
+   "urutan": 138,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.B. Kepala Bagian Risiko Operasional dan Risiko Lainnya.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.B.1",
+   "nama": "Pelaksana Risiko Operasional & Risiko Lainnya",
+   "unit_kode": "D11-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D11-11.B",
+   "nama_asli": null,
+   "urutan": 139,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.B.1. Job Desk Pelaksana Risiko Operasional & Risiko Lainnya.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.B.2",
+   "nama": "Pelaksana Monitoring Integritas Pelaporan Keuangan",
+   "unit_kode": "D11-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D11-11.B",
+   "nama_asli": null,
+   "urutan": 140,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.B.2. Job Desk Pelaksana Monitoring Integritas Pelaporan Keuangan.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.C",
+   "nama": "Kepala Bagian Strategi Anti Fraud",
+   "unit_kode": "D11-03",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D11-11",
+   "nama_asli": null,
+   "urutan": 141,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.C. Job Desk (Kabag Strategi Anti Fraud).docx"
+   ]
+  },
+  {
+   "kode": "D11-11.C.1",
+   "nama": "Pelaksana Strategi Anti Fraud (SAF)",
+   "unit_kode": "D11-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D11-11.C",
+   "nama_asli": null,
+   "urutan": 142,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.C.1 Job Desk Pelaksana Strategi Anti Fraud.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.D.1",
+   "nama": "Kepala Seksi Cyber Risk Management",
+   "unit_kode": "D11-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D11-11",
+   "nama_asli": null,
+   "urutan": 143,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.D.1 Kepala Seksi Cyber Risk Management.docx"
+   ]
+  },
+  {
+   "kode": "D11-11.D.1.1",
+   "nama": "Pelaksana Cyber Risk Management",
+   "unit_kode": "D11-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D11-11.D.1",
+   "nama_asli": null,
+   "urutan": 144,
+   "catatan": null,
+   "files": [
+    "11. DIVISI MANAJEMEN RISIKO/11.D.1.1 Job Desk Pelaksana Cyber Risk Management.docx"
+   ]
+  },
+  {
+   "kode": "D12-12",
+   "nama": "Kepala Divisi Pemasaran Dana & Jasa",
+   "unit_kode": "D12",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-2",
+   "nama_asli": null,
+   "urutan": 145,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12. Kepala Divisi Pemasaran & Jasa.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.A",
+   "nama": "Kepala Bagian Pemasaran Dana",
+   "unit_kode": "D12-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D12-12",
+   "nama_asli": null,
+   "urutan": 146,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.A. Kepala Bagian Pemasaran Dana.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.A.1",
+   "nama": "Kepala Seksi Pemasaran Dana",
+   "unit_kode": "D12-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D12-12.A",
+   "nama_asli": null,
+   "urutan": 147,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.A.1. KEPALA SEKSI PEMASARAN DANA.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.A.1.1",
+   "nama": "Relationship Manager Casa & Crowd Fund",
+   "unit_kode": "D12-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D12-12.A.1",
+   "nama_asli": null,
+   "urutan": 148,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.A.1.1. RM CASA & CROWD FUND.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.A.1.2",
+   "nama": "Relationship Manager Deposan",
+   "unit_kode": "D12-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D12-12.A.1",
+   "nama_asli": null,
+   "urutan": 149,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.A.1.2. RM DEPOSAN.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.A.1.3",
+   "nama": "Relationship Manager Prioritas & SDB",
+   "unit_kode": "D12-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D12-12.A.1",
+   "nama_asli": null,
+   "urutan": 150,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.A.1.3. RM PRIORITAS & SDB.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.B",
+   "nama": "Kepala Bagian Produk Digital & Cash Management",
+   "unit_kode": "D12-03",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D12-12",
+   "nama_asli": null,
+   "urutan": 151,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.B. Kepala Bagian Produk Digital & Cash Management.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.B.1",
+   "nama": "Kepala Seksi Digital & Cash Management",
+   "unit_kode": "D12-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D12-12.B",
+   "nama_asli": null,
+   "urutan": 152,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.B.1. Kepala Seksi Produk Digital & Cash Management.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.B.1.1",
+   "nama": "Relationship Manager Layanan Digital",
+   "unit_kode": "D12-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D12-12.B",
+   "nama_asli": null,
+   "urutan": 153,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.B.1.1 RM Layanan Digital.docx"
+   ]
+  },
+  {
+   "kode": "D12-12.B.1.2",
+   "nama": "Relationship Manager Transaksi & Cash Management",
+   "unit_kode": "D12-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D12-12.B",
+   "nama_asli": null,
+   "urutan": 154,
+   "catatan": null,
+   "files": [
+    "12. DIVISI PEMASARAN DANA & JASA/12.B.1.2 RM Transaksi & Cash.docx"
+   ]
+  },
+  {
+   "kode": "D13-13",
+   "nama": "Kepala Divisi Teknologi Informasi",
+   "unit_kode": "D13",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-3",
+   "nama_asli": null,
+   "urutan": 155,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13. Kepala Divisi TI.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A",
+   "nama": "Kepala Bagian Operasional TI",
+   "unit_kode": "D13-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D13-13",
+   "nama_asli": null,
+   "urutan": 156,
+   "catatan": "Atasan \"Kepala Divisi TI\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A. Job Desk (Kabag Operasional TI).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.1",
+   "nama": "Kepala Seksi Data Center (DC) dan Disaster Recovery Center (DRC)",
+   "unit_kode": "D13-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13.A",
+   "nama_asli": null,
+   "urutan": 157,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.1. Job Desk (Kepala Seksi DC dan DRC ).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.1.1",
+   "nama": "Pelaksana Data Center",
+   "unit_kode": "D13-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.1",
+   "nama_asli": null,
+   "urutan": 158,
+   "catatan": "Atasan \"Kepala Seksi DC dan DRC\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.1.1. Job Desk (Pls. DC).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.1.2",
+   "nama": "Pelaksana DRC",
+   "unit_kode": "D13-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.1",
+   "nama_asli": null,
+   "urutan": 159,
+   "catatan": "Atasan \"Kepala Seksi DC dan DRC\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.1.2. Job Desk (Pls. DRC).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.1.3",
+   "nama": "Pelaksana System Operator EOD",
+   "unit_kode": "D13-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.1",
+   "nama_asli": null,
+   "urutan": 160,
+   "catatan": "Atasan \"Kepala Seksi DC dan DRC\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.1.3. Job Desk (Pls. System Operator EOD).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.1.4",
+   "nama": "Pelaksana Instalasi dan Maintenance Server",
+   "unit_kode": "D13-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.1",
+   "nama_asli": null,
+   "urutan": 161,
+   "catatan": "Atasan \"Kepala Seksi DC dan DRC\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.1.4. Job Desk (Pls. Instalasi dan Maintenance Server).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.2",
+   "nama": "Kepala Seksi Helpdesk dan Monitoring",
+   "unit_kode": "D13-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13.A",
+   "nama_asli": null,
+   "urutan": 162,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.2. Job Desk (Kepala Seksi Helpdesk dan Monitoring).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.2.1",
+   "nama": "Pelaksana Ticketing",
+   "unit_kode": "D13-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.2",
+   "nama_asli": null,
+   "urutan": 163,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.2.1. Job Desk (Pls. Pengaduan dan Ticketing).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.2.2",
+   "nama": "Pelaksana Monitoring dan Support Aplikasi",
+   "unit_kode": "D13-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.2",
+   "nama_asli": null,
+   "urutan": 164,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.2.2. Job Desk (Pls. Monitroing dan Support aplikasi).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.2.3",
+   "nama": "Pelaksana Helpdesk",
+   "unit_kode": "D13-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.2",
+   "nama_asli": null,
+   "urutan": 165,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.2.3. Job Desk (Pls. Helpdesk).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.2.4",
+   "nama": "Pelaksana Instalasi dan Maintenance ATM",
+   "unit_kode": "D13-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.2",
+   "nama_asli": null,
+   "urutan": 166,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.2.4. Job Desk (Pls. Instalasi dan Maintenance ATM).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.3",
+   "nama": "Kepala Seksi Jaringan Komputer",
+   "unit_kode": "D13-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13.A",
+   "nama_asli": null,
+   "urutan": 167,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.3. Job Desk (Kepala Seksi Jaringan Komputer).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.3.1",
+   "nama": "Pelaksana Jaringan Kantor dan Pihak Ketiga",
+   "unit_kode": "D13-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.3",
+   "nama_asli": null,
+   "urutan": 168,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.3.1. Job Desk (Pls.  Jaringan Kantor dan Pihak Ketiga).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.3.2",
+   "nama": "Pelaksana Support Aplikasi BI",
+   "unit_kode": "D13-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.3",
+   "nama_asli": null,
+   "urutan": 169,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.3.2. Job Desk (Pls. Support Aplikasi BI).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.A.3.3",
+   "nama": "Pelaksana Instalasi dan Maintenance Perangkat Komputer",
+   "unit_kode": "D13-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.A.3",
+   "nama_asli": null,
+   "urutan": 170,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.A.3.3. Job Desk (Pls. Instalasi dan maintenance perangkat komputer ).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B",
+   "nama": "Kepala Bagian Pengembangan Aplikasi TI",
+   "unit_kode": "D13-05",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D13-13",
+   "nama_asli": null,
+   "urutan": 171,
+   "catatan": "Atasan \"Kepala Divisi TI\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B. Job Desk (Kabag Pengembangan Aplikasi TI).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.1",
+   "nama": "Kepala Seksi Core Banking dan MIS",
+   "unit_kode": "D13-06",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13.B",
+   "nama_asli": null,
+   "urutan": 172,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.1. Job Desk (Kepala Seksi Core Banking dan MIS).docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.1.1",
+   "nama": "Pelaksana Core Banking",
+   "unit_kode": "D13-06",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.B.1",
+   "nama_asli": null,
+   "urutan": 173,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.1.1. Job Desk (Pelaksana Core Banking)_edit.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.1.2",
+   "nama": "Pelaksana MIS dan Dataware house",
+   "unit_kode": "D13-06",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.B.1",
+   "nama_asli": null,
+   "urutan": 174,
+   "catatan": "Atasan \"Kepala Seksi Corebanking dan MIS Dataware house\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.1.2. Job Desk (Pelaksana MIS dan Datawarehouse)_edit.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.2",
+   "nama": "Kepala Seksi Switching & Surrounding",
+   "unit_kode": "D13-07",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13.B",
+   "nama_asli": null,
+   "urutan": 175,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.2. Job Desk (Kepala Seksi Switching dan Surrounding Application) - New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.2.1",
+   "nama": "Pelaksana Switching",
+   "unit_kode": "D13-07",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.B.2",
+   "nama_asli": null,
+   "urutan": 176,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.2.1. Job Desk (Pelaksana Switching) - New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.2.2",
+   "nama": "Pelaksana Surrounding Application",
+   "unit_kode": "D13-07",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.B.2",
+   "nama_asli": null,
+   "urutan": 177,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.2.2. Job Desk (Pelaksana Surrounding Application) - New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.3",
+   "nama": "Kepala Seksi Business Analyst & System Analyst",
+   "unit_kode": "D13-08",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13.B",
+   "nama_asli": null,
+   "urutan": 178,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.3. Job Desk (Kepala Seksi Bussines Analyst dan System Analyst)_New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.3.1",
+   "nama": "Pelaksana Business Analyst",
+   "unit_kode": "D13-08",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.B.3",
+   "nama_asli": null,
+   "urutan": 179,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.3.1. Job Desk (Pelaksana Business Analyst)_New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.B.3.2",
+   "nama": "Pelaksana System Analyst",
+   "unit_kode": "D13-08",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.B.3",
+   "nama_asli": null,
+   "urutan": 180,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.B.3.2. Job Desk (Pelaksana System Analyst)_New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.C.1",
+   "nama": "Kepala Seksi Quality Assurance TI",
+   "unit_kode": "D13-09",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13",
+   "nama_asli": null,
+   "urutan": 181,
+   "catatan": "Atasan \"Kepala Divisi TI\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.C.1. Job Desk (Kasie Quality Assurance) - Copy.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.C.1.1",
+   "nama": "Pelaksana Quality Assurance",
+   "unit_kode": "D13-09",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.C.1",
+   "nama_asli": null,
+   "urutan": 182,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.C.1.1. Job Desk (Pelaksana Quality Assurance) - New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.D.1",
+   "nama": "Kepala Seksi TI Governance",
+   "unit_kode": "D13-10",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D13-13",
+   "nama_asli": null,
+   "urutan": 183,
+   "catatan": "Atasan \"Kepala Divisi TI\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.D.1. Job Desk (Kasie TI Governance) - New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.D.1.1",
+   "nama": "Pelaksana TI Governance",
+   "unit_kode": "D13-10",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.D.1",
+   "nama_asli": null,
+   "urutan": 184,
+   "catatan": "Atasan \"Kasie TI Governance\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.D.1.1. Job Desk (Pelaksana TI Governance) - New.docx"
+   ]
+  },
+  {
+   "kode": "D13-13.D.1.2",
+   "nama": "Pelaksana Tindak Lanjut Temuan TI",
+   "unit_kode": "D13-10",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D13-13.D.1",
+   "nama_asli": null,
+   "urutan": 185,
+   "catatan": null,
+   "files": [
+    "13. DIVISI TEKNOLOGI INFORMASI/13.D.1.2. Job Desk (Pelaksana TindakLanjut Temuan TI) - New - Copy.docx"
+   ]
+  },
+  {
+   "kode": "D14-14",
+   "nama": "Kepala Divisi Human Capital",
+   "unit_kode": "D14",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-4",
+   "nama_asli": null,
+   "urutan": 186,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14. Kepala Divisi Human Capital.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A",
+   "nama": "Kepala Bagian HC Policy & Development",
+   "unit_kode": "D14-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D14-14",
+   "nama_asli": null,
+   "urutan": 187,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A (Kabag HC Policy & Development).docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.1",
+   "nama": "Kepala Seksi Human Capital Information System (HCIS)",
+   "unit_kode": "D14-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D14-14.A",
+   "nama_asli": null,
+   "urutan": 188,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.1 (Kepala Seksi HCIS).docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.1.1",
+   "nama": "Pelaksana Sistem dan Database HC",
+   "unit_kode": "D14-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.A.1",
+   "nama_asli": null,
+   "urutan": 189,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.1.1 Pelaksana Sistem dan Database HC.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.1.2",
+   "nama": "Pelaksana Pelaporan dan Dokumentasi HC",
+   "unit_kode": "D14-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.A.1",
+   "nama_asli": null,
+   "urutan": 190,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.1.2 Pelaksana Pelaporan dan Dokumentasi HC.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.2",
+   "nama": "Kepala Seksi HC Policy & Development",
+   "unit_kode": "D14-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D14-14.A",
+   "nama_asli": null,
+   "urutan": 191,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.2 Kepala Seksi HC Policy & Development.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.2.1",
+   "nama": "Pelaksana Perencanaan, Manajemn Talenta & Rekrutmen SDM",
+   "unit_kode": "D14-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.A.2",
+   "nama_asli": null,
+   "urutan": 192,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.2.1 Pelaksana Perencanaan, Manajemn Talenta & Rekrutmen SDM.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.2.2",
+   "nama": "Pelaksana Pengembangan Kompetensi & Pendidikan dan Pelatihan",
+   "unit_kode": "D14-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.A.2",
+   "nama_asli": null,
+   "urutan": 193,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.2.2 Pelaksana Pengembangan Kompetensi & Pendidikan dan pelatihan.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.A.2.3",
+   "nama": "Pelaksana Kebijakan, Manajemen Kinerja & Budaya Perusahaan",
+   "unit_kode": "D14-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.A.2",
+   "nama_asli": null,
+   "urutan": 194,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.A.2.3 Pelaksana Kebijakan, Manajemen Kinerja & Budaya Perusahaan.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B",
+   "nama": "Kepala Bagian HC Service",
+   "unit_kode": "D14-04",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D14-14",
+   "nama_asli": null,
+   "urutan": 195,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B (Kabag HC Service).docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B.1",
+   "nama": "Kepala Seksi HC Operation",
+   "unit_kode": "D14-05",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D14-14.B",
+   "nama_asli": null,
+   "urutan": 196,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B.1 (Kepala Seksi HC Operation).docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B.1.1",
+   "nama": "Pelaksana Payroll & Remunerasi",
+   "unit_kode": "D14-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.B.1",
+   "nama_asli": null,
+   "urutan": 197,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B.1.1 Pelaksana Payroll & Remunerasi.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B.1.2",
+   "nama": "Pelaksana Administrasi Kepegawaian",
+   "unit_kode": "D14-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.B.1",
+   "nama_asli": null,
+   "urutan": 198,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B.1.2 Pelaksana Administrasi Kepegawaian.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B.1.3",
+   "nama": "Pelaksana Kesejahteraan & Hubungan Industrial",
+   "unit_kode": "D14-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.B.1",
+   "nama_asli": null,
+   "urutan": 199,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B.1.3 Pelaksana Kesejahteraan dan Hub Industrial.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B.2",
+   "nama": "Kepala Seksi HC Support & Alihdaya",
+   "unit_kode": "D14-06",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D14-14.B",
+   "nama_asli": null,
+   "urutan": 200,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B.2 (Kepala Seksi HC Support & Alih Daya.docx"
+   ]
+  },
+  {
+   "kode": "D14-14.B.2.1",
+   "nama": "Pelaksana Administrasi SCS & Tenaga Alih Daya",
+   "unit_kode": "D14-06",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D14-14.B.2",
+   "nama_asli": null,
+   "urutan": 201,
+   "catatan": null,
+   "files": [
+    "14. DIVISI HUMAN CAPITAL/14.B.2.1. Pelaksana Administrasi SCS & Tenaga Alih Daya.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.0",
+   "nama": "Kepala Divisi Operasional & Layanan",
+   "unit_kode": "D15",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-3",
+   "nama_asli": null,
+   "urutan": 202,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.0 Jobdesk Kepala Divisi Operasional & layanan.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A",
+   "nama": "Kepala Bagian Perlindungan Nasabah & Service Excellence",
+   "unit_kode": "D15-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D15-15.0",
+   "nama_asli": null,
+   "urutan": 203,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A Jobdesk Kabag Perlindungan Nasabah & Service Excellent.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.1",
+   "nama": "Kepala Seksi Pengaduan & Perlindungan Nasabah",
+   "unit_kode": "D15-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D15-15.A",
+   "nama_asli": null,
+   "urutan": 204,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.1. Jobdesk Kasie Pengaduan & Perlindungan Nasabah.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.1.1",
+   "nama": "Pelaksana Pelindungan Nasabah & Masyarakat",
+   "unit_kode": "D15-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.A.1",
+   "nama_asli": null,
+   "urutan": 205,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.1.1 Job Desk Pelaksana Pelindungan Nasabah & Masyarakat - Copy.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.1.2",
+   "nama": "Pelaksana Pengkinian Data",
+   "unit_kode": "D15-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.A.1",
+   "nama_asli": null,
+   "urutan": 206,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.1.2 Jobdesk Pls. Pengkinian Data.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.1.3",
+   "nama": "Pelaksana Call Center",
+   "unit_kode": "D15-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.A.1",
+   "nama_asli": null,
+   "urutan": 207,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.1.3 Job Desk Pelaksana Call Center.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.2",
+   "nama": "Kepala Seksi Service Excellence & Service Culture",
+   "unit_kode": "D15-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D15-15.A",
+   "nama_asli": null,
+   "urutan": 208,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.2 Jobdesk kepala seksi Service Excellence & Service Culture.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.2.1",
+   "nama": "Pelaksana Service Culture",
+   "unit_kode": "D15-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.A.2",
+   "nama_asli": null,
+   "urutan": 209,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.2.1 Jobdesk Pls. Service Culture.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.2.2",
+   "nama": "Pelaksana Service Excellence",
+   "unit_kode": "D15-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.A.2",
+   "nama_asli": null,
+   "urutan": 210,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.2.2 Jobdesk Pls. Service excellence.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.A.2.3",
+   "nama": "Pelaksana Maintenance User",
+   "unit_kode": "D15-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.A.2",
+   "nama_asli": null,
+   "urutan": 211,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.A.2.3 Jobdesk Pls. Maintenance User.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B",
+   "nama": "Kepala Bagian Operasional & Settlement",
+   "unit_kode": "D15-04",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D15-15.0",
+   "nama_asli": null,
+   "urutan": 212,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B Jobdesk kabag Operasional & Settlement.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.1",
+   "nama": "Kepala Seksi Monitoring & Pengaduan Transaksi E-Channel",
+   "unit_kode": "D15-05",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D15-15.B",
+   "nama_asli": null,
+   "urutan": 213,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.1 Jobdesk kepala seksi monitoring & pengaduan transaksi E-Channel.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.1.1",
+   "nama": "Pelaksana Pengelolaan Card Center",
+   "unit_kode": "D15-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.B.1",
+   "nama_asli": null,
+   "urutan": 214,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.1.1 Jobdesk Pls. Pengelolaan Card Center.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.1.2",
+   "nama": "Pelaksana Monitoring & Pengaduan Transaksi E-Channel",
+   "unit_kode": "D15-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.B.1",
+   "nama_asli": null,
+   "urutan": 215,
+   "catatan": "Atasan \"Kepala Seksi Monitoring Transaksi Harian\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.1.2 Jobdesk  Pls. Monitoring & Pengaduan Transaksi E-Channel.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.2",
+   "nama": "Kepala Seksi Rekonsiliasi Data & Pelaporan E-Channel",
+   "unit_kode": "D15-06",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D15-15.B",
+   "nama_asli": null,
+   "urutan": 216,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.2 Jobdesk Kasie. Rekonsiliasi Data & Pelaporan E-Channel.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.2.1",
+   "nama": "Pelaksana Rekonsilasi E-Channel",
+   "unit_kode": "D15-06",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.B.2",
+   "nama_asli": null,
+   "urutan": 217,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.2.1 Jobdesk Pls. Rekonsiliasi E-Channel.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.2.2",
+   "nama": "Pelaksana Pelaporan E-Channel",
+   "unit_kode": "D15-06",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.B.2",
+   "nama_asli": null,
+   "urutan": 218,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.2.2 Jobdesk Pls. Pelaporan E-Channel.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.3",
+   "nama": "Kepala Seksi Settlement & Sistem Pembayaran",
+   "unit_kode": "D15-07",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D15-15.B",
+   "nama_asli": null,
+   "urutan": 219,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.3 Jobdesk Kasie Settlement & sistem pembayaran.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.3.1",
+   "nama": "Pelaksana RTGS (Real Time Gross Settlement)/SKNBI/BI-FAST",
+   "unit_kode": "D15-07",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.B.3",
+   "nama_asli": null,
+   "urutan": 220,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.3.1 Jobdesk Pls. settlement & RTGS SKNBI BI FAST.docx"
+   ]
+  },
+  {
+   "kode": "D15-15.B.3.2",
+   "nama": "Pelaksana Token & Specimen",
+   "unit_kode": "D15-07",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D15-15.B.3",
+   "nama_asli": null,
+   "urutan": 221,
+   "catatan": null,
+   "files": [
+    "15. DIVISI OPERASIONAL & LAYANAN/15.B.3.2 Jobdesk Pls. Token & Specimen.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.0",
+   "nama": "Kepala Divisi Keuangan & Akuntansi",
+   "unit_kode": "D16",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-4",
+   "nama_asli": null,
+   "urutan": 222,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.0. KEPALA DIVISI KEUANGAN & AKUNTANSI.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A",
+   "nama": "Kepala Bagian Keuangan & Akuntansi",
+   "unit_kode": "D16-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D16-16.0",
+   "nama_asli": null,
+   "urutan": 223,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A. KEPALA BAGIAN KEUANGAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A.1",
+   "nama": "Kepala Seksi Perpajakan",
+   "unit_kode": "D16-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D16-16.A",
+   "nama_asli": null,
+   "urutan": 224,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A.1. KEPALA SEKSI PERPAJAKAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A.1.1",
+   "nama": "Pelaksana Pajak Perusahaan",
+   "unit_kode": "D16-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.A.1",
+   "nama_asli": null,
+   "urutan": 225,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A.1.1. PELAKSANA PAJAK PERUSAHAAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A.1.2",
+   "nama": "Pelaksana Pajak Pegawai",
+   "unit_kode": "D16-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.A.1",
+   "nama_asli": null,
+   "urutan": 226,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A.1.2. PELAKSANA PAJAK PEGAWAI.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A.2",
+   "nama": "Kepala Seksi Keuangan",
+   "unit_kode": "D16-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D16-16.A",
+   "nama_asli": null,
+   "urutan": 227,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A.2. KEPALA SEKSI KEUANGAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A.2.1",
+   "nama": "Pelaksana Anggaran",
+   "unit_kode": "D16-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.A.2",
+   "nama_asli": null,
+   "urutan": 228,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A.2.1. PELAKSANA ANGGARAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.A.2.2",
+   "nama": "Pelaksana Keuangan",
+   "unit_kode": "D16-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.A.2",
+   "nama_asli": null,
+   "urutan": 229,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.A.2.2. PELAKSANA KEUANGAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.B.1",
+   "nama": "Kepala Seksi Akuntansi",
+   "unit_kode": "D16-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D16-16.A",
+   "nama_asli": null,
+   "urutan": 230,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.B.1. KEPALA SEKSI AKUNTANSI.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.B.1.1",
+   "nama": "Pelaksana Akuntansi",
+   "unit_kode": "D16-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.B.1",
+   "nama_asli": null,
+   "urutan": 231,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.B.1.1. PELAKSANA AKUNTANSI.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.B.1.2",
+   "nama": "Pelaksana Nasabah Pensiunan",
+   "unit_kode": "D16-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.B.1",
+   "nama_asli": null,
+   "urutan": 232,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.B.1.2. PELAKSANA NASABAH PENSIUNAN.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.B.2",
+   "nama": "Kepala Seksi Reporting",
+   "unit_kode": "D16-05",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D16-16.A",
+   "nama_asli": null,
+   "urutan": 233,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.B.2. KEPALA SEKSI REPORTING.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.B.2.1",
+   "nama": "Pelaksana Reporting",
+   "unit_kode": "D16-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.B.2",
+   "nama_asli": null,
+   "urutan": 234,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.B.2.1. PELAKSANA REPORTING.docx"
+   ]
+  },
+  {
+   "kode": "D16-16.B.2.2",
+   "nama": "Pelaksana Database",
+   "unit_kode": "D16-05",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D16-16.B.2",
+   "nama_asli": null,
+   "urutan": 235,
+   "catatan": null,
+   "files": [
+    "16. DIVISI KEUANGAN & AKUNTANSI/16.B.2.2. PELAKSANA DATABASE.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.0",
+   "nama": "Kepala Divisi Treasury",
+   "unit_kode": "D17",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-2",
+   "nama_asli": null,
+   "urutan": 236,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.0. KEPALA DIVISI TREASURY.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.A",
+   "nama": "Kepala Bagian Treasury",
+   "unit_kode": "D17-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D17-17.0",
+   "nama_asli": null,
+   "urutan": 237,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.A. KEPALA BAGIAN TREASURY.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.A.1",
+   "nama": "Kepala Seksi Manajemen Aset Liabilitas (ALM)",
+   "unit_kode": "D17-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D17-17.A",
+   "nama_asli": null,
+   "urutan": 238,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.A.1. KEPALA SEKSI ALMA.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.A.1.1",
+   "nama": "Pelaksana ALMA",
+   "unit_kode": "D17-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D17-17.A.1",
+   "nama_asli": null,
+   "urutan": 239,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.A.1.1. PELAKSANA ALMA.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.A.1.2",
+   "nama": "Pelaksana Pelaporan Treasury",
+   "unit_kode": "D17-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D17-17.B.1",
+   "nama_asli": null,
+   "urutan": 240,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.A.1.2. PELAKSANA PELAPORAN TREASURY.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.B.1",
+   "nama": "Kepala Seksi Dealer",
+   "unit_kode": "D17-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D17-17.A",
+   "nama_asli": null,
+   "urutan": 241,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.B.1. KEPALA SEKSI DEALER.docx"
+   ]
+  },
+  {
+   "kode": "D17-17.B.1.1",
+   "nama": "Pelaksana Dealer",
+   "unit_kode": "D17-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D17-17.B.1",
+   "nama_asli": null,
+   "urutan": 242,
+   "catatan": null,
+   "files": [
+    "17. DIVISI TREASURY/17.B.1.1 PELAKSANA DEALER.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.0",
+   "nama": "Kepala Divisi Umum",
+   "unit_kode": "D18",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-4",
+   "nama_asli": null,
+   "urutan": 243,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.0. Kepala Divisi Umum.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A",
+   "nama": "Kepala Bagian Manajemen Aset & Fasilitas",
+   "unit_kode": "D18-01",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D18-18.0",
+   "nama_asli": null,
+   "urutan": 244,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A. Kepala Bagian Manajemen Aset & Fasilitas.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.1",
+   "nama": "Kepala Seksi Administrasi Umum & Manajemen Aset",
+   "unit_kode": "D18-02",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D18-18.A",
+   "nama_asli": null,
+   "urutan": 245,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.1. Kepala Seksi Manajemen Aset & Administrasi Umum.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.1.1",
+   "nama": "Pelaksana Administrasi Umum",
+   "unit_kode": "D18-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.1",
+   "nama_asli": null,
+   "urutan": 246,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.1.1 Job Desk (Pls.Administrasi Umum).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.1.2",
+   "nama": "Pelaksana Manajemen Aset",
+   "unit_kode": "D18-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.1",
+   "nama_asli": null,
+   "urutan": 247,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.1.2 Job Desk (Pls. Manajemen Aset).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.2",
+   "nama": "Kepala Seksi Pemeliharaan dan Jaringan Kantor",
+   "unit_kode": "D18-03",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D18-18.A",
+   "nama_asli": null,
+   "urutan": 248,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.2 Job Desk (Kasie Pemeliharaan dan Jaringan Kantor).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.2.1",
+   "nama": "Pelaksana Pemeliharaan Aset",
+   "unit_kode": "D18-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.2",
+   "nama_asli": null,
+   "urutan": 249,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.2.1 Job Desk (Pls. Pemeliharaan aset).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.2.2",
+   "nama": "Pelaksana Jaringan Kantor",
+   "unit_kode": "D18-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.2",
+   "nama_asli": null,
+   "urutan": 250,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.2.2 Job Desk (Pls. Jaringan Kantor).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.3",
+   "nama": "Kepala Seksi Operasional & Logistik",
+   "unit_kode": "D18-04",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D18-18.A",
+   "nama_asli": null,
+   "urutan": 251,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.3. Kepala Seksi Operasional & Logistik.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.3.1",
+   "nama": "Pelaksana Logistik",
+   "unit_kode": "D18-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.3",
+   "nama_asli": null,
+   "urutan": 252,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.3.1 Job Desk (Pls. Logistik).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.A.3.2",
+   "nama": "Pelaksana Pengarsipan",
+   "unit_kode": "D18-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.3",
+   "nama_asli": null,
+   "urutan": 253,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.A.3.2 Job Desk (Pls. Pengarsipan).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.B",
+   "nama": "Kepala Bagian Pengadaan & Vendor",
+   "unit_kode": "D18-05",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D18-18.0",
+   "nama_asli": null,
+   "urutan": 254,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.B. Kepala Bagian Pengadaan & Vendor.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.B.1",
+   "nama": "Kepala Seksi Manajemen Vendor",
+   "unit_kode": "D18-06",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D18-18.B",
+   "nama_asli": null,
+   "urutan": 255,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.B.1. Kepala Seksi Rekrutmen Vendor.docx"
+   ]
+  },
+  {
+   "kode": "D18-18.B.1.1",
+   "nama": "Pelaksana Rekrutmen Vendor Non IT",
+   "unit_kode": "D18-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.3",
+   "nama_asli": null,
+   "urutan": 256,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.B.1.1 Job Desk (Pls. Rekrutmen Vendor Non IT).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.B.1.2",
+   "nama": "Pelaksana Rekrutmen Vendor IT",
+   "unit_kode": "D18-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.3",
+   "nama_asli": null,
+   "urutan": 257,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.B.1.2 Job Desk (Pls. Rekrutmen Vendor IT).docx"
+   ]
+  },
+  {
+   "kode": "D18-18.B.1.3",
+   "nama": "Pelaksana Monev",
+   "unit_kode": "D18-04",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D18-18.A.3",
+   "nama_asli": null,
+   "urutan": 258,
+   "catatan": null,
+   "files": [
+    "18. DIVISI UMUM/18.B.1.3 Job Desk (Pls. Monev).docx"
+   ]
+  },
+  {
+   "kode": "D19-19.0",
+   "nama": "Kepala Satuan Kerja Audit Internal (SKAI)",
+   "unit_kode": "D19",
+   "jenjang": 1,
+   "kelompok": "Kepala Divisi",
+   "atasan_kode": "DIR-1",
+   "nama_asli": null,
+   "urutan": 259,
+   "catatan": null,
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.0. KEPALA SATUAN KERJA AUDIT INTERNAL(SKAI).docx"
+   ]
+  },
+  {
+   "kode": "D19-19.A",
+   "nama": "Ketua Tim Auditor",
+   "unit_kode": "D19-01",
+   "jenjang": 2,
+   "kelompok": "Ketua Kelompok",
+   "atasan_kode": "D19-19.0",
+   "nama_asli": null,
+   "urutan": 260,
+   "catatan": null,
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.A. KETUA KELOMPOK AUDITOR.docx"
+   ]
+  },
+  {
+   "kode": "D19-19.A.1",
+   "nama": "Pelaksana Auditor",
+   "unit_kode": "D19-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D19-19.A",
+   "nama_asli": null,
+   "urutan": 261,
+   "catatan": "Atasan \"Ketua Kelompok Auditor\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.A.1. PELAKSANA AUDITOR.docx"
+   ]
+  },
+  {
+   "kode": "D19-19.B",
+   "nama": "Kepala Bagian Quality Assurance",
+   "unit_kode": "D19-02",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "D19-19.0",
+   "nama_asli": null,
+   "urutan": 262,
+   "catatan": null,
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.B. KEPALA BAGIAN QUALITY ASSURANCE.docx"
+   ]
+  },
+  {
+   "kode": "D19-19.B.1",
+   "nama": "Pelaksana Quality Assurance",
+   "unit_kode": "D19-02",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D19-19.B",
+   "nama_asli": null,
+   "urutan": 263,
+   "catatan": null,
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.B.1. PELAKSANA QUALITY ASSURANCE.docx"
+   ]
+  },
+  {
+   "kode": "D19-19.C",
+   "nama": "Ketua Auditor IT",
+   "unit_kode": "D19-03",
+   "jenjang": 2,
+   "kelompok": "Ketua Kelompok",
+   "atasan_kode": "D19-19.0",
+   "nama_asli": null,
+   "urutan": 264,
+   "catatan": null,
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.C. KETUA KELOMPOK AUDITOR IT.docx"
+   ]
+  },
+  {
+   "kode": "D19-19.C.1",
+   "nama": "Pelaksana Auditor IT",
+   "unit_kode": "D19-03",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D19-19.C",
+   "nama_asli": null,
+   "urutan": 265,
+   "catatan": "Atasan \"Ketua Kelompok Auditor IT\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "19. SATUAN KERJA AUDIT INTERNAL (SKAI)/19.C.1. AUDITOR IT.docx"
+   ]
+  },
+  {
+   "kode": "D20-20.0",
+   "nama": "Kepala Bagian CISO & PDP",
+   "unit_kode": "D20",
+   "jenjang": 2,
+   "kelompok": "Kepala Bagian",
+   "atasan_kode": "DIR-3",
+   "nama_asli": null,
+   "urutan": 266,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.0. Job Desk Kepala Bagian - CISO & PDP.docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1",
+   "nama": "Kepala Seksi IT Security",
+   "unit_kode": "D20-01",
+   "jenjang": 3,
+   "kelompok": "Kepala Seksi",
+   "atasan_kode": "D20-20.0",
+   "nama_asli": null,
+   "urutan": 267,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1 Job Desk  Kepala Seksi IT Security.docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.1",
+   "nama": "Pelaksana Security Architect",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 268,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.1 Job Desk (Pls Security Architect).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.2",
+   "nama": "Pelaksana System Security",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 269,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.2 Job Desk (Pls System Security).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.3",
+   "nama": "Pelaksana Network Security",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 270,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.3 Job Desk (Pls Network Security).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.4",
+   "nama": "Pelaksana Data Security",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 271,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.4 Job Desk (Pls Data Security).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.5",
+   "nama": "Pelaksana Application Security",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 272,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.5 Job Desk (Pls Application Security).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.6",
+   "nama": "Pelaksana Penetration Tester",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 273,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.6 Job Desk (Pls Penetration Tester).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.7",
+   "nama": "Pelaksana SOC Monitoring",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 274,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.7 Job Desk (Pls SOC Monitoring).docx"
+   ]
+  },
+  {
+   "kode": "D20-20.A.1.8",
+   "nama": "Pelaksana Fraud Detection System (FDS)",
+   "unit_kode": "D20-01",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "D20-20.A.1",
+   "nama_asli": null,
+   "urutan": 275,
+   "catatan": null,
+   "files": [
+    "20. BAGIAN CISO & PDP/20.A.1.8 Job Desk Pelaksana Fraud Detection System.docx"
+   ]
+  },
+  {
+   "kode": "KF-21.0",
+   "nama": "Pemimpin Kantor Fungsional",
+   "unit_kode": "KF",
+   "jenjang": 1,
+   "kelompok": "Pemimpin Kantor",
+   "atasan_kode": null,
+   "nama_asli": null,
+   "urutan": 276,
+   "catatan": "Atasan langsung: Pemimpin Cabang Utama / Pemimpin Cabang / Pemimpin Capem.",
+   "files": [
+    "21. KANTOR FUNGSIONAL/21.0. Job Desk (Pemimpin Kantor Fungsional.docx"
+   ]
+  },
+  {
+   "kode": "KF-21.A.1",
+   "nama": "Customer Service",
+   "unit_kode": "KF",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KF-21.0",
+   "nama_asli": null,
+   "urutan": 277,
+   "catatan": null,
+   "files": [
+    "21. KANTOR FUNGSIONAL/21.A.1 Job Desk (Customer Service).docx"
+   ]
+  },
+  {
+   "kode": "KF-21.A.2",
+   "nama": "Teller",
+   "unit_kode": "KF",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KF-21.0",
+   "nama_asli": null,
+   "urutan": 278,
+   "catatan": null,
+   "files": [
+    "21. KANTOR FUNGSIONAL/21.A.2 Job Desk (Teller).docx"
+   ]
+  },
+  {
+   "kode": "KF-21.A.3",
+   "nama": "Relationship Manager Dana & Jasa Elektronik",
+   "unit_kode": "KF",
+   "jenjang": 4,
+   "kelompok": "Pelaksana",
+   "atasan_kode": "KF-21.0",
+   "nama_asli": null,
+   "urutan": 279,
+   "catatan": "Atasan \"Kepala Kantor Fungsional\" tidak ditemukan di folder; diambil dari nomor dokumen.",
+   "files": [
+    "21. KANTOR FUNGSIONAL/21.A.3 Jobdesk (AO Pemasaran Dana & Jasa Elektronik).docx",
+    "21. KANTOR FUNGSIONAL/21.A.3 Jobdesk (Relationship Manager Dana & Jasa Elektronik).docx"
+   ]
+  }
+ ],
+ "bagan_tanpa_jobdesk": [
+  {
+   "unit": "Kantor Cabang Utama",
+   "label": "PELAKSANA ANALIS",
+   "file": "1. Cabang Utama/1.STRUKTUR CABANG UTAMA.pdf"
+  },
+  {
+   "unit": "Divisi Kepatuhan, APU PPT & PPPSPM",
+   "label": "PELAKSANA ANALIS CTR & STR, APU PPT & PPPSPM",
+   "file": "10. DIVISI KEPATUHAN,APU PPT & PPPSPM/10. STRUKTUR DIVISI KEPATUHAN, APU PPT & PPPSPM.pdf"
+  },
+  {
+   "unit": "Divisi Teknologi Informasi",
+   "label": "KEPALA SEKSI DC & DRC",
+   "file": "13. DIVISI TEKNOLOGI INFORMASI/13. STRUKTUR DIVISI TEKNOLOGI INFORMASI.pdf"
+  },
+  {
+   "unit": "Divisi Human Capital",
+   "label": "KEPALA SEKSI HCIS",
+   "file": "14. DIVISI HUMAN CAPITAL/15.DIVISI HUMAN CAPITAL.pdf"
+  },
+  {
+   "unit": "Divisi Operasional & Layanan",
+   "label": "PELAKSANA SETTLEMENT & RTGS/SKNBI/BI-FAST",
+   "file": "15. DIVISI OPERASIONAL & LAYANAN/15. STRUKTUR DIVISI OPERASIONAL & LAYANAN.pdf"
+  },
+  {
+   "unit": "Kantor Cabang Tipe 1 (SME)",
+   "label": "PELAKSANA ANALIS",
+   "file": "2. Cabang TIPE 1 (SME)/2.STRUKTUR CABANG.pdf"
+  },
+  {
+   "unit": "Bagian CISO & PDP",
+   "label": "PELAKSANA AUDITOR IT",
+   "file": "20. BAGIAN CISO & PDP/20. STRUKTUR BAGIAN CISO & PDP.pdf"
+  },
+  {
+   "unit": "Bagian CISO & PDP",
+   "label": "KEPALA SEKSI CYBER RISK MANAGEMENT",
+   "file": "20. BAGIAN CISO & PDP/20. STRUKTUR BAGIAN CISO & PDP.pdf"
+  },
+  {
+   "unit": "Bagian CISO & PDP",
+   "label": "PELAKSANA CYBER RISK MANAGEMENT",
+   "file": "20. BAGIAN CISO & PDP/20. STRUKTUR BAGIAN CISO & PDP.pdf"
+  },
+  {
+   "unit": "Bagian CISO & PDP",
+   "label": "KETUA TIM AUDITOR IT",
+   "file": "20. BAGIAN CISO & PDP/20. STRUKTUR BAGIAN CISO & PDP.pdf"
+  },
+  {
+   "unit": "Kantor Cabang Pembantu Tipe 1 (Tower)",
+   "label": "PELAKSANA ANALIS",
+   "file": "3. Cabang Pembantu TIPE 1 (TOWER)/Copy of 3.STRUKTUR CAPEM TIPE 1.pdf"
+  },
+  {
+   "unit": "Kantor Cabang Pembantu Tipe 2 (SME)",
+   "label": "PELAKSANA ANALIS",
+   "file": "3. Cabang Pembantu TIPE 2 (SME)/Copy of 3.STRUKTUR CAPEM TIPE 2.pdf"
+  },
+  {
+   "unit": "Kantor Cabang Pembantu Tipe 3 (Non SME)",
+   "label": "PELAKSANA ANALIS",
+   "file": "3. Cabang Pembantu TIPE 3 (NON SME)/Copy of 23.STRUKTUR CAPEM TIPE 3.pdf"
+  },
+  {
+   "unit": "Divisi Perencanaan",
+   "label": "PELAKSANA PEFORMA BISNIS & PORTOFOLIO",
+   "file": "4. DIVISI PERENCANAAN/Copy of 4. STRUKTUR DIVISI PERENCANAAN.pdf"
+  }
+ ]
+}
