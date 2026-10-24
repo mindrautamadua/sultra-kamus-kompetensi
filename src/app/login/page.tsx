@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Suspense } from "react";
 import { LEVEL_NAMA } from "@/lib/labels";
+import { bacaPengaturan } from "@/lib/pengaturan";
 import { FormLogin } from "./form-login";
 
 export const metadata: Metadata = { title: "Masuk" };
@@ -84,8 +85,8 @@ function LevelLadder() {
 }
 
 async function Form({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const { dari } = await searchParams;
-  return <FormLogin dari={typeof dari === "string" ? dari : "/"} />;
+  const [{ dari }, atur] = await Promise.all([searchParams, bacaPengaturan()]);
+  return <FormLogin dari={typeof dari === "string" ? dari : "/"} lamaIngatHari={atur.lama_ingat_hari} />;
 }
 
 function FormSkeleton() {

@@ -6,7 +6,7 @@ import { login, type LoginState } from "@/lib/auth-actions";
 const input =
   "h-11 w-full rounded-lg border border-slate-300 bg-white px-3.5 text-[15px] text-slate-900 shadow-xs outline-none transition-colors hover:border-slate-400 focus:border-brand-600 focus:ring-3 focus:ring-brand-600/20 aria-invalid:border-rose-400";
 
-export function FormLogin({ dari }: { dari: string }) {
+export function FormLogin({ dari, lamaIngatHari }: { dari: string; lamaIngatHari: number }) {
   const [state, action, pending] = useActionState<LoginState, FormData>(login, undefined);
   const [lihat, setLihat] = useState(false);
   const [capsLock, setCapsLock] = useState(false);
@@ -74,7 +74,7 @@ export function FormLogin({ dari }: { dari: string }) {
           defaultChecked={state?.ingat}
           className="size-4 cursor-pointer rounded border-slate-300 accent-brand-700"
         />
-        Ingat saya selama 30 hari
+        Ingat saya selama {lamaIngatHari} hari
       </label>
 
       {/* disembunyikan selama memproses, jadi muncul ulang (dan bergetar) di setiap percobaan yang gagal */}

@@ -81,7 +81,7 @@ const BAGIAN: Bagian[] = [
     langkah: [
       <>Masuk dengan username dan password dari admin.</>,
       <>
-        Centang <b>Ingat saya selama 30 hari</b> hanya di perangkat pribadi.
+        Centang <b>Ingat saya</b> hanya di perangkat pribadi (lamanya diatur admin, bawaan 30 hari).
       </>,
       <>Pilih menu di sidebar kiri; tombol di samping logo menciutkannya menjadi ikon saja.</>,
       <>
