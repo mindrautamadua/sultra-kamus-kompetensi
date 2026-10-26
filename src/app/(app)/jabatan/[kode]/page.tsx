@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Batang, Card, Empty, PdfLink, Stat, Tag } from "@/components/ui";
 import { JabatanDetailSkeleton } from "@/components/skeleton";
 import { penggunaSaatIni } from "@/lib/auth";
+import { cakupanTugas, jenisButir, rincianTindak, type JenisButir } from "@/lib/cakupan";
 import { KHAS, loadProfil, pembanding, type Profil } from "@/lib/kedekatan";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA } from "@/lib/labels";
 import { bolehEdit } from "@/lib/peran";
@@ -68,17 +69,16 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
   const tugas = j.uraian_tugas ?? [];
   const pendukung = new Map<number, string[]>();
   for (const k of kompetensi) for (const n of k.bukti ?? []) pendukung.set(n, [...(pendukung.get(n) ?? []), k.kompetensi_kode!]);
-  const tercakup = tugas.filter((_, i) => pendukung.has(i + 1)).length;
-  // butir tanpa kode → alasannya (analisis AI per butir); fallback: celah kamus bila ditandai, selain itu tugas umum
+  // butir tanpa kode → alasannya (analisis AI per butir); tugas umum/kepemimpinan dihitung didukung kompetensi inti/kepemimpinan
   const struktural = kompetensi.some((k) => k.kategori === "kepemimpinan");
   const butir = new Map((jobdesk?.jobdesk_tugas ?? []).map((t) => [t.urutan, t]));
+  const berbukti = new Set(pendukung.keys());
+  const cakupan = cakupanTugas(tugas.length, berbukti, butir, struktural);
   const alasanTanpaKode = (n: number): Alasan => {
     const t = butir.get(n);
-    const jenis = (t?.alasan_tanpa_kode ?? (t?.tanpa_kompetensi ? "celah" : struktural ? "kepemimpinan" : "umum")) as Alasan["jenis"];
-    return { jenis, saran: t?.saran_kompetensi ?? [], catatan: t?.catatan_tanpa_kode ?? null };
+    return { jenis: jenisButir(n, berbukti, butir, struktural) as Alasan["jenis"], saran: t?.saran_kompetensi ?? [], catatan: t?.catatan_tanpa_kode ?? null };
   };
   const dianalisis = kompetensi.some((k) => k.metode === "ai");
-  const jumlahCelah = tugas.filter((_, i) => !pendukung.has(i + 1) && alasanTanpaKode(i + 1).jenis === "celah").length;
 
   const khas = kompetensi.filter((k) => k.kategori === "teknis" && sejenjang.length && pakaiSejenjang(k.kompetensi_kode!).share < KHAS);
   const campuran = KATEGORI.map(([k]) => ({ n: kompetensi.filter((x) => x.kategori === k).length, kelas: KATEGORI_WARNA[k], label: KATEGORI_LABEL[k].toLowerCase() }));
@@ -107,23 +107,20 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
           <Stat
             icon="M4.5 5.5l1.5 1.5 2.5-3M4.5 11l1.5 1.5 2.5-3M11 5.5h5M11 11h5M4.5 16h11.5"
             label="Tugas didukung kompetensi"
-            value={tugas.length ? `${tercakup}/${tugas.length}` : "—"}
+            value={tugas.length ? `${cakupan.didukung}/${tugas.length}` : "—"}
             hint={
               tugas.length
-                ? tercakup === tugas.length
-                  ? "Semua butir tugas punya kompetensi teknis"
-                  : `${tugas.length - tercakup} butir tanpa kode${jumlahCelah ? `, ${jumlahCelah} di antaranya celah kamus` : ""}`
+                ? cakupan.tindak
+                  ? rincianTindak(cakupan)
+                  : `${cakupan.teknis} butir berbukti kompetensi teknis, ${cakupan.umum + cakupan.kepemimpinan} dicakup kompetensi inti/kepemimpinan`
                 : "Jobdesk belum tersedia"
             }
-            aksen={tugas.length && tercakup < tugas.length ? "amber" : "emerald"}
+            aksen={cakupan.tindak ? "amber" : "emerald"}
           >
             {tugas.length > 0 && (
               <Batang
                 className="mt-2"
-                bagian={[
-                  { n: tercakup, kelas: "bg-emerald-500", label: "didukung" },
-                  { n: tugas.length - tercakup, kelas: "bg-amber-400", label: "tanpa bukti" },
-                ]}
+                bagian={BAGIAN_CAKUPAN.map(([jenis, kelas, label]) => ({ n: cakupan[jenis], kelas, label }))}
               />
             )}
           </Stat>
@@ -482,6 +479,16 @@ function OrgSnippet({ j, bawahan }: { j: Jabatan; bawahan: { kode: string | null
 }
 
 const METODE: Record<string, string> = { ai: "Analisis AI", tfidf: "Kemiripan teks", manual: "Ditambah HC", aturan: "Aturan jenjang" };
+
+// urutan & warna segmen batang cakupan tugas
+const BAGIAN_CAKUPAN: [JenisButir, string, string][] = [
+  ["teknis", "bg-emerald-500", "berbukti kompetensi teknis"],
+  ["kepemimpinan", "bg-emerald-300", "dicakup kompetensi kepemimpinan"],
+  ["umum", "bg-emerald-200", "dicakup kompetensi inti"],
+  ["terlewat", "bg-sky-400", "belum dicantumkan sebagai bukti"],
+  ["luar_bidang", "bg-violet-400", "butuh kompetensi belum dipetakan"],
+  ["celah", "bg-amber-400", "celah kamus"],
+];
 
 type Alasan = { jenis: "kepemimpinan" | "umum" | "terlewat" | "luar_bidang" | "celah"; saran: string[]; catatan: string | null };
 

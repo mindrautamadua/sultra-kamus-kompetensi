@@ -34,10 +34,11 @@ export default function Page() {
 
 async function Kualitas() {
   const {
-    profil, teknis, tidakDipakai, belumFinal, perBidang, sebaran, terpopuler, perUnit, maxKompUnit, grupNama, namaKompetensi, pelaksanaLC,
+    profil, pemakaian, teknis, tidakDipakai, belumFinal, perBidang, sebaran, terpopuler, perUnit, maxKompUnit, grupNama, namaKompetensi, pelaksanaLC,
     strukturalTanpaLC, tanpaTeknis, outlier, aturan, celahPerJabatan, celahPerUnit, temuan, bersih, prioritas, ringkas, cekAman, atasan, levelKamus,
-    celah, totalTugas,
+    celah, totalTugas, luarBidang, luarBidangPerJabatan, luarBidangPerKompetensi,
   } = await loadKualitas();
+  const namaKomp = new Map(pemakaian.map((k) => [k.kode!, k.nama!]));
   const edit = bolehEdit((await penggunaSaatIni())?.peran);
 
   return (
@@ -226,7 +227,7 @@ async function Kualitas() {
       </Card>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
-        <Card title={`Tugas inti tanpa padanan kamus · ${celah.length} butir`} className="xl:col-span-3">
+        <Card title={`Tugas inti tanpa padanan kamus · ${celah.length} butir`} className="xl:col-span-3" action={<UnduhDaftarKerja />}>
           <div id="celah" className="scroll-mt-6">
             <p className="border-b border-slate-100 px-4 py-2.5 text-xs text-slate-500">
               Hasil analisis AI atas jobdesk: tugas inti yang tidak terwakili kompetensi teknis mana pun di kamus. Bahan untuk menambah atau memperluas kompetensi
@@ -312,6 +313,61 @@ async function Kualitas() {
           </ul>
         </Card>
       </div>
+
+      <Card title={`Tugas butuh kompetensi kamus yang belum dipetakan · ${luarBidang.length} butir`} action={<UnduhDaftarKerja />}>
+        <div id="luar-bidang" className="scroll-mt-6">
+          <p className="border-b border-slate-100 px-4 py-2.5 text-xs text-slate-500">
+            Hasil analisis AI atas jobdesk: butir tugas yang padanannya sudah ada di kamus, tetapi kompetensi itu belum dipetakan ke jabatannya. Putuskan per
+            jabatan apakah kompetensi saran ditambahkan. Bila ditambahkan lewat editor pemetaan, butir ini otomatis menjadi bukti dan hilang dari daftar.
+          </p>
+          {luarBidangPerJabatan.length === 0 ? (
+            <Aman />
+          ) : (
+            <div className="grid grid-cols-1 divide-y divide-slate-100 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:divide-x md:divide-y-0">
+              <div className="p-4">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Kompetensi paling sering disarankan</h3>
+                <ul className="space-y-2.5 text-sm">
+                  {luarBidangPerKompetensi.slice(0, 12).map((k) => (
+                    <li key={k.kode} className="flex items-baseline justify-between gap-2">
+                      <Link href={`/kompetensi/${k.kode}#jabatan`} className="min-w-0 truncate text-slate-700 hover:text-brand-700 hover:underline" title={namaKomp.get(k.kode)}>
+                        <span className="mr-1.5 font-mono text-xs font-semibold text-violet-800">{k.kode}</span>
+                        {namaKomp.get(k.kode)}
+                      </Link>
+                      <span className="shrink-0 text-xs tabular-nums text-slate-500">
+                        {k.butir} butir · {k.jabatan} jab.
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                {luarBidangPerKompetensi.length > 12 && <p className="mt-3 text-xs text-slate-500">+ {luarBidangPerKompetensi.length - 12} kompetensi lain</p>}
+              </div>
+              <div className="max-h-[30rem] divide-y divide-slate-100 overflow-auto">
+                {luarBidangPerJabatan.map((g) => (
+                  <div key={g.kode} className="px-4 py-3">
+                    <Link href={tautanJabatan(g.kode, edit)} className="text-sm font-medium text-slate-900 hover:text-brand-700 hover:underline">
+                      {g.nama}
+                    </Link>
+                    <span className="ml-2 text-xs text-slate-500">{g.unit}</span>
+                    <ul className="mt-1 space-y-1 text-[13px] text-slate-700">
+                      {g.ts.map((t) => (
+                        <li key={t.id} title={t.catatan_tanpa_kode ?? undefined}>
+                          <span className="mr-1.5 tabular-nums text-slate-400">{t.urutan}.</span>
+                          {t.deskripsi}
+                          {t.saran_kompetensi.map((k) => (
+                            <span key={k} className="ml-1.5 rounded bg-violet-50 px-1.5 py-px font-mono text-[11px] font-semibold text-violet-800 ring-1 ring-inset ring-violet-200" title={namaKomp.get(k)}>
+                              {k}
+                            </span>
+                          ))}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </Card>
 
       <Bagian judul="Konsistensi pemetaan" desc="Apakah pemetaan masuk akal antar jabatan: sesama nama, atasan–bawahan, aturan dasar, dan rekan sejenjang." />
 
@@ -445,6 +501,14 @@ async function Kualitas() {
         </div>
       </Card>
     </div>
+  );
+}
+
+function UnduhDaftarKerja() {
+  return (
+    <a href="/kualitas/unduh" className="text-xs font-medium text-brand-700 hover:underline">
+      Unduh daftar kerja (.xlsx)
+    </a>
   );
 }
 

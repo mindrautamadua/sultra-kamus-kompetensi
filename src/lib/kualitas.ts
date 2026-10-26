@@ -29,14 +29,14 @@ export const SEBARAN = [
 ];
 
 export async function loadKualitas() {
-  const [pemakaian, profilRaw, atasan, levelKamus, celah, totalTugas] = await Promise.all([
+  const [pemakaian, profilRaw, atasan, levelKamus, celah, totalTugas, luarBidangRaw, buktiRaw] = await Promise.all([
     supabase.from("v_kompetensi_pemakaian").select("*").neq("status", "dihapus").order("bidang_urutan").order("urutan").then(must),
     supabase.from("v_profil_jabatan").select("*").order("urutan").then(must),
     supabase.from("v_cek_level_atasan").select("*").then(must),
     supabase.from("v_cek_level_kamus").select("*").then(must),
     supabase
       .from("jobdesk_tugas")
-      .select("id, urutan, deskripsi, jobdesk(kelompok_unit, jabatan(kode, nama))")
+      .select("id, urutan, deskripsi, catatan_tanpa_kode, jobdesk(kelompok_unit, jabatan(kode, nama))")
       .eq("tanpa_kompetensi", true)
       .order("jobdesk_id")
       .order("urutan")
@@ -45,6 +45,14 @@ export async function loadKualitas() {
       .from("jobdesk_tugas")
       .select("id", { count: "exact", head: true })
       .then((r) => r.count ?? 0),
+    supabase
+      .from("jobdesk_tugas")
+      .select("id, urutan, deskripsi, saran_kompetensi, catatan_tanpa_kode, jobdesk(kelompok_unit, jabatan_id, jabatan(kode, nama))")
+      .eq("alasan_tanpa_kode", "luar_bidang")
+      .order("jobdesk_id")
+      .order("urutan")
+      .then(must),
+    semuaBukti(),
   ]);
   const profil = profilRaw as unknown as Profil[];
 
@@ -133,9 +141,29 @@ export async function loadKualitas() {
     .map(([unit, gs]) => ({ unit, butir: gs.reduce((s, g) => s + g.ts.length, 0), jabatan: gs.length }))
     .sort((a, b) => b.butir - a.butir);
 
+  // butir yang butuh kompetensi kamus belum dipetakan ke jabatannya; hilang dari daftar begitu kompetensi saran
+  // dipetakan dengan butir itu sebagai bukti (simpanPemetaan mengisinya otomatis)
+  const luarBidang = luarBidangRaw.filter(
+    (t) => t.jobdesk?.jabatan && !t.saran_kompetensi.some((k) => buktiRaw.get(`${t.jobdesk!.jabatan_id}|${k}`)?.includes(t.urutan)),
+  );
+  const luarBidangPerJabatan = groupBy(luarBidang, (t) => t.jobdesk!.jabatan!.kode).map(([kode, ts]) => ({
+    kode,
+    nama: ts[0].jobdesk!.jabatan!.nama,
+    unit: ts[0].jobdesk!.kelompok_unit.replace(/^\d+\.\s*/, ""),
+    ts,
+  }));
+  // kompetensi kamus yang paling sering disarankan → kandidat ditambahkan ke banyak jabatan sekaligus
+  const luarBidangPerKompetensi = groupBy(
+    luarBidang.flatMap((t) => t.saran_kompetensi.map((k) => ({ k, jabatan: t.jobdesk!.jabatan!.kode }))),
+    (x) => x.k,
+  )
+    .map(([kode, xs]) => ({ kode, butir: xs.length, jabatan: new Set(xs.map((x) => x.jabatan)).size }))
+    .sort((a, b) => b.butir - a.butir);
+
   // ---- temuan per jabatan: berapa jenis cek yang menyangkut tiap jabatan
   const cek = [
     { key: "celah", label: "Tugas tanpa padanan", kode: celahPerJabatan.map((g) => g.kode), href: "#celah" },
+    { key: "luar", label: "Butuh kompetensi lain", kode: luarBidangPerJabatan.map((g) => g.kode), href: "#luar-bidang" },
     { key: "nama", label: "Sama nama, profil beda", kode: grupNama.flatMap((g) => g.ps.map((p) => p.kode)), href: "#nama-sama" },
     { key: "atasan", label: "Level melebihi atasan", kode: atasan.map((r) => r.jabatan_kode!), href: "#atasan" },
     {
@@ -158,6 +186,7 @@ export async function loadKualitas() {
   const ringkas = [
     { href: "#tidak-dipakai", label: "Kompetensi teknis tidak dipakai", nilai: `${tidakDipakai.length}/${teknis.length}`, n: tidakDipakai.length },
     { href: "#celah", label: "Tugas inti tanpa padanan kamus", nilai: String(celah.length), n: celah.length },
+    { href: "#luar-bidang", label: "Tugas butuh kompetensi belum dipetakan", nilai: String(luarBidang.length), n: luarBidang.length },
     { href: "#nama-sama", label: "Jabatan sama nama, profil beda", nilai: String(grupNama.length), n: grupNama.length },
     { href: "#atasan", label: "Level bawahan > atasan", nilai: String(atasan.length), n: atasan.length },
     { href: "#aturan", label: "Pelanggaran aturan dasar", nilai: String(aturan + levelKamus.length), n: aturan + levelKamus.length },
@@ -195,7 +224,26 @@ export async function loadKualitas() {
     levelKamus,
     celah,
     totalTugas,
+    luarBidang,
+    luarBidangPerJabatan,
+    luarBidangPerKompetensi,
   };
+}
+
+/** jabatan_id|kode kompetensi → nomor butir bukti, untuk seluruh pemetaan (dibaca per halaman PostgREST). */
+async function semuaBukti() {
+  const m = new Map<string, number[]>();
+  for (let from = 0; ; from += 1000) {
+    const rows = await supabase
+      .from("v_jabatan_kompetensi")
+      .select("jabatan_id, kompetensi_kode, bukti")
+      .order("id")
+      .range(from, from + 999)
+      .then(must);
+    for (const r of rows) if (r.bukti?.length) m.set(`${r.jabatan_id}|${r.kompetensi_kode}`, r.bukti);
+    if (rows.length < 1000) break;
+  }
+  return m;
 }
 
 export function groupBy<T>(xs: T[], key: (x: T) => string): [string, T[]][] {

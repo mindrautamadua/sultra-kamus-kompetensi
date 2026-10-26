@@ -1,4 +1,5 @@
 import "server-only";
+import { cakupanTugas, type Cakupan } from "@/lib/cakupan";
 import { loadProfil, pembanding } from "@/lib/kedekatan";
 import { must, supabase } from "@/lib/supabase";
 
@@ -196,8 +197,7 @@ export type ProfilDoc = {
   atasan: string | null;
   bawahan: string[];
   fungsi: string[];
-  jumlahTugas: number;
-  tugasDidukung: number;
+  cakupan: Cakupan;
   review: { status: string; peninjau: string | null; tanggal: string } | null;
   pembanding: { lingkup: string; jumlah: number; rataKomp: number; rataLevel: number } | null;
   kompetensi: KompetensiProfil[];
@@ -256,7 +256,7 @@ async function susunProfil(jabatan: ProfilJabatanRow[]): Promise<ProfilDoc[]> {
           .then(must)
       : Promise.resolve([]),
     supabase.from("jabatan").select("atasan_id, nama, urutan").in("atasan_id", ids).order("urutan").then(must),
-    supabase.from("jobdesk").select("jabatan_id, fungsi, urutan").in("jabatan_id", ids).order("urutan").then(must),
+    supabase.from("jobdesk").select("jabatan_id, fungsi, urutan, jobdesk_tugas(urutan, tanpa_kompetensi, alasan_tanpa_kode)").in("jabatan_id", ids).order("urutan").then(must),
     supabase.from("review_jabatan").select("jabatan_id, status, peninjau, updated_at").in("jabatan_id", ids).then(must),
     loadProfil(),
   ]);
@@ -283,8 +283,7 @@ async function susunProfil(jabatan: ProfilJabatanRow[]): Promise<ProfilDoc[]> {
       atasan: j.atasan_nama,
       bawahan: bawahan.filter((b) => b.atasan_id === j.id).map((b) => b.nama),
       fungsi: (doc?.fungsi.length ? doc.fungsi : j.ikhtisar_jabatan ? [j.ikhtisar_jabatan] : []).map(bersihkan),
-      jumlahTugas: tugas.length,
-      tugasDidukung: tugas.filter((_, i) => bukti.has(i + 1)).length,
+      cakupan: cakupanTugas(tugas.length, bukti, new Map((doc?.jobdesk_tugas ?? []).map((t) => [t.urutan, t])), milik.some((p) => p.kategori === "kepemimpinan")),
       review: r ? { status: r.status, peninjau: r.peninjau, tanggal: r.updated_at } : null,
       pembanding: dipakai && { lingkup: dipakai.lingkup, jumlah: dipakai.sejenjang.length, rataKomp: dipakai.rataKomp, rataLevel: dipakai.rataLevel },
       kompetensi: milik.map((p) => {

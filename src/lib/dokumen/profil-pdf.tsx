@@ -1,6 +1,7 @@
 import "server-only";
 import path from "node:path";
 import { Document, Image, Page, renderToBuffer, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { rincianTindak } from "@/lib/cakupan";
 import { KHAS } from "@/lib/kedekatan";
 import { JENJANG_LABEL, KATEGORI_LABEL, LEVEL_NAMA } from "@/lib/labels";
 import type { KompetensiProfil, ProfilDoc } from "./data";
@@ -81,8 +82,12 @@ function ringkasan(d: ProfilDoc): string[] {
   const puncak = teknis.filter((x) => x.level === teknis[0]?.level);
   if (puncak.length && puncak.length < teknis.length)
     out.push(`Tuntutan teknis tertinggi (L${puncak[0].level} ${LEVEL_NAMA[puncak[0].level - 1]}) ada pada ${sebut(puncak.map((x) => x.nama))}.`);
-  if (d.jumlahTugas && d.tugasDidukung < d.jumlahTugas)
-    out.push(`${d.tugasDidukung} dari ${d.jumlahTugas} butir uraian tugas sudah didukung kompetensi teknis; sisanya bersifat umum atau belum ada padanannya di kamus.`);
+  const c = d.cakupan;
+  if (c.total)
+    out.push(
+      `${c.didukung} dari ${c.total} butir uraian tugas sudah didukung kompetensi (${c.teknis} oleh kompetensi teknis, ${c.umum + c.kepemimpinan} oleh kompetensi inti/kepemimpinan)` +
+        (c.tindak ? `; ${rincianTindak(c)}.` : "."),
+    );
   return out;
 }
 
@@ -197,9 +202,9 @@ function Angka({ d }: { d: ProfilDoc }) {
       <Ubin label="KOMPETENSI KHAS" nilai={String(khas.length)} ket={`dimiliki < ${Math.round(KHAS * 100)}% jabatan sejenjang`} warna={C.violet} />
       <Ubin
         label="TUGAS DIDUKUNG"
-        nilai={d.jumlahTugas ? `${d.tugasDidukung}/${d.jumlahTugas}` : "-"}
-        ket={d.jumlahTugas ? "butir uraian tugas berbukti kompetensi" : "uraian tugas belum tersedia"}
-        warna={d.jumlahTugas && d.tugasDidukung < d.jumlahTugas ? C.amber : C.hijau}
+        nilai={d.cakupan.total ? `${d.cakupan.didukung}/${d.cakupan.total}` : "-"}
+        ket={d.cakupan.total ? (d.cakupan.tindak ? `${d.cakupan.tindak} butir perlu tindak lanjut` : "butir uraian tugas didukung kompetensi") : "uraian tugas belum tersedia"}
+        warna={d.cakupan.tindak ? C.amber : C.hijau}
       />
     </View>
   );

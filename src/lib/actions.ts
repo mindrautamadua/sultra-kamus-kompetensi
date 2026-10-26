@@ -53,6 +53,27 @@ type Pelaku = Awaited<ReturnType<typeof wajibLogin>>;
  * Catat penyimpanan dari editor ke riwayat review. Jabatan yang sudah ditandai selesai kembali ke draf karena
  * isinya berubah dan perlu ditandai selesai ulang.
  */
+/**
+ * Nomor butir tugas (dokumen jobdesk utama) yang oleh analisis AI disarankan menjadi bukti kompetensi ini tetapi belum
+ * dipetakan (alasan luar_bidang/terlewat). Dipakai saat HC menambahkan kompetensi, agar butir itu langsung tercakup.
+ */
+async function buktiDariSaran(db: Db, jabatanId: number, kompetensiIds: number[]): Promise<Map<number, number[]>> {
+  const hasil = new Map<number, number[]>();
+  if (kompetensiIds.length === 0) return hasil;
+  const kode = new Map(ok(await db.from("kompetensi").select("id, kode").in("id", kompetensiIds)).map((k) => [k.kode, k.id]));
+  const doc = ok(
+    await db.from("jobdesk").select("jobdesk_tugas(urutan, alasan_tanpa_kode, saran_kompetensi)").eq("jabatan_id", jabatanId).order("urutan").limit(1).maybeSingle(),
+  );
+  for (const t of doc?.jobdesk_tugas ?? []) {
+    if (t.alasan_tanpa_kode !== "luar_bidang" && t.alasan_tanpa_kode !== "terlewat") continue;
+    for (const k of t.saran_kompetensi) {
+      const id = kode.get(k);
+      if (id !== undefined) hasil.set(id, [...(hasil.get(id) ?? []), t.urutan].sort((a, b) => a - b));
+    }
+  }
+  return hasil;
+}
+
 async function catatEdit(db: Db, jabatanId: number, aksi: string, pelaku: Pelaku) {
   // dipanggil sesudah data tersimpan: kegagalan mencatat riwayat jangan dilaporkan sebagai "gagal menyimpan"
   try {
@@ -321,6 +342,11 @@ export async function simpanPemetaan(_: FormState, fd: FormData): Promise<FormSt
     const lama = new Map(
       ok(await db.from("jabatan_kompetensi").select("kompetensi_id, catatan, metode, bukti").eq("jabatan_id", jabatanId)).map((r) => [r.kompetensi_id, r]),
     );
+    const saran = await buktiDariSaran(
+      db,
+      jabatanId,
+      rows.filter((r) => !lama.has(r.kompetensi_id)).map((r) => r.kompetensi_id),
+    );
     ok(
       await db.rpc("simpan_pemetaan", {
         p_jabatan_id: jabatanId,
@@ -331,7 +357,7 @@ export async function simpanPemetaan(_: FormState, fd: FormData): Promise<FormSt
             level_target: r.level_target,
             catatan: l?.catatan ?? "Ditambahkan saat review di aplikasi.",
             metode: l?.metode ?? "manual",
-            bukti: l?.bukti ?? [],
+            bukti: l?.bukti ?? saran.get(r.kompetensi_id) ?? [],
           };
         }),
       }),
@@ -375,6 +401,8 @@ export async function simpanPemetaanKompetensi(_: FormState, fd: FormData): Prom
     }
 
     // tambah & ubah dulu, hapus terakhir: bila gagal di tengah, tidak ada pemetaan yang hilang tanpa penggantinya
+    const saran = new Map<number, number[]>();
+    for (const r of baru) saran.set(r.jabatan_id, (await buktiDariSaran(db, r.jabatan_id, [kompetensiId])).get(kompetensiId) ?? []);
     if (baru.length > 0)
       ok(
         await db
@@ -387,7 +415,7 @@ export async function simpanPemetaanKompetensi(_: FormState, fd: FormData): Prom
               sumber: "manual",
               catatan: "Ditambahkan dari halaman kompetensi di aplikasi.",
               metode: "manual",
-              bukti: [],
+              bukti: saran.get(r.jabatan_id) ?? [],
             })),
           )
           .select("id"),
