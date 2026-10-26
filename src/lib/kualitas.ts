@@ -76,7 +76,9 @@ export async function loadKualitas() {
       jabatanPemakai,
       kosong: ks.filter((k) => !k.jumlah_jabatan && bisaDipakai(k)),
     };
-  });
+  })
+    // bidang dengan kompetensi tidak dipakai terbanyak di atas; seri tetap urutan kamus (sort stabil)
+    .sort((a, b) => b.kosong.length - a.kosong.length);
   const sebaran = SEBARAN.map((s) => ({ ...s, n: teknis.filter((k) => (k.jumlah_jabatan ?? 0) >= s.min && (k.jumlah_jabatan ?? 0) <= s.max).length }));
   const terpopuler = [...teknis].sort((a, b) => (b.jumlah_jabatan ?? 0) - (a.jumlah_jabatan ?? 0)).slice(0, 5);
 
