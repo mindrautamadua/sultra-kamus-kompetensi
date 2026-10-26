@@ -202,7 +202,8 @@ async function Terkait({ kode, jabatanId }: { kode: string; jabatanId: number[] 
 
 /** Tautan ke kompetensi sebelum & sesudahnya dalam bidang yang sama. */
 async function Tetangga({ kode, bidangId }: { kode: string; bidangId: number }) {
-  const rows = await supabase.from("kompetensi").select("kode, nama").eq("bidang_id", bidangId).order("urutan").then(must);
+  // kompetensi berstatus dihapus dilewati, kecuali halaman yang sedang dibuka (agar posisinya tetap ditemukan)
+  const rows = await supabase.from("kompetensi").select("kode, nama").eq("bidang_id", bidangId).or(`status.neq.dihapus,kode.eq.${kode}`).order("urutan").then(must);
   const i = rows.findIndex((r) => r.kode === kode);
   const prev = rows[i - 1];
   const next = rows[i + 1];

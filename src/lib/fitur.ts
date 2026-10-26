@@ -12,3 +12,9 @@ export const PENILAIAN_DIRI_AKTIF = false;
  * disimpan dulu 2026-10-24 atas permintaan user. Ubah nilai ini menjadi true untuk menampilkannya lagi.
  */
 export const JALUR_KARIER_AKTIF = false;
+
+/**
+ * Menu Universe Kompetensi (src/app/(app)/universe): disembunyikan dari sidebar 2026-10-26 atas permintaan user.
+ * Halamannya tetap bisa dibuka lewat /universe. Ubah nilai ini menjadi true untuk menampilkan menunya lagi.
+ */
+export const MENU_UNIVERSE_AKTIF = false;

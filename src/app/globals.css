@@ -135,3 +135,13 @@
 @keyframes lingkar {
   from { stroke-dashoffset: var(--penuh); }
 }
+
+/* Universe Kompetensi: node baru mekar dari titik induknya. Dimatikan oleh prefers-reduced-motion. */
+@keyframes mekar {
+  from { opacity: 0; transform: scale(0.2); }
+}
+.simpul-mekar {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mekar 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}

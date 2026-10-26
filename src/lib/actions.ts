@@ -478,6 +478,52 @@ export async function simpanKompetensi(_: FormState, fd: FormData): Promise<Form
   redirect(`/kompetensi/${kode}`);
 }
 
+/**
+ * Hapus lunak: status jadi "dihapus" dan seluruh pemetaannya ke jabatan dilepas. Level, indikator, dan penilaian diri
+ * tetap tersimpan, sehingga kompetensi bisa dipulihkan dengan mengubah statusnya kembali.
+ */
+export async function hapusKompetensi(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const id = Number(fd.get("id"));
+  if (fd.get("konfirmasi") !== "HAPUS") return { error: "Ketik HAPUS untuk mengonfirmasi." };
+  let kode: string;
+  try {
+    // status dulu: bila pelepasan pemetaan gagal, kompetensi sudah tersembunyi dan aksi ini aman diulang
+    kode = ok(await db.from("kompetensi").update({ status: "dihapus", diubah_di_aplikasi: now() }).eq("id", id).select("kode").single()).kode;
+    const terdampak = ok(await db.from("jabatan_kompetensi").delete().eq("kompetensi_id", id).select("jabatan_id")).map((r) => r.jabatan_id);
+    if (terdampak.length > 0) {
+      ok(await db.from("jabatan").update({ diubah_di_aplikasi: now() }).in("id", terdampak).select("id"));
+      for (const j of terdampak) await catatEdit(db, j, "hapus_kompetensi", s);
+    }
+  } catch (e) {
+    return { error: `Gagal menghapus kompetensi: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect(`/kompetensi/${kode}`);
+}
+
+/** Hapus permanen, hanya untuk kompetensi yang sudah berstatus dihapus dan tidak lagi dipetakan ke jabatan mana pun. */
+export async function hapusKompetensiPermanen(_: FormState, fd: FormData): Promise<FormState> {
+  const s = await wajibLogin();
+  if (!bolehEdit(s.peran)) return { error: TIDAK_BERHAK };
+  const db = admin();
+  const id = Number(fd.get("id"));
+  try {
+    const k = ok(await db.from("kompetensi").select("kode, status").eq("id", id).single());
+    if (fd.get("konfirmasi") !== k.kode) return { error: `Ketik kode ${k.kode} untuk mengonfirmasi.` };
+    if (k.status !== "dihapus") return { error: "Tandai kompetensi sebagai dihapus dulu sebelum menghapus permanen." };
+    const { count } = await db.from("jabatan_kompetensi").select("id", { count: "exact", head: true }).eq("kompetensi_id", id);
+    if (count) return { error: `Kompetensi masih dipetakan ke ${count} jabatan. Lepas pemetaannya dulu.` };
+    ok(await db.from("kompetensi").delete().eq("id", id).eq("status", "dihapus").select("id"));
+  } catch (e) {
+    return { error: `Gagal menghapus permanen: ${(e as Error).message}` };
+  }
+  refreshAll();
+  redirect("/kompetensi");
+}
+
 // ---------- penilaian diri
 
 export type HasilPenilaian = { error?: string; level?: number; target?: number | null; disimpan?: string };

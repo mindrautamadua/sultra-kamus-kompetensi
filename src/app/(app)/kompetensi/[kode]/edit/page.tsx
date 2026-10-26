@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { ActionForm, ListEditor } from "@/components/editors";
 import { DetailSkeleton } from "@/components/skeleton";
 import { Card } from "@/components/ui";
-import { simpanKompetensi } from "@/lib/actions";
+import { hapusKompetensi, hapusKompetensiPermanen, simpanKompetensi } from "@/lib/actions";
 import { wajibEditor } from "@/lib/auth";
 import { LEVEL_NAMA, STATUS_LABEL } from "@/lib/labels";
 import { must, supabase } from "@/lib/supabase";
@@ -28,12 +28,13 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
   const k = await supabase
     .from("kompetensi")
     .select(
-      "id, kode, nama, definisi, status, catatan, diubah_di_aplikasi, bidang:bidang_kompetensi!kompetensi_bidang_id_fkey(nama), level:kompetensi_level(level, deskripsi, indikator:indikator_perilaku(urutan, deskripsi))",
+      "id, kode, nama, definisi, status, catatan, diubah_di_aplikasi, pemetaan:jabatan_kompetensi(count), bidang:bidang_kompetensi!kompetensi_bidang_id_fkey(nama), level:kompetensi_level(level, deskripsi, indikator:indikator_perilaku(urutan, deskripsi))",
     )
     .eq("kode", kodeRute(kode))
     .maybeSingle()
     .then(must);
   if (!k) notFound();
+  const jumlahJabatan = k.pemetaan[0]?.count ?? 0;
 
   const levels = [1, 2, 3, 4, 5].map((lv) => {
     const l = k.level.find((x) => x.level === lv);
@@ -91,6 +92,51 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
           <LevelEditor levels={levels} namaLevel={[...LEVEL_NAMA]} />
         </Card>
       </ActionForm>
+
+      {k.status !== "dihapus" ? (
+        <Card title="Hapus kompetensi" className="border-rose-200">
+          <div className="p-4">
+            <p className="mb-4 text-sm text-slate-600">
+              Kompetensi ditandai berstatus Dihapus dan {jumlahJabatan > 0 ? <b>dilepas dari {jumlahJabatan} jabatan</b> : "tidak dipetakan ke jabatan mana pun"}. Level, indikator, dan
+              penilaian diri tetap tersimpan; kompetensi bisa dipulihkan dengan mengubah statusnya kembali, tetapi pemetaan jabatan harus dibuat ulang.
+            </p>
+            <ActionForm action={hapusKompetensi} submit="Hapus kompetensi" danger>
+              <input type="hidden" name="id" value={k.id} />
+              <label className="field-label max-w-xs">
+                Ketik HAPUS untuk konfirmasi
+                <input name="konfirmasi" autoComplete="off" className="field" />
+              </label>
+            </ActionForm>
+          </div>
+        </Card>
+      ) : (
+        <Card title="Hapus permanen" className="border-rose-200">
+          <div className="p-4">
+            {jumlahJabatan > 0 ? (
+              <p className="text-sm text-slate-600">
+                Kompetensi ini masih dipetakan ke {jumlahJabatan} jabatan.{" "}
+                <Link href={`/kompetensi/${k.kode}/pemetaan`} className="font-medium text-slate-900 underline">
+                  Lepas pemetaannya
+                </Link>{" "}
+                dulu sebelum menghapus permanen.
+              </p>
+            ) : (
+              <>
+                <p className="mb-4 text-sm text-slate-600">
+                  Menghapus permanen kompetensi beserta seluruh level, indikator perilaku, dan penilaian diri pengguna. Tindakan ini tidak bisa dibatalkan dari aplikasi.
+                </p>
+                <ActionForm action={hapusKompetensiPermanen} submit="Hapus permanen" danger>
+                  <input type="hidden" name="id" value={k.id} />
+                  <label className="field-label max-w-xs">
+                    Ketik {k.kode} untuk konfirmasi
+                    <input name="konfirmasi" autoComplete="off" className="field" />
+                  </label>
+                </ActionForm>
+              </>
+            )}
+          </div>
+        </Card>
+      )}
     </article>
   );
 }

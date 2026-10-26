@@ -16,6 +16,7 @@ const AKSI: Record<string, string> = {
   ubah_status: "mengubah status",
   simpan_jobdesk: "menyimpan jobdesk",
   simpan_kompetensi: "menyimpan kompetensi",
+  hapus_kompetensi: "menghapus kompetensi dari pemetaan",
   simpan_jabatan: "menyimpan data jabatan",
   buat_jabatan: "membuat jabatan",
   selesai_massal: "menandai selesai (massal)",
