@@ -123,15 +123,15 @@ async function Matriks({ searchParams }: { searchParams: Promise<Search> }) {
         <PdfLink href={cetak} className="btn-secondary ml-auto h-8 px-3 text-[13px]">
           Cetak A3 {semua ? "semua divisi" : "divisi ini"} (PDF)
         </PdfLink>
-        <span className="text-xs text-slate-500">Unduh untuk Excel:</span>
+        <span className="text-xs text-slate-500">Unduh Excel:</span>
         <a href={unduh(unit, q)} className="link">
-          Tampilan ini (CSV)
+          Tampilan ini (.xlsx)
         </a>
         <span className="text-slate-300" aria-hidden>
           ·
         </span>
         <a href={unduh("semua")} className="link">
-          Semua jabatan (CSV)
+          Semua jabatan (.xlsx)
         </a>
       </div>
 

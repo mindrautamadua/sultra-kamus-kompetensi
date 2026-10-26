@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
   }
   if (sesi) return NextResponse.next();
 
-  // PDF & unduhan CSV juga dilindungi; permintaan non-halaman cukup ditolak
+  // PDF & unduhan Excel juga dilindungi; permintaan non-halaman cukup ditolak
   if (request.method !== "GET" || request.headers.get("next-action")) {
     return bersihkan(new NextResponse("Sesi berakhir, silakan login ulang.", { status: 401 }));
   }

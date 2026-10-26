@@ -63,7 +63,7 @@ const SEMUA_BAGIAN: Bagian[] = [
             Indikator per level memberi tolok ukur yang jelas saat atasan menilai bawahan dan memberi umpan balik.
           </Kotak>
           <Kotak judul="Dokumen siap pakai">
-            Kamus, uraian tugas, profil kompetensi jabatan, dan matriks kompetensi bisa diunduh sebagai PDF atau CSV tanpa perlu menyusun ulang.
+            Kamus, uraian tugas, profil kompetensi jabatan, dan matriks kompetensi bisa diunduh sebagai PDF atau Excel tanpa perlu menyusun ulang.
           </Kotak>
         </div>
         {JALUR_KARIER_AKTIF && (
@@ -164,7 +164,7 @@ const SEMUA_BAGIAN: Bagian[] = [
         Klik <b>Tampilkan</b>. Angka di sel adalah level target; makin gelap warnanya, makin tinggi levelnya.
       </>,
       <>
-        Unduh <b>Tampilan ini (CSV)</b> atau <b>Semua jabatan (CSV)</b> untuk diolah di Excel.
+        Unduh <b>Tampilan ini (.xlsx)</b> atau <b>Semua jabatan (.xlsx)</b> untuk diolah di Excel. File berisi sheet Matriks (berwarna per level), Data (satu baris per jabatan–kompetensi, siap PivotTable), dan Kompetensi.
       </>,
     ],
   },
@@ -352,7 +352,6 @@ const TANYA: { t: string; j: React.ReactNode }[] = [
       </>
     ),
   },
-  { t: "File CSV matriks terbuka berantakan di Excel?", j: <>File memakai pemisah titik koma (;) sesuai Excel berbahasa Indonesia. Buka langsung dengan klik ganda, bukan lewat impor teks.</> },
 ];
 
 // teks polos dari JSX statis, untuk pencarian
@@ -424,7 +423,7 @@ export function Panduan({ peran }: { peran: Peran | null }) {
             {[
               { href: "/kompetensi", judul: "Cari kompetensi", ket: "Definisi dan 5 level perilaku" },
               { href: "/jabatan", judul: "Buka jabatan", ket: "Jobdesk dan level target" },
-              { href: "/matriks", judul: "Unduh dokumen", ket: "PDF kamus, jobdesk, profil, CSV matriks" },
+              { href: "/matriks", judul: "Unduh dokumen", ket: "PDF kamus, jobdesk, profil, Excel matriks" },
             ].map((s, i) => (
               <li key={s.href} className="animate-[masuk_0.4s_ease-out_both]" style={{ animationDelay: `${120 + i * 80}ms` }}>
                 <Link href={s.href} className="group flex items-center gap-3 rounded-xl bg-white/5 p-3 ring-1 ring-white/10 transition hover:bg-white/10 hover:ring-white/20">
