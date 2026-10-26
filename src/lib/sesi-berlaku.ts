@@ -9,10 +9,10 @@ import { admin } from "@/lib/supabase-admin";
 const TTL_MS = 15_000;
 const simpanan = new Map<number, { versi: number | null; sampai: number }>();
 
-/** Versi sesi akun yang masih aktif, atau null bila akun nonaktif/tidak ada. */
-async function versiAktif(id: number) {
+/** Versi sesi akun yang masih aktif, atau null bila akun nonaktif/tidak ada. `segar`: abaikan simpanan. */
+async function versiAktif(id: number, segar = false) {
   const ada = simpanan.get(id);
-  if (ada && ada.sampai > Date.now()) return ada.versi;
+  if (!segar && ada && ada.sampai > Date.now()) return ada.versi;
   const { data, error } = await admin().from("pengguna").select("aktif, sesi_versi").eq("id", id).maybeSingle();
   // galat database jangan mengeluarkan semua orang; halaman & Server Actions tetap memeriksa lewat penggunaSaatIni()
   if (error) return undefined;
@@ -22,6 +22,9 @@ async function versiAktif(id: number) {
 }
 
 export async function sesiBerlaku(s: Sesi) {
-  const versi = await versiAktif(s.id);
+  let versi = await versiAktif(s.id);
+  // versi naik sesudah simpanan dibuat (mis. baru ganti password; token sesi ini sudah diperbarui): baca ulang,
+  // jangan langsung keluarkan pengguna. Token dengan versi lebih lama memang sudah dicabut.
+  if (typeof versi === "number" && s.v > versi) versi = await versiAktif(s.id, true);
   return versi === undefined || versi === s.v;
 }

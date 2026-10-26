@@ -101,7 +101,7 @@ async function Rekap({ searchParams }: { searchParams: Promise<{ lihat?: string 
                       <td className={`px-4 py-2 font-semibold tabular-nums ${selisih === null ? "text-slate-400" : selisih < 0 ? "text-amber-800" : "text-emerald-700"}`}>
                         {selisih === null ? "—" : selisih > 0 ? `+${selisih}` : selisih}
                       </td>
-                      <td className="px-4 py-2 whitespace-nowrap text-slate-500">{new Date(r.updated_at).toLocaleDateString("id-ID", { dateStyle: "medium" })}</td>
+                      <td className="px-4 py-2 whitespace-nowrap text-slate-500">{new Date(r.updated_at).toLocaleDateString("id-ID", { dateStyle: "medium", timeZone: "Asia/Makassar" })}</td>
                     </tr>
                   );
                 })}

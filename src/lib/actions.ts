@@ -54,6 +54,15 @@ type Pelaku = Awaited<ReturnType<typeof wajibLogin>>;
  * isinya berubah dan perlu ditandai selesai ulang.
  */
 async function catatEdit(db: Db, jabatanId: number, aksi: string, pelaku: Pelaku) {
+  // dipanggil sesudah data tersimpan: kegagalan mencatat riwayat jangan dilaporkan sebagai "gagal menyimpan"
+  try {
+    await catatEditRiwayat(db, jabatanId, aksi, pelaku);
+  } catch (e) {
+    console.error(`Riwayat review jabatan ${jabatanId} (${aksi}) gagal dicatat:`, e);
+  }
+}
+
+async function catatEditRiwayat(db: Db, jabatanId: number, aksi: string, pelaku: Pelaku) {
   const peninjau = pelaku.nama;
   const r = (await db.from("review_jabatan").select("status").eq("jabatan_id", jabatanId).maybeSingle()).data;
   const dari = r?.status ?? "draf";
@@ -187,6 +196,8 @@ export async function simpanJabatan(_: FormState, fd: FormData): Promise<FormSta
     }
     if (id) {
       kode = ok(await db.from("jabatan").update(row).eq("id", id).select("kode").single()).kode;
+      // nama di dokumen jobdesk ikut diganti agar PDF jobdesk tidak memakai nama lama
+      ok(await db.from("jobdesk").update({ nama_jabatan: nama }).eq("jabatan_id", id).select("id"));
       await catatEdit(db, id, "simpan_jabatan", s);
     } else {
       // kode jabatan baru: <kode unit induk>-B<n> (B = dibuat dari aplikasi)
@@ -197,12 +208,15 @@ export async function simpanJabatan(_: FormState, fd: FormData): Promise<FormSta
       kode = `${prefix}${n}`;
       const urutan = ok(await db.from("jabatan").select("urutan").order("urutan", { ascending: false }).limit(1))[0]?.urutan ?? 0;
       const baru = ok(await db.from("jabatan").insert({ ...row, kode, urutan: urutan + 1 }).select("id").single());
-      ok(
-        await db
-          .from("jobdesk")
-          .insert({ kelompok_unit: u.nama, nama_jabatan: nama, jabatan_id: baru.id, urutan: 100000 + baru.id, diubah_di_aplikasi: now() })
-          .select("id"),
-      );
+      const jd = await db
+        .from("jobdesk")
+        .insert({ kelompok_unit: u.nama, nama_jabatan: nama, jabatan_id: baru.id, urutan: 100000 + baru.id, diubah_di_aplikasi: now() })
+        .select("id");
+      if (jd.error) {
+        // batalkan jabatan yang baru dibuat, agar mencoba lagi tidak menghasilkan jabatan kembar (…-B<n+1>)
+        await db.from("jabatan").delete().eq("id", baru.id);
+        throw new Error(jd.error.message);
+      }
       await catatEdit(db, baru.id, "buat_jabatan", s);
     }
   } catch (e) {
@@ -255,7 +269,10 @@ export async function simpanJobdesk(_: FormState, fd: FormData): Promise<FormSta
       diubah_di_aplikasi: now(),
     };
     // jobdesk utama = dokumen pertama yang tertaut ke jabatan; dibuat bila belum ada
-    const ada = ok(await db.from("jobdesk").select("id").eq("jabatan_id", jabatanId).order("urutan").limit(1))[0];
+    const ada = ok(await db.from("jobdesk").select("id, diubah_di_aplikasi").eq("jabatan_id", jabatanId).order("urutan").limit(1))[0];
+    // nomor urut lama (asal) hanya bermakna terhadap versi yang dibuka; versi lain akan menggeser bukti pemetaan
+    if ((ada?.diubah_di_aplikasi ?? "") !== String(fd.get("versi") ?? ""))
+      return { error: "Jobdesk ini sudah diubah (di tab lain atau oleh pengguna lain) sejak halaman dibuka. Muat ulang halaman, lalu ulangi perubahan Anda." };
     const jobdeskId = ada
       ? ok(await db.from("jobdesk").update(isi).eq("id", ada.id).select("id").single()).id
       : ok(
@@ -410,6 +427,12 @@ export async function simpanKompetensi(_: FormState, fd: FormData): Promise<Form
       deskripsi: String(fd.get(`deskripsi-${level}`) ?? "").trim() || null,
       indikator: lines(json<string[]>(fd, `indikator-${level}`)),
     }));
+    // level yang terisi harus berurutan dari 1: jumlah level dipakai sebagai level tertinggi di pemetaan
+    const terisi = levels.filter((l) => l.deskripsi || l.indikator.length).map((l) => l.level);
+    if (terisi.some((l, i) => l !== i + 1)) return { error: `Level harus terisi berurutan mulai Level 1 — sekarang terisi: ${terisi.join(", ")}.` };
+    const target = ok(await db.from("jabatan_kompetensi").select("level_target").eq("kompetensi_id", id).order("level_target", { ascending: false }).limit(1))[0];
+    if (target && target.level_target > terisi.length)
+      return { error: `Ada jabatan yang menargetkan Level ${target.level_target} kompetensi ini. Turunkan target di pemetaan dulu sebelum mengosongkan level tersebut.` };
     kode = ok(
       await db.rpc("simpan_kompetensi", {
         p_id: id,

@@ -10,6 +10,7 @@ import { wajibEditor } from "@/lib/auth";
 import { LEVEL_JENJANG } from "@/lib/labels";
 import { must, supabase } from "@/lib/supabase";
 import { FormJabatan } from "../../form-jabatan";
+import { kodeRute } from "@/lib/url";
 
 export const metadata: Metadata = { title: "Edit Jabatan" };
 
@@ -29,7 +30,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
   const j = await supabase
     .from("jabatan")
     .select("id, kode, nama, unit_kerja_id, atasan_id, jenjang, kelompok_jabatan, catatan, diubah_di_aplikasi")
-    .eq("kode", decodeURIComponent(kode))
+    .eq("kode", kodeRute(kode))
     .maybeSingle()
     .then(must);
   if (!j) notFound();
@@ -37,7 +38,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
   const [jobdesk, pemetaan, kompetensi] = await Promise.all([
     supabase
       .from("jobdesk")
-      .select("id, atasan_langsung, membawahi, pendidikan, pendidikan_tambahan, pangkat, pengalaman_kerja, kompetensi, fungsi, file_sumber, tugas:jobdesk_tugas(urutan, kategori, deskripsi)")
+      .select("id, diubah_di_aplikasi, atasan_langsung, membawahi, pendidikan, pendidikan_tambahan, pangkat, pengalaman_kerja, kompetensi, fungsi, file_sumber, tugas:jobdesk_tugas(urutan, kategori, deskripsi)")
       .eq("jabatan_id", j.id)
       .order("urutan")
       .limit(1)
@@ -69,7 +70,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
           <h1 className="text-[26px] font-semibold tracking-tight text-slate-900">Edit: {j.nama}</h1>
           <p className="mt-1 text-sm text-slate-600">
             Tiap bagian disimpan terpisah.{" "}
-            {j.diubah_di_aplikasi ? `Terakhir diubah di aplikasi ${new Date(j.diubah_di_aplikasi).toLocaleString("id-ID")}.` : "Belum pernah diubah di aplikasi (masih hasil impor dokumen)."}
+            {j.diubah_di_aplikasi ? `Terakhir diubah di aplikasi ${new Date(j.diubah_di_aplikasi).toLocaleString("id-ID", { timeZone: "Asia/Makassar" })}.` : "Belum pernah diubah di aplikasi (masih hasil impor dokumen)."}
           </p>
         </div>
         <nav className="flex flex-wrap gap-2 text-sm">
@@ -97,6 +98,8 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
           {jobdesk?.file_sumber && <p className="mb-4 text-xs text-slate-500">Sumber awal: {jobdesk.file_sumber}</p>}
           <ActionForm action={simpanJobdesk} submit="Simpan jobdesk">
             <input type="hidden" name="jabatan_id" value={j.id} />
+            {/* versi saat halaman dibuka: simpan ditolak bila jobdesk sudah diubah di tab lain sejak itu */}
+            <input type="hidden" name="versi" value={jobdesk?.diubah_di_aplikasi ?? ""} />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label className="field-label">
                 Atasan langsung (teks di dokumen)

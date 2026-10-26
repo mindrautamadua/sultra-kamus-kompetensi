@@ -11,6 +11,7 @@ import { must, supabase } from "@/lib/supabase";
 import { JALUR_KARIER_AKTIF } from "@/lib/fitur";
 import { JalurCard } from "./jalur-card";
 import { ReviewPanel } from "./review-panel";
+import { kodeRute } from "@/lib/url";
 
 export default function Page(props: PageProps<"/jabatan/[kode]">) {
   return (
@@ -32,7 +33,7 @@ const rata = (xs: number[]) => (xs.length ? xs.reduce((s, x) => s + x, 0) / xs.l
 
 async function Detail({ params }: { params: Promise<{ kode: string }> }) {
   const { kode } = await params;
-  const j = await supabase.from("v_jabatan").select("*").eq("kode", decodeURIComponent(kode)).maybeSingle().then(must);
+  const j = await supabase.from("v_jabatan").select("*").eq("kode", kodeRute(kode)).maybeSingle().then(must);
   if (!j) notFound();
 
   const [bawahan, kompetensi, sejenis, semua, saya, jobdesk] = await Promise.all([

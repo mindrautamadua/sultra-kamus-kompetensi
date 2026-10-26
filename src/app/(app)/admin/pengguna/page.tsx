@@ -11,7 +11,7 @@ import { admin, ok } from "@/lib/supabase-admin";
 
 export const metadata: Metadata = { title: "Pengguna" };
 
-const waktu = (s: string | null) => (s ? new Date(s).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" }) : "belum pernah");
+const waktu = (s: string | null) => (s ? new Date(s).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Makassar" }) : "belum pernah");
 
 export default function Page() {
   return (

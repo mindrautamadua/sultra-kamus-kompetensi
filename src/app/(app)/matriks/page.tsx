@@ -39,7 +39,7 @@ async function Matriks({ searchParams }: { searchParams: Promise<Search> }) {
     m.kompetensi.sort(
       (a, b) => URUT_KATEGORI.indexOf(a.kategori) - URUT_KATEGORI.indexOf(b.kategori) || (ins.perKolom.get(b.kode) ?? 0) - (ins.perKolom.get(a.kode) ?? 0),
     );
-  const unduh = (u: string, kunci = "") => `/matriks/unduh?${new URLSearchParams({ unit: u, kategori, ...(kunci && { q: kunci }) })}`;
+  const unduh = (u: string, kunci = "") => `/matriks/unduh?${new URLSearchParams({ unit: u, kategori, kolom, ...(kunci && { q: kunci }) })}`;
   // PDF selalu per divisi utuh (tanpa kata kunci); "semua" = satu bagian per divisi
   const cetak = `/dokumen/matriks?${new URLSearchParams({ unit, kategori, kolom })}`;
 

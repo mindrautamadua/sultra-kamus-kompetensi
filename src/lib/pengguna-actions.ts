@@ -50,6 +50,11 @@ export async function ubahPengguna(_: FormState, fd: FormData): Promise<FormStat
     const lama = ok(await admin().from("pengguna").select("peran, aktif").eq("id", id).single());
     if (lama.peran === "admin" && lama.aktif && (peran !== "admin" || !aktif) && !(await adminLain(id))) return { error: "Harus tersisa minimal satu admin aktif." };
     ok(await admin().from("pengguna").update({ peran, aktif, updated_at: new Date().toISOString() }).eq("id", id).select("id"));
+    // dua admin yang saling menurunkan bersamaan sama-sama lolos cek di atas: periksa ulang dan kembalikan bila habis
+    if (lama.peran === "admin" && lama.aktif && (peran !== "admin" || !aktif) && !(await adminLain(id))) {
+      ok(await admin().from("pengguna").update({ peran: lama.peran, aktif: lama.aktif }).eq("id", id).select("id"));
+      return { error: "Harus tersisa minimal satu admin aktif." };
+    }
   } catch (e) {
     return { error: `Gagal menyimpan: ${(e as Error).message}` };
   }

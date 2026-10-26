@@ -80,11 +80,12 @@ async function Dashboard() {
   const maxK = Math.max(1, ...bidang.map((b) => b.jumlah_kompetensi ?? 0));
   const perKategori = KATEGORI_URUT.map((k) => ({ k, bs: bidang.filter((b) => b.kategori === k) })).filter((g) => g.bs.length);
 
-  const perKelompok = new Map<string, number>();
-  for (const j of jabatan) perKelompok.set(j.kelompok_jabatan ?? "-", (perKelompok.get(j.kelompok_jabatan ?? "-") ?? 0) + 1);
-  const kelompok = [...perKelompok.entries()].sort((a, b) => b[1] - a[1]);
   // Direksi (jenjang 0) tidak perlu jobdesk & kompetensi, jadi progres pemetaan dihitung atas jabatan karyawan saja
   const karyawan = jabatan.filter((j) => (j.jenjang ?? 0) > 0);
+  // per kelompok juga tanpa Direksi: tiap baris menautkan ke Daftar Jabatan, yang tidak menampilkan Direksi
+  const perKelompok = new Map<string, number>();
+  for (const j of karyawan) perKelompok.set(j.kelompok_jabatan ?? "-", (perKelompok.get(j.kelompok_jabatan ?? "-") ?? 0) + 1);
+  const kelompok = [...perKelompok.entries()].sort((a, b) => b[1] - a[1]);
   const terpetakan = karyawan.filter((j) => (j.jumlah_kompetensi ?? 0) > 0).length;
   const berJobdesk = karyawan.filter((j) => j.ikhtisar_jabatan).length;
   const belum = karyawan.filter((j) => !j.ikhtisar_jabatan || !j.jumlah_kompetensi);
@@ -194,7 +195,7 @@ async function Dashboard() {
                     <div className="mb-1 flex justify-between gap-2">
                       <span className="text-slate-800 group-hover:text-brand-700">{k}</span>
                       <span className="tabular-nums text-slate-600">
-                        {n} <span className="text-xs text-slate-400">· {Math.round((n / jabatan.length) * 100)}%</span>
+                        {n} <span className="text-xs text-slate-400">· {Math.round((n / karyawan.length) * 100)}%</span>
                       </span>
                     </div>
                     <div className="h-2 overflow-hidden rounded-full bg-slate-100">

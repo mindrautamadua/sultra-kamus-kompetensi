@@ -31,7 +31,7 @@ function keterangan(status: string) {
     : "Status diubah oleh konsultan (editor). Peran akun Anda hanya dapat melihat.";
 }
 
-const waktu = (s: string) => new Date(s).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
+const waktu = (s: string) => new Date(s).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Makassar" }) // WITA, sama dengan Progres Review;
 
 /** Review status of one jabatan: current status, change form, and history timeline. */
 export async function ReviewPanel({ jabatanId }: { jabatanId: number }) {

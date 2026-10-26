@@ -16,6 +16,7 @@ const NAVY = "FF121A42";
 const ABU = "FFF1F5F9";
 const GARIS: Partial<ExcelJS.Border> = { style: "thin", color: { argb: "FFE2E8F0" } };
 const KOTAK = { top: GARIS, left: GARIS, bottom: GARIS, right: GARIS };
+const URUT_KATEGORI = ["inti", "kepemimpinan", "teknis"];
 
 const isi = (argb: string): ExcelJS.Fill => ({ type: "pattern", pattern: "solid", fgColor: { argb } });
 
@@ -50,6 +51,9 @@ export async function GET(request: NextRequest) {
     }
     perBaris.set(j.id, b);
   }
+  // ?kolom=umum: urutan kolom sama dengan halaman & PDF (paling banyak dipakai di kiri, tetap per kategori)
+  if (sp.get("kolom") === "umum")
+    m.kompetensi.sort((a, b) => URUT_KATEGORI.indexOf(a.kategori) - URUT_KATEGORI.indexOf(b.kategori) || (perKolom.get(b.kode) ?? 0) - (perKolom.get(a.kode) ?? 0));
 
   const wb = new ExcelJS.Workbook();
   wb.creator = "Kamus Kompetensi Bank Sultra";

@@ -4,10 +4,15 @@ import { Suspense } from "react";
 import { Hitung } from "@/components/hitung";
 import { DashboardSkeleton } from "@/components/skeleton";
 import { Batang, Card, PageHeader, Stat } from "@/components/ui";
+import { penggunaSaatIni } from "@/lib/auth";
 import { JENJANG_LABEL, fmt } from "@/lib/labels";
 import { loadKualitas, persen } from "@/lib/kualitas";
+import { bolehEdit } from "@/lib/peran";
 
 export const metadata: Metadata = { title: "Kualitas Pemetaan" };
+
+/** Editor langsung ke editor pemetaan; peran baca ke halaman detail (halaman edit akan menolaknya). */
+const tautanJabatan = (kode: string, edit: boolean) => (edit ? `/jabatan/${kode}/edit#kompetensi` : `/jabatan/${kode}`);
 
 export default function Page() {
   return (
@@ -33,6 +38,7 @@ async function Kualitas() {
     strukturalTanpaLC, tanpaTeknis, outlier, aturan, celahPerJabatan, celahPerUnit, temuan, bersih, prioritas, ringkas, cekAman, atasan, levelKamus,
     celah, totalTugas,
   } = await loadKualitas();
+  const edit = bolehEdit((await penggunaSaatIni())?.peran);
 
   return (
     <div className="space-y-6">
@@ -340,7 +346,7 @@ async function Kualitas() {
                         <th className="py-1.5 pr-4 font-medium">Kompetensi yang berbeda</th>
                         {g.ps.map((p) => (
                           <th key={p.id} className="min-w-28 px-2 py-1.5 text-center font-medium">
-                            <Link href={`/jabatan/${p.kode}/edit#kompetensi`} className="hover:text-brand-700 hover:underline" title="Edit pemetaan jabatan ini">
+                            <Link href={tautanJabatan(p.kode, edit)} className="hover:text-brand-700 hover:underline" title={edit ? "Edit pemetaan jabatan ini" : "Lihat jabatan ini"}>
                               {p.unit_induk_nama}
                             </Link>
                           </th>
@@ -383,7 +389,7 @@ async function Kualitas() {
               <ul className="divide-y divide-slate-50 text-sm">
                 {atasan.map((r) => (
                   <li key={`${r.jabatan_kode}-${r.kompetensi_kode}`} className="px-4 py-2">
-                    <Link href={`/jabatan/${r.jabatan_kode}/edit#kompetensi`} className="font-medium hover:underline">
+                    <Link href={tautanJabatan(r.jabatan_kode!, edit)} className="font-medium hover:underline">
                       {r.jabatan_nama}
                     </Link>{" "}
                     <span className="text-slate-500">
@@ -398,10 +404,11 @@ async function Kualitas() {
 
         <Card title="Aturan dasar" action={<Hasil n={aturan + levelKamus.length} />}>
           <div id="aturan" className="scroll-mt-6 divide-y divide-slate-100">
-            <Aturan judul="Pelaksana mendapat kompetensi kepemimpinan" items={pelaksanaLC.map((p) => ({ kode: p.kode, teks: `${p.nama} · ${p.unit_induk_nama}` }))} />
-            <Aturan judul="Jabatan struktural tanpa kompetensi kepemimpinan" items={strukturalTanpaLC.map((p) => ({ kode: p.kode, teks: `${p.nama} · ${p.unit_induk_nama}` }))} />
-            <Aturan judul="Jabatan tanpa kompetensi teknis" items={tanpaTeknis.map((p) => ({ kode: p.kode, teks: `${p.nama} · ${p.unit_induk_nama}` }))} />
+            <Aturan edit={edit} judul="Pelaksana mendapat kompetensi kepemimpinan" items={pelaksanaLC.map((p) => ({ kode: p.kode, teks: `${p.nama} · ${p.unit_induk_nama}` }))} />
+            <Aturan edit={edit} judul="Jabatan struktural tanpa kompetensi kepemimpinan" items={strukturalTanpaLC.map((p) => ({ kode: p.kode, teks: `${p.nama} · ${p.unit_induk_nama}` }))} />
+            <Aturan edit={edit} judul="Jabatan tanpa kompetensi teknis" items={tanpaTeknis.map((p) => ({ kode: p.kode, teks: `${p.nama} · ${p.unit_induk_nama}` }))} />
             <Aturan
+              edit={edit}
               judul="Level target melebihi level yang tersedia di kamus"
               items={levelKamus.map((r) => ({
                 kode: r.jabatan_kode!,
@@ -545,7 +552,7 @@ function Aman() {
   );
 }
 
-function Aturan({ judul, items }: { judul: string; items: { kode: string; teks: string }[] }) {
+function Aturan({ judul, items, edit }: { judul: string; items: { kode: string; teks: string }[]; edit: boolean }) {
   return (
     <div className="px-4 py-3">
       <div className="flex items-center justify-between gap-2 text-sm">
@@ -558,7 +565,7 @@ function Aturan({ judul, items }: { judul: string; items: { kode: string; teks: 
         <ul className="mt-2 space-y-1 text-[13px]">
           {items.map((it) => (
             <li key={it.kode + it.teks}>
-              <Link href={`/jabatan/${it.kode}/edit#kompetensi`} className="text-brand-700 hover:underline">
+              <Link href={tautanJabatan(it.kode, edit)} className="text-brand-700 hover:underline">
                 {it.teks}
               </Link>
             </li>

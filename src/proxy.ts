@@ -20,9 +20,15 @@ export async function proxy(request: NextRequest) {
   }
   if (sesi) return NextResponse.next();
 
-  // PDF & unduhan Excel juga dilindungi; permintaan non-halaman cukup ditolak
+  // PDF & unduhan Excel juga dilindungi; permintaan non-halaman cukup ditolak. content-type harus persis
+  // "text/plain" agar klien Server Action meneruskan pesan ini (ActionForm menampilkannya tanpa membuang isian form).
   if (request.method !== "GET" || request.headers.get("next-action")) {
-    return bersihkan(new NextResponse("Sesi berakhir, silakan login ulang.", { status: 401 }));
+    return bersihkan(
+      new NextResponse("Sesi login berakhir. Login ulang di tab baru, lalu simpan lagi di sini — isian Anda belum hilang.", {
+        status: 401,
+        headers: { "content-type": "text/plain" },
+      }),
+    );
   }
   const url = new URL("/login", request.url);
   if (pathname !== "/") url.searchParams.set("dari", pathname + search);

@@ -10,6 +10,7 @@ import { wajibEditor } from "@/lib/auth";
 import { LEVEL_NAMA, STATUS_LABEL } from "@/lib/labels";
 import { must, supabase } from "@/lib/supabase";
 import { LevelEditor } from "./level-editor";
+import { kodeRute } from "@/lib/url";
 
 export const metadata: Metadata = { title: "Edit Kompetensi" };
 
@@ -29,7 +30,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
     .select(
       "id, kode, nama, definisi, status, catatan, diubah_di_aplikasi, bidang:bidang_kompetensi!kompetensi_bidang_id_fkey(nama), level:kompetensi_level(level, deskripsi, indikator:indikator_perilaku(urutan, deskripsi))",
     )
-    .eq("kode", decodeURIComponent(kode))
+    .eq("kode", kodeRute(kode))
     .maybeSingle()
     .then(must);
   if (!k) notFound();
@@ -54,7 +55,7 @@ async function Edit({ params }: { params: Promise<{ kode: string }> }) {
         </div>
         <h1 className="text-[26px] font-semibold tracking-tight text-slate-900">Edit: {k.nama}</h1>
         <p className="mt-1 text-sm text-slate-600">
-          {k.diubah_di_aplikasi ? `Terakhir diubah di aplikasi ${new Date(k.diubah_di_aplikasi).toLocaleString("id-ID")}.` : "Belum pernah diubah di aplikasi (masih hasil impor dokumen)."}
+          {k.diubah_di_aplikasi ? `Terakhir diubah di aplikasi ${new Date(k.diubah_di_aplikasi).toLocaleString("id-ID", { timeZone: "Asia/Makassar" })}.` : "Belum pernah diubah di aplikasi (masih hasil impor dokumen)."}
         </p>
       </header>
 

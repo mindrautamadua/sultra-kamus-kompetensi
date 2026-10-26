@@ -10,6 +10,7 @@ import { must, supabase } from "@/lib/supabase";
 import { admin, ok } from "@/lib/supabase-admin";
 import { type JabatanTarget, type Level, LevelInteraktif } from "./level-interaktif";
 import { PenilaianDiri } from "./penilaian-diri";
+import { kodeRute } from "@/lib/url";
 
 const PAGE = 1000; // = max_rows PostgREST di supabase/config.toml
 
@@ -37,7 +38,7 @@ async function Detail({ params }: { params: Promise<{ kode: string }> }) {
        terkait:kompetensi_bidang_terkait(catatan, bidang:bidang_kompetensi(kode, nama)),
        jabatan:jabatan_kompetensi(level_target, jabatan(id, kode, nama))`,
     )
-    .eq("kode", decodeURIComponent(kode))
+    .eq("kode", kodeRute(kode))
     .maybeSingle()
     .then(must);
   if (!k) notFound();

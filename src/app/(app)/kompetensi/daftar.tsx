@@ -40,14 +40,15 @@ const FOKUS: {
   {
     v: "perlu",
     label: "Perlu dilengkapi",
-    hint: "status selain Lengkap",
-    cocok: (i) => i.status !== "lengkap",
+    hint: "draft, usulan, atau belum disusun",
+    cocok: (i) => i.status !== "lengkap" && i.status !== "dihapus",
   },
   {
     v: "belum_dipetakan",
     label: "Belum dipetakan",
-    hint: "belum jadi target jabatan mana pun",
-    cocok: (i) => i.jumlah_jabatan === 0,
+    hint: "kompetensi teknis lengkap yang belum jadi target jabatan",
+    // sama dengan angka di kartu statistik: hanya teknis berstatus Lengkap yang bisa dipetakan
+    cocok: (i) => i.kategori === "teknis" && i.status === "lengkap" && i.jumlah_jabatan === 0,
   },
 ];
 
@@ -411,7 +412,7 @@ function hitungStatistik(items: Item[], bidang: Bidang[]) {
     level,
     bidang: perBidang,
     top: [...teknis].sort((a, b) => b.jumlah_jabatan - a.jumlah_jabatan).slice(0, 5),
-    belum: teknis.filter((i) => i.jumlah_jabatan === 0).length,
+    belum: items.filter(FOKUS[2].cocok).length,
     perlu: items.filter(FOKUS[1].cocok).length,
     // bidang teknis dengan porsi kompetensi tak terpakai terbesar
     bidangSepi: [...teknisBidang].sort((a, b) => a.dipakai / a.bisa - b.dipakai / b.bisa)[0],

@@ -12,8 +12,19 @@ export type LoginState = { error?: string; username?: string; ingat?: boolean } 
 
 const SALAH = "Username atau password salah.";
 
-/** Hanya path internal ("/jabatan"), bukan "//host" atau URL lengkap. */
-const tujuanAman = (dari: string) => (dari.startsWith("/") && !dari.startsWith("//") && !dari.startsWith("/\\") ? dari : "/");
+/**
+ * Hanya path internal ("/jabatan"), bukan "//host" atau URL lengkap. Diurai seperti browser mengurainya (tab/baris
+ * baru dibuang, "\" dibaca "/"), jadi "/\t/host" atau "/\host" tidak lolos sebagai path.
+ */
+function tujuanAman(dari: string) {
+  if (!dari.startsWith("/")) return "/";
+  try {
+    const u = new URL(dari, "http://internal");
+    return u.origin === "http://internal" ? u.pathname + u.search + u.hash : "/";
+  } catch {
+    return "/";
+  }
+}
 
 export async function login(_: LoginState, fd: FormData): Promise<LoginState> {
   const username = String(fd.get("username") ?? "").trim().toLowerCase();

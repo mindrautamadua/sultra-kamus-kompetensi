@@ -74,7 +74,8 @@ async function susunJobdesk(jabatan: JabatanRow[]): Promise<JobdeskDoc[]> {
     return {
       kodeDokumen: d.kode_dokumen ?? j.kode!,
       jenjang: j.jenjang ?? 4,
-      nama: d.nama_jabatan,
+      // nama dari tabel jabatan: nama_jabatan di jobdesk bisa tertinggal bila jabatan diganti nama
+      nama: j.nama ?? d.nama_jabatan,
       atasan: d.atasan_langsung,
       membawahi: d.membawahi,
       pendidikan: d.pendidikan,

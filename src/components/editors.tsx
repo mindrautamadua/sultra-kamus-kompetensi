@@ -1,5 +1,6 @@
 "use client";
 
+import { unstable_rethrow } from "next/navigation";
 import { startTransition, useActionState, useMemo, useState } from "react";
 import type { FormState } from "@/lib/actions";
 
@@ -19,11 +20,23 @@ export function ActionForm({
   className?: string;
   children: React.ReactNode;
 }) {
-  const [state, formAction, pending] = useActionState(action, undefined);
+  // galat transport (sesi berakhir → 401 dari proxy, jaringan putus) ditampilkan di form, bukan menjatuhkan halaman
+  // dan membuang isian yang belum tersimpan
+  const [state, formAction, pending] = useActionState(async (prev: FormState, fd: FormData): Promise<FormState> => {
+    try {
+      return await action(prev, fd);
+    } catch (e) {
+      unstable_rethrow(e); // redirect() sesudah simpan sukses juga sampai ke sini sebagai galat
+      return { error: e instanceof Error && e.message ? e.message : "Gagal menghubungi server. Coba simpan lagi." };
+    }
+  }, undefined);
   return (
     // Submitted via onSubmit instead of action={...}: a form action makes React reset every uncontrolled field
     // once it finishes, which would wipe what the user typed whenever the server returns a validation error.
+    // method="post": a submit before hydration must not fall back to GET, which would put fields (e.g. passwords
+    // on /akun) into the URL.
     <form
+      method="post"
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);

@@ -25,6 +25,7 @@ const HARI = 24 * 60 * 60 * 1000;
 const MINGGU = 8; // rentang grafik aktivitas
 const LAJU_HARI = 28; // jendela untuk menghitung laju penyelesaian
 const TZ = "Asia/Makassar"; // Bank Sultra berada di zona WITA
+const PAGE = 1000; // = max_rows PostgREST
 
 const persen = (n: number, total: number) => (total ? Math.round((n / total) * 100) : 0);
 const tanggal = (d: Date, opsi: Intl.DateTimeFormatOptions = { day: "numeric", month: "short" }) => d.toLocaleDateString("id-ID", { ...opsi, timeZone: TZ });
@@ -47,19 +48,30 @@ export default function Page() {
   );
 }
 
+/** Semua riwayat sejak `sejak`, dibaca per halaman (PostgREST memotong di 1000 baris; tiap simpan menambah satu baris). */
+async function riwayatSejak(sejak: string) {
+  const rows = [];
+  for (let from = 0; ; from += PAGE) {
+    const page = await supabase
+      .from("review_riwayat")
+      .select("id, jabatan_id, aksi, status_dari, status_ke, peninjau, created_at")
+      .gte("created_at", sejak)
+      .order("id")
+      .range(from, from + PAGE - 1)
+      .then(must);
+    rows.push(...page);
+    if (page.length < PAGE) break;
+  }
+  return rows;
+}
+
 async function Progres() {
   await connection(); // umur antrean & laju dihitung dari waktu sekarang
   const sekarang = new Date().getTime();
   const sejak = new Date(sekarang - MINGGU * 7 * HARI).toISOString();
   const [jabatan, riwayat, aktivitas, saya] = await Promise.all([
     supabase.from("v_review_jabatan").select("*").order("urutan").then(must),
-    supabase
-      .from("review_riwayat")
-      .select("id, jabatan_id, aksi, status_dari, status_ke, peninjau, created_at")
-      .gte("created_at", sejak)
-      .order("created_at", { ascending: false })
-      .limit(1000)
-      .then(must),
+    riwayatSejak(sejak),
     supabase
       .from("review_riwayat")
       .select("id, aksi, status_dari, status_ke, peninjau, catatan, created_at, jabatan(kode, nama)")

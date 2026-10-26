@@ -9,7 +9,7 @@ import type { JabatanTarget, Level } from "./level-interaktif";
 
 export type Tersimpan = { jabatanKode: string | null; dicentang: string[]; disimpan: string } | null;
 
-const waktu = (iso: string) => new Date(iso).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
+const waktu = (iso: string) => new Date(iso).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Makassar" });
 
 /**
  * Penilaian diri: centang indikator yang sudah rutin dilakukan, perkiraan level langsung dihitung

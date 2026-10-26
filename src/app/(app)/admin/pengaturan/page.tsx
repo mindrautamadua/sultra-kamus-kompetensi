@@ -38,7 +38,7 @@ async function Isi() {
     <div className="max-w-4xl space-y-6">
       {p.updated_at && (
         <p className="text-xs text-slate-500">
-          Terakhir diubah {new Date(p.updated_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })}
+          Terakhir diubah {new Date(p.updated_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Makassar" })}
           {pengubah && ` oleh ${pengubah}`}.
         </p>
       )}

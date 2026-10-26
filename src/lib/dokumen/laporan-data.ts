@@ -40,17 +40,22 @@ export type LaporanData = {
 
 export async function loadLaporan(): Promise<LaporanData> {
   const sekarang = Date.now();
-  const [bidang, kualitas, profil, review, riwayat] = await Promise.all([
+  const [bidang, kualitas, profil, review, selesaiBaru] = await Promise.all([
     supabase.from("v_statistik_bidang").select("kode, nama, kategori, jumlah_kompetensi, jumlah_lengkap, jumlah_indikator").order("urutan").then(must),
     loadKualitas(),
     loadProfil(),
     supabase.from("v_review_jabatan").select("jenjang, status").then(must),
+    // dihitung di database: penandaan selesai saja, tanpa batas 1000 baris PostgREST
     supabase
       .from("review_riwayat")
-      .select("status_dari, status_ke, created_at")
+      .select("id", { count: "exact", head: true })
       .gte("created_at", new Date(sekarang - LAJU_HARI * HARI).toISOString())
-      .limit(1000)
-      .then(must),
+      .eq("status_ke", "selesai")
+      .or("status_dari.is.null,status_dari.neq.selesai")
+      .then((r) => {
+        if (r.error) throw new Error(r.error.message);
+        return r.count ?? 0;
+      }),
   ]);
 
   const ps = [...profil.values()];
@@ -70,7 +75,6 @@ export async function loadLaporan(): Promise<LaporanData> {
   const direktorat = new Map<string, number>();
   for (const p of ps) direktorat.set(p.direktorat ?? "Jaringan kantor", (direktorat.get(p.direktorat ?? "Jaringan kantor") ?? 0) + 1);
 
-  const selesaiBaru = riwayat.filter((r) => r.status_ke === "selesai" && r.status_dari !== "selesai").length;
   const lajuHarian = selesaiBaru / LAJU_HARI;
   const draf = review.filter((r) => r.status === "draf").length;
 

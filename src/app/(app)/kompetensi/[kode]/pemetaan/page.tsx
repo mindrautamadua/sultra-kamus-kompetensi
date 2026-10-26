@@ -9,6 +9,7 @@ import { simpanPemetaanKompetensi } from "@/lib/actions";
 import { wajibEditor } from "@/lib/auth";
 import { LEVEL_JENJANG } from "@/lib/labels";
 import { must, supabase } from "@/lib/supabase";
+import { kodeRute } from "@/lib/url";
 
 export const metadata: Metadata = { title: "Petakan ke Jabatan" };
 
@@ -23,7 +24,7 @@ export default function Page(props: PageProps<"/kompetensi/[kode]/pemetaan">) {
 async function Pemetaan({ params }: { params: Promise<{ kode: string }> }) {
   const { kode } = await params;
   await wajibEditor(`/kompetensi/${kode}`);
-  const k = await supabase.from("v_kompetensi").select("id, kode, nama, bidang_nama, status, jumlah_level").eq("kode", decodeURIComponent(kode)).maybeSingle().then(must);
+  const k = await supabase.from("v_kompetensi").select("id, kode, nama, bidang_nama, status, jumlah_level").eq("kode", kodeRute(kode)).maybeSingle().then(must);
   if (!k?.id) notFound();
 
   const [pemetaan, jabatan] = await Promise.all([
