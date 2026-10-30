@@ -44,6 +44,9 @@ export default function Page(props: PageProps<"/jabatan">) {
           <a href="#daftar" className="btn-secondary">
             Lompat ke daftar ↓
           </a>
+          <a href="/dokumen/uraian-jabatan" className="btn-secondary" title="Uraian jabatan seluruh jabatan dalam satu file Word">
+            Unduh uraian jabatan (.docx)
+          </a>
           {/* tombol tergantung peran akun (data per permintaan), jadi di-stream terpisah */}
           <Suspense fallback={null}>
             <TombolTambah />
@@ -638,6 +641,13 @@ function KartuUnit({
               title="Uraian tugas seluruh jabatan unit ini (PDF)"
             >
               Jobdesk ↗
+            </a>
+            <a
+              href={`/dokumen/uraian-jabatan?unit=${encodeURIComponent(unit)}`}
+              className="rounded-md px-1.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-50"
+              title="Uraian jabatan seluruh jabatan unit ini (Word)"
+            >
+              Word ↓
             </a>
             <a
               href={`/dokumen/profil?unit=${encodeURIComponent(unit)}`}

@@ -51,7 +51,7 @@ const s = StyleSheet.create({
 });
 
 /** Label baris ketiga kepala dokumen (PELAKSANA, KEPALA BAGIAN, ...), diambil dari nama jabatan. */
-function labelJabatan(d: JobdeskDoc) {
+export function labelJabatan(d: JobdeskDoc) {
   const m = d.nama.match(
     /^(Pelaksana|Wakil Pemimpin Cabang|Pemimpin Cabang Pembantu|Pemimpin Cabang|Pemimpin Kantor Fungsional|Kepala (Divisi|Bagian|Seksi|Kelompok|Unit|Satuan Kerja)|Koordinator|Direktur Utama|Direktur)/i,
   );

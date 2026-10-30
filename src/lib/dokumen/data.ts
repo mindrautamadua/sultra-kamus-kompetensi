@@ -12,6 +12,8 @@ export type Tugas = { kategori: string | null; deskripsi: string };
 
 export type JobdeskDoc = {
   kodeDokumen: string;
+  /** divisi/kantor induk (unit_induk_nama) */
+  unit: string | null;
   jenjang: number;
   nama: string;
   atasan: string | null;
@@ -25,7 +27,7 @@ export type JobdeskDoc = {
   tugas: Tugas[];
 };
 
-const JABATAN_KOLOM = "id, kode, nama, jenjang, atasan_nama, ikhtisar_jabatan, uraian_tugas, urutan";
+const JABATAN_KOLOM = "id, kode, nama, jenjang, atasan_nama, ikhtisar_jabatan, uraian_tugas, unit_induk_nama, urutan";
 
 type JabatanRow = {
   id: number | null;
@@ -35,6 +37,7 @@ type JabatanRow = {
   atasan_nama: string | null;
   ikhtisar_jabatan: string | null;
   uraian_tugas: string[] | null;
+  unit_induk_nama: string | null;
 };
 
 async function susunJobdesk(jabatan: JabatanRow[]): Promise<JobdeskDoc[]> {
@@ -59,6 +62,7 @@ async function susunJobdesk(jabatan: JabatanRow[]): Promise<JobdeskDoc[]> {
       // jabatan tanpa dokumen jobdesk (mis. dibuat manual sebelum jobdesk diisi)
       return {
         kodeDokumen: j.kode!,
+        unit: j.unit_induk_nama,
         jenjang: j.jenjang ?? 4,
         nama: j.nama!,
         atasan: j.atasan_nama,
@@ -74,6 +78,7 @@ async function susunJobdesk(jabatan: JabatanRow[]): Promise<JobdeskDoc[]> {
     }
     return {
       kodeDokumen: d.kode_dokumen ?? j.kode!,
+      unit: j.unit_induk_nama,
       jenjang: j.jenjang ?? 4,
       // nama dari tabel jabatan: nama_jabatan di jobdesk bisa tertinggal bila jabatan diganti nama
       nama: j.nama ?? d.nama_jabatan,
@@ -103,6 +108,12 @@ export async function loadJobdeskUnit(unitInduk: string): Promise<JobdeskDoc[]> 
     .eq("unit_induk_nama", unitInduk)
     .order("urutan")
     .then(must);
+  return susunJobdesk(rows);
+}
+
+/** Semua jabatan, urut sesuai bagan. */
+export async function loadJobdeskSemua(): Promise<JobdeskDoc[]> {
+  const rows = await supabase.from("v_jabatan").select(JABATAN_KOLOM).order("urutan").order("id").then(must);
   return susunJobdesk(rows);
 }
 
